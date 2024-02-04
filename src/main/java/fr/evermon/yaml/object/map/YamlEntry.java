@@ -5,7 +5,7 @@ import fr.evermon.yaml.object.impl.YamlSerializable;
 import fr.evermon.yaml.utils.IndentationUtils;
 import lombok.Setter;
 
-public class YamlEntry<K extends YamlSerializable, V extends YamlSerializable> implements YamlSerializable {
+public class YamlEntry<K, V> implements YamlSerializable {
 
     private YamlMap<K, V> parentMap;
 
@@ -20,12 +20,9 @@ public class YamlEntry<K extends YamlSerializable, V extends YamlSerializable> i
         if(entryKey == null) {
             throw new IllegalStateException("The entry key cannot be null ! parentMap {" + parentMap.getObjectName() + "}");
         }
-
-        StringBuilder yaml = new StringBuilder();
-        yaml.append(IndentationUtils.createIndentation(indentationLevel))
-                .append(entryKey.serialize(indentationLevel))
-                .append(entryValue != null ? entryValue.serialize(indentationLevel) : "");
-
-        return yaml.toString();
+        return IndentationUtils.createIndentation(indentationLevel) +
+                entryKey +
+                ": " +
+                (entryValue != null ? entryValue : "");
     }
 }

@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YamlMap<K extends YamlSerializable, V extends YamlSerializable> extends YamlObject {
+public class YamlMap<K, V> extends YamlObject {
 
     @Getter private final List<YamlEntry<K, V>> entryList;
 
@@ -33,6 +33,13 @@ public class YamlMap<K extends YamlSerializable, V extends YamlSerializable> ext
     }
 
     public void addEntry(YamlEntry<K, V> newEntry) {
+        this.entryList.add(newEntry);
+    }
+
+    public void addEntry(K key, V value) {
+        YamlEntry<K, V> newEntry = new YamlEntry<>(this);
+        newEntry.setEntryKey(key);
+        newEntry.setEntryValue(value);
         this.entryList.add(newEntry);
     }
 }
