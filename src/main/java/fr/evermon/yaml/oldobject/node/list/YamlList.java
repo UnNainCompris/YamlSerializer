@@ -1,6 +1,6 @@
-package fr.evermon.yaml.object;
+package fr.evermon.yaml.oldobject.node.list;
 
-import fr.evermon.yaml.object.impl.YamlObject;
+import fr.evermon.yaml.oldobject.impl.YamlObject;
 import fr.evermon.yaml.utils.IndentationUtils;
 import lombok.Getter;
 
@@ -29,7 +29,7 @@ public class YamlList<V extends YamlObject> extends YamlObject {
                 .append(objectName).append(": ")
                 .append("\n");
         for(YamlObject child : children) {
-            yaml.append(child.serialize(indentationLevel + 1));
+            yaml.append(child.serialize(indentationLevel));
         }
         return yaml.toString();
     }

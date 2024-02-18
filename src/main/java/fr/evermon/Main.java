@@ -1,11 +1,10 @@
 package fr.evermon;
 
-import fr.evermon.yaml.object.YamlEmptyNode;
-import fr.evermon.yaml.object.YamlList;
-import fr.evermon.yaml.object.YamlNode;
-import fr.evermon.yaml.object.impl.YamlObject;
-import fr.evermon.yaml.object.map.YamlEntry;
-import fr.evermon.yaml.object.map.YamlMap;
+import fr.evermon.yaml.oldobject.node.YamlEmptyNode;
+import fr.evermon.yaml.oldobject.node.list.YamlList;
+import fr.evermon.yaml.oldobject.node.YamlNode;
+import fr.evermon.yaml.oldobject.impl.YamlObject;
+import fr.evermon.yaml.oldobject.node.map.YamlMap;
 import fr.evermon.yaml.utils.IndentationUtils;
 
 public class Main {

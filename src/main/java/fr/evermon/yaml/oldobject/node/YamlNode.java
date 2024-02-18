@@ -1,6 +1,6 @@
-package fr.evermon.yaml.object;
+package fr.evermon.yaml.oldobject.node;
 
-import fr.evermon.yaml.object.impl.YamlObject;
+import fr.evermon.yaml.oldobject.impl.YamlObject;
 import fr.evermon.yaml.utils.IndentationUtils;
 import fr.evermon.yaml.utils.TypeUtils;
 import lombok.Getter;

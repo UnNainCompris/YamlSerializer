@@ -4,7 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="" />
+    <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/comment/YamlComment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/exception/YamlSerializerException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/IYamlObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/YamlNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/list/YamlListNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/set/YamlSetNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMapEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/YamlDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlSerializable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlEmptyNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlEmptyNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/list/YamlList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/annotation/YamlSaving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/annotation/YamlSaving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/YamlObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/map/YamlEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/map/YamlMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlMap.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,14 +37,24 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2btlV55PVBO4N2X1UDnqBbvPBdz" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -31,9 +63,31 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/$_Project/Eris/ErisFaction",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "background.image.plus"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="fr.evermon.yaml.object.map" />
+      <recent name="fr.evermon.yaml.object.annotation" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Start" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="fr.evermon.Start" />
+      <module name="YamlSerializer.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

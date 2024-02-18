@@ -1,7 +1,6 @@
-package fr.evermon.yaml.object.map;
+package fr.evermon.yaml.oldobject.node.map;
 
-import fr.evermon.yaml.object.impl.YamlObject;
-import fr.evermon.yaml.object.impl.YamlSerializable;
+import fr.evermon.yaml.oldobject.impl.YamlSerializable;
 import fr.evermon.yaml.utils.IndentationUtils;
 import lombok.Setter;
 

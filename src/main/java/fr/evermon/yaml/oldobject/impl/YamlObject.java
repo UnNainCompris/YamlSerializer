@@ -1,4 +1,4 @@
-package fr.evermon.yaml.object.impl;
+package fr.evermon.yaml.oldobject.impl;
 
 import lombok.Getter;
 import lombok.Setter;

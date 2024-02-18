@@ -1,4 +1,4 @@
-package fr.evermon.yaml.object.annotation;
+package fr.evermon.yaml.oldobject.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
