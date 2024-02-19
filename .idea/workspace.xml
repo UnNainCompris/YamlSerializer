@@ -5,27 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/comment/YamlComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/exception/YamlSerializerException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/IYamlObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/YamlNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/list/YamlListNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/set/YamlSetNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMapEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/YamlDocument.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlSerializable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlDocument.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlEmptyNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlEmptyNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/list/YamlList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/YamlNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/annotation/YamlSaving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/annotation/YamlSaving.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/YamlObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/map/YamlEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/map/YamlMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/Yaml.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/Yaml.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/comment/YamlComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/comment/YamlComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/exception/YamlSerializerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/exception/ErisYamlException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/IYamlObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/IYamlObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/impl/YamlSerializable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/YamlSerializable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/YamlNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/node/YamlNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/list/YamlListNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/node/iterable/list/YamlListNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/iterable/set/YamlSetNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/node/iterable/set/YamlSetNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/node/map/YamlMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/object/node/map/YamlMapEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/node/map/YamlMapEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/YamlDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/annotation/YamlSaving.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/impl/YamlSerializable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlEmptyNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/YamlNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/list/YamlList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlEntry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/oldobject/node/map/YamlMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/utils/IndentationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/IndentationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/evermon/yaml/utils/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +41,18 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -59,18 +76,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/$_Project/Eris/ErisFaction",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "background.image.plus"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/$_Project/Eris/YamlSerializer&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;background.image.plus&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="fr.evermon.yaml.object.map" />
@@ -81,12 +99,19 @@
     <configuration name="Start" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="fr.evermon.Start" />
+      <option name="MAIN_CLASS_NAME" value="fr.eris.Start" />
       <module name="YamlSerializer.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-1.8.0_392-corretto-1.8.0_392-4caba194b151-3e25d5f1" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
