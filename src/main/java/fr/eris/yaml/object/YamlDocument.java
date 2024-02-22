@@ -29,11 +29,11 @@ public class YamlDocument {
     }
 
     public static <T> YamlDocument generateFromClass(T yamlClass) {
-        return null;
+        return new YamlSerializer<T>(yamlClass).serialize();
     }
     
     public static <T extends YamlClass> YamlDocument generateFromYamlClass(T yamlClass) {
-        return null;
+        return YamlSerializer.serializeData(yamlClass.serializeClass());
     }
 
     public String serialize() {
