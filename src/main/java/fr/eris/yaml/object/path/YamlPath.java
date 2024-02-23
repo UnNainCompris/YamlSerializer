@@ -41,6 +41,10 @@ public class YamlPath {
         return getPathValueFromIndex(getSplitPathLength() - 1);
     }
 
+    public String getFirstPathValue() {
+        return getPathValueFromIndex(0);
+    }
+
     public String[] getWholePathExceptLastValue() {
         return Arrays.copyOfRange(retrieveParsedPathAsArray(), 0, getSplitPathLength() - 2);
     }

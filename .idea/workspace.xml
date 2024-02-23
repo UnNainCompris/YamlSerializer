@@ -5,20 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/TestYamlObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlSerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/annotation/YamlCommentPlacement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/annotation/YamlExpose.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/annotation/YamlSerializationComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/comment/YamlDocumentComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/comment/YamlObjectComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/comment/YamlComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/comment/YamlComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/annotation/YamlExpose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/annotation/YamlExpose.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/IYamlObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/IYamlObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

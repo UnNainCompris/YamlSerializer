@@ -56,4 +56,8 @@ public abstract class IYamlObject implements YamlSerializable {
         }
         return "";
     }
+
+    public IYamlObject getChild(String objectName) {
+        return children.get(objectName);
+    }
 }

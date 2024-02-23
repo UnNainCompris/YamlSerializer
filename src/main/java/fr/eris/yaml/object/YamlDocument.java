@@ -2,6 +2,7 @@ package fr.eris.yaml.object;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.path.YamlPath;
 
 import java.util.HashMap;
 
@@ -53,6 +54,24 @@ public class YamlDocument {
             throw new ErisYamlException("Illegal class type for " + yamlObjectName + " {Class type requested: " 
                     + yamlObjectType + " ; real class type: " + foundedObject.getClass() + "}");
         }
+    }
+
+    public <T extends IYamlObject> T retrieveAnyObject(YamlPath pathToObject, Class<T> yamlObjectType) {
+        IYamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
+        for(String objectName : pathToObject.retrieveParsedPathAsArray()) {
+            if(lastObject == null) break;
+            lastObject = lastObject.getChild(objectName);
+        }
+        if(lastObject == null) return null;
+        if(!lastObject.getClass().isAssignableFrom(yamlObjectType)) {
+            throw new ErisYamlException("The requested value was not the right type of value ! " +
+                    "{Requested=" + yamlObjectType + ";Given=" + lastObject.getClass() + "}");
+        }
+        return yamlObjectType.cast(lastObject);
+    }
+
+    public IYamlObject retrieveAnyObject(YamlPath pathToObject) {
+        return retrieveAnyObject(pathToObject, IYamlObject.class);
     }
 
     public IYamlObject retrieveObject(String yamlObjectName) {
