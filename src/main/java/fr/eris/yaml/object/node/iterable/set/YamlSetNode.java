@@ -5,6 +5,7 @@ import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.utils.IndentationUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,6 +23,10 @@ public class YamlSetNode<V extends IYamlObject> extends IYamlObject {
     public void add(V newElement) {
         values.add(newElement);
         newElement.setPrefix(ELEMENT_PREFIX);
+    }
+
+    public void set(Set<V> newValues) {
+        this.values = newValues;
     }
 
     public void validateNode() {

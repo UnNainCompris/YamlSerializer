@@ -25,6 +25,10 @@ public class YamlListNode<V extends IYamlObject> extends IYamlObject {
         newElement.setPrefix(ELEMENT_PREFIX);
     }
 
+    public void set(List<V> newValues) {
+        this.values = newValues;
+    }
+
     public void validateNode() {
         if(!children.isEmpty()) {
             throw new ErisYamlException("A list node cannot have children !");

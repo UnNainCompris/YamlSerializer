@@ -1,10 +1,9 @@
 package fr.eris;
 
-import fr.eris.yaml.oldobject.node.YamlEmptyNode;
-import fr.eris.yaml.oldobject.node.list.YamlList;
-import fr.eris.yaml.oldobject.node.YamlNode;
-import fr.eris.yaml.oldobject.impl.YamlObject;
-import fr.eris.yaml.oldobject.node.map.YamlMap;
+import fr.eris.yaml.object.YamlDocument;
+import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.node.YamlNode;
+import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.utils.IndentationUtils;
 
 public class Main {
@@ -13,6 +12,7 @@ public class Main {
         testYamlNode();
         testYamlList();
         testYamlMap();
+        testSerializer();
     }
 
     public void testIndentationUtils() {
@@ -29,14 +29,14 @@ public class Main {
     public void testYamlNode() {
         System.out.println("  -- <YAML NODE> --  \n");
 
-        YamlEmptyNode rootNode = new YamlEmptyNode("RootNode");
-        YamlObject lastNode = rootNode;
+        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
+        IYamlObject lastNode = rootNode;
         for(int i = 1 ; i <= 5 ; i++) {
-            YamlEmptyNode newNode = new YamlEmptyNode("ChildNode{" + i + "}");
-            lastNode.addChild(newNode);
+            YamlNode<?> newNode = YamlNode.buildEmptyNode("ChildNode{" + i + "}");
+            lastNode.addChildren(newNode);
             lastNode = newNode;
         }
-        lastNode.addChild(new YamlNode<>("LastNode", "Here a value"));
+        lastNode.addChildren(new YamlNode<>("LastNode", "Here a value"));
 
         System.out.println(rootNode.serialize(0));
 
@@ -46,9 +46,9 @@ public class Main {
     public void testYamlList() {
         System.out.println("  -- <YAML LIST> --  \n");
 
-        YamlEmptyNode rootNode = new YamlEmptyNode("RootNode");
-        YamlList<YamlNode<String>> listNode = new YamlList<>("ListNode");
-        rootNode.addChild(listNode);
+        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
+        YamlListNode<YamlNode<String>> listNode = new YamlListNode<>("ListNode");
+        rootNode.addChildren(listNode);
 
         for(int i = 1 ; i <= 5 ; i++) {
             YamlNode<String> newNode = new YamlNode<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
@@ -63,16 +63,30 @@ public class Main {
     public void testYamlMap() {
         System.out.println("  -- <YAML MAP> --  \n");
 
-        YamlEmptyNode rootNode = new YamlEmptyNode("RootNode");
-        YamlMap<String, Integer> yamlMap = new YamlMap<>("MapNode");
-        rootNode.addChild(yamlMap);
+        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
+        //YamlMap<String, Integer> yamlMap = new YamlMap<>("MapNode");
+        //rootNode.addChild(yamlMap);
 
-        for(int i = 1 ; i <= 5 ; i++) {
-            yamlMap.addEntry("Here a Key {" + i + "}", i);
-        }
+        //for(int i = 1 ; i <= 5 ; i++) {
+        //    yamlMap.addEntry("Here a Key {" + i + "}", i);
+        //}
 
         System.out.println(rootNode.serialize(0));
 
         System.out.println("\n  -- </YAML MAP> --  \n");
+    }
+
+    public void testSerializer() {
+        System.out.println("  -- <YAML SERIALIZER> --  \n");
+
+        TestYamlObject testYamlObject = new TestYamlObject();
+        testYamlObject.applyTestListField();
+        testYamlObject.applyInnerClass();
+        testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
+        testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
+        YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
+        System.out.println(document.serialize());
+
+        System.out.println("\n  -- </YAML SERIALIZER> --  \n");
     }
 }

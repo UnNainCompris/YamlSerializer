@@ -29,8 +29,8 @@ public class YamlDocument {
         return null;
     }
 
-    public static <T> YamlDocument generateFromClass(T yamlClass) {
-        return new YamlSerializer<T>(yamlClass).serialize();
+    public static <T> YamlDocument generateFromClass(T clazz) {
+        return new YamlSerializer<>(clazz).serialize();
     }
     
     public static <T extends YamlClass> YamlDocument generateFromYamlClass(T yamlClass) {
@@ -38,7 +38,13 @@ public class YamlDocument {
     }
 
     public String serialize() {
-        return "";
+        StringBuilder serializedDocument = new StringBuilder();
+
+        for(IYamlObject rootObject : rootObjects.values()) {
+            serializedDocument.append(rootObject.serialize(0)).append("\n");
+        }
+
+        return serializedDocument.toString();
     }
 
     public <T> T deserialize(Class<T> deserializationClassType) {

@@ -9,7 +9,7 @@ import java.util.Set;
 public class TypeUtils {
 
     public static boolean isNativeClass(Class<?> clazz) {
-        return clazz.isPrimitive();
+        return clazz.isPrimitive() || String.class.isAssignableFrom(clazz);
     }
 
     public static boolean isNativeObject(Object object) {
@@ -18,6 +18,6 @@ public class TypeUtils {
 
     public static boolean isAnYamlSupportedType(Class<?> clazz) {
         return isNativeClass(clazz) || clazz.isArray() ||
-                clazz.isAssignableFrom(Collection.class);
+                Collection.class.isAssignableFrom(clazz);
     }
 }

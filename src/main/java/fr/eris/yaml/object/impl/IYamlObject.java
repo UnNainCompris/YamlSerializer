@@ -20,13 +20,16 @@ public abstract class IYamlObject implements YamlSerializable {
     protected final HashMap<String, IYamlObject> children;
 
     public IYamlObject(String name) {
+        prefix = "";
         this.name = name;
         validateName();
         this.children = new HashMap<>();
     }
 
     public void validateName() {
-        if(name.contains(YamlPath.YAML_PATH_SEPARATOR)) {
+        if(name == null || name.isEmpty()) {
+            throw new ErisYamlException("Cannot instantiate a IYamlObject without name !");
+        } if(name.contains(YamlPath.YAML_PATH_SEPARATOR)) {
             throw new ErisYamlException("Cannot instantiate a IYamlObject with a " +
                     "name that contains an '.' {" + name + "} !");
         }
@@ -35,8 +38,10 @@ public abstract class IYamlObject implements YamlSerializable {
     public void addChildren(IYamlObject... newChildren) {
         if(newChildren == null) return;
         for(IYamlObject child : newChildren) {
+            if(child == null)
+                throw new ErisYamlException("Cannot add children that is null ! {parent:" + this.getName() + "}");
             if(child.getName() == null)
-                throw new ErisYamlException("Object name cannot be null ! {" + this.getName() + "}");
+                throw new ErisYamlException("Object name cannot be null ! {parent:" + this.getName() + "}");
             if(children.containsKey(child.getName()))
                 throw new ErisYamlException("Cannot have 2 children with the same name and case !");
             if(child.parent != null)

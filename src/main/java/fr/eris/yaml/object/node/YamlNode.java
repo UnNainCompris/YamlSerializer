@@ -5,6 +5,7 @@ import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import lombok.Getter;
+import lombok.Setter;
 
 public class YamlNode<T> extends IYamlObject {
 
@@ -13,7 +14,7 @@ public class YamlNode<T> extends IYamlObject {
     public YamlNode(String objectName, T value) {
         super(objectName);
         if(value != null && !TypeUtils.isNativeObject(value)) {
-            throw new ErisYamlException("A node value can only be an Native type. Native type allowed: {" + TypeUtils.getNativeType() + "}");
+            throw new ErisYamlException("A node value can only be an Native type like String, integer and other.");
         }
         this.value = value;
     }
@@ -28,6 +29,11 @@ public class YamlNode<T> extends IYamlObject {
         }
     }
 
+    public void setValue(T newValue) {
+        this.value = newValue;
+        validateNode();
+    }
+
     public String serialize(int indentationLevel) {
         validateNode();
         StringBuilder serializedNode = new StringBuilder();
@@ -35,12 +41,11 @@ public class YamlNode<T> extends IYamlObject {
                 .append(prefix).append(name).append(": ");
 
         if(children.isEmpty())
-            serializedNode.append(value.toString());
+            serializedNode.append(value != null ? value.toString() : "none");
 
-        for(IYamlObject child : children) {
-            serializedNode.append(child.serialize(indentationLevel + 1));
+        for(IYamlObject child : children.values()) {
+            serializedNode.append("\n").append(child.serialize(indentationLevel + 1));
         }
-        serializedNode.append("\n");
         return serializedNode.toString();
     }
 
