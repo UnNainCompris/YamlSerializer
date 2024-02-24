@@ -1,5 +1,6 @@
-package fr.eris.yaml.object;
+package fr.eris.yaml.object.serialization;
 
+import fr.eris.yaml.object.YamlDocument;
 import fr.eris.yaml.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;

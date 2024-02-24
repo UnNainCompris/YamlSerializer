@@ -3,6 +3,7 @@ package fr.eris.yaml.object;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.path.YamlPath;
+import fr.eris.yaml.object.serialization.YamlSerializer;
 
 import java.util.HashMap;
 
