@@ -26,10 +26,6 @@ public class YamlDocument {
         rootObjects.remove(rootObjectName);
     }
 
-    public static YamlDocument generateFromSerializedData(String serializedData) {
-        return null;
-    }
-
     public static <T> YamlDocument generateFromClass(T clazz) {
         return new YamlSerializer<>(clazz).serialize();
     }

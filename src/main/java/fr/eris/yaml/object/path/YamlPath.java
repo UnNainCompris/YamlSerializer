@@ -54,4 +54,12 @@ public class YamlPath {
             throw new ErisYamlException("Index cannot be > as split path length");
     }
 
+    public boolean equals(Object other) {
+        return other instanceof YamlPath && ((YamlPath)other).targetPath.equals(this.targetPath);
+    }
+
+    public String toString() {
+        return "{YamlPath:" + targetPath + "}";
+    }
+
 }

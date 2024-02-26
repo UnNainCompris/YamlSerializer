@@ -28,4 +28,7 @@ public class IndentationUtils {
         return currentFoundLevel;
     }
 
+    public static String removeIndentation(String yamlLine) {
+        return yamlLine.replace(createIndentation(retrieveIndentationLevel(yamlLine)), "");
+    }
 }

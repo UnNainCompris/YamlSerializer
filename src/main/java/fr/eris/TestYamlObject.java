@@ -16,10 +16,10 @@ public class TestYamlObject {
     @YamlExpose(yamlSaveName = "defaultFieldName2")
     @Setter @Getter private String testFieldSecond = "TestValue2";
 
-    @YamlExpose(yamlSaveName = "defaultList", serializeEvenIfNull = true)
+    @YamlExpose(yamlSaveName = "defaultList", serializeEvenIfNull = false)
     @Setter @Getter private List<String> testListFieldFirst;
 
-    @YamlExpose(yamlSaveName = "innerClass", serializeEvenIfNull = true)
+    @YamlExpose(yamlSaveName = "innerClass", serializeEvenIfNull = false)
     @Setter @Getter private TestYamlObject testInnerClass;
 
     public void applyInnerClass() {
