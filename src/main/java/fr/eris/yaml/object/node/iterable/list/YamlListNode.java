@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class YamlListNode<V extends IYamlObject> extends IYamlObject {
 
-    private final String ELEMENT_PREFIX = "- ";
+    public static final String ELEMENT_PREFIX = "- ";
     private List<V> values;
 
     public YamlListNode(String objectName) {

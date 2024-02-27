@@ -12,7 +12,7 @@ import java.util.Set;
  * Use to represent Collection, Set... as yaml
  */
 public class YamlSetNode<V extends IYamlObject> extends IYamlObject {
-    private final String ELEMENT_PREFIX = "- ";
+    public static final String ELEMENT_PREFIX = "- ";
     private Set<V> values;
 
     public YamlSetNode(String objectName) {
