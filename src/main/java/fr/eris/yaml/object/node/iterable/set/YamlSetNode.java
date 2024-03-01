@@ -40,7 +40,7 @@ public class YamlSetNode<V extends IYamlObject> extends IYamlObject {
         StringBuilder serializedNode = new StringBuilder();
 
         serializedNode.append(IndentationUtils.createIndentation(indentationLevel))
-                .append(prefix).append(name).append(": ");
+                .append(prefix)/*.append(name)*/.append(": ");
 
         for(IYamlObject child : values) {
             serializedNode.append("\n").append(child.serialize(indentationLevel + 1));

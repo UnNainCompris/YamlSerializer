@@ -30,10 +30,6 @@ public class YamlDocument {
         return new YamlSerializer<>(clazz).serialize();
     }
     
-    public static <T extends YamlClass> YamlDocument generateFromYamlClass(T yamlClass) {
-        return YamlSerializer.serializeData(yamlClass.serializeClass());
-    }
-
     public String serialize() {
         StringBuilder serializedDocument = new StringBuilder();
 

@@ -4,6 +4,7 @@ import fr.eris.yaml.object.YamlDocument;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.utils.IndentationUtils;
 
@@ -12,6 +13,7 @@ public class Main {
         testIndentationUtils();
         testYamlNode();
         testYamlList();
+        testYamlSet();
         testYamlMap();
         testSerializer();
         testDeserializer();
@@ -62,6 +64,23 @@ public class Main {
         System.out.println("\n  -- </YAML LIST> --  \n");
     }
 
+    public void testYamlSet() {
+        System.out.println("  -- <YAML SET> --  \n");
+
+        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
+        YamlSetNode<YamlNode<String>> listNode = new YamlSetNode<>("ListNode");
+        rootNode.addChildren(listNode);
+
+        for(int i = 1 ; i <= 5 ; i++) {
+            YamlNode<String> newNode = new YamlNode<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
+            listNode.add(newNode);
+        }
+
+        System.out.println(rootNode.serialize(0));
+
+        System.out.println("\n  -- </YAML SET> --  \n");
+    }
+
     public void testYamlMap() {
         System.out.println("  -- <YAML MAP> --  \n");
 
@@ -97,6 +116,7 @@ public class Main {
 
         TestYamlObject testYamlObject = new TestYamlObject();
         testYamlObject.applyTestListField();
+        testYamlObject.applyTestSetField();
         testYamlObject.applyInnerClass();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
@@ -110,7 +130,7 @@ public class Main {
 
         System.out.println("Default document: \n\n" + serializedDocument);
         System.out.println("Deserialized document: \n\n" +
-                new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveSerializedValue());
+                new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveSerializedValue().toString().replace(", ", "\n"));
 
 
 

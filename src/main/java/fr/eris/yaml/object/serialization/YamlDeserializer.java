@@ -5,6 +5,7 @@ import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class YamlDeserializer<T> {
     public YamlDocument retrieveDocument() {
         YamlDocument deserializedDocument = new YamlDocument();
         HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
-
+        HashMap<YamlPath, Field> pathToField = new HashMap<>(); // TODO: 01/03/2024  
 
 
         return deserializedDocument;

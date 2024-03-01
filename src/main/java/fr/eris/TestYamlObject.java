@@ -4,9 +4,7 @@ import fr.eris.yaml.object.annotation.YamlExpose;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class TestYamlObject {
 
@@ -19,6 +17,9 @@ public class TestYamlObject {
     @YamlExpose(yamlSaveName = "defaultList", serializeEvenIfNull = false)
     @Setter @Getter private List<String> testListFieldFirst;
 
+    @YamlExpose(yamlSaveName = "defaultSet", serializeEvenIfNull = false)
+    @Setter @Getter private Set<String> testSetFieldFirst;
+
     @YamlExpose(yamlSaveName = "innerClass", serializeEvenIfNull = false)
     @Setter @Getter private TestYamlObject testInnerClass;
 
@@ -27,7 +28,14 @@ public class TestYamlObject {
     }
 
     public void applyTestListField() {
-        testListFieldFirst = Arrays.asList("Test1", "Test2", "Test3");
+        testListFieldFirst = Arrays.asList("TestList1", "TestList2", "TestList3");
+    }
+
+    public void applyTestSetField() {
+        testSetFieldFirst = new HashSet<>();
+        testSetFieldFirst.add("TestSet1");
+        testSetFieldFirst.add("TestSet2");
+        testSetFieldFirst.add("TestSet3");
     }
 
 }

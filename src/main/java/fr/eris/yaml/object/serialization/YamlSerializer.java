@@ -12,10 +12,7 @@ import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class YamlSerializer<T> {
 
@@ -93,7 +90,19 @@ public class YamlSerializer<T> {
                     ((YamlListNode<IYamlObject>) newObject).add(newListElement);
                 }
             } else if(currentField.getType().isAssignableFrom(Set.class)) {
-                // set node
+                newObject = new YamlSetNode<>(exposeName);
+                Set<Object> fieldSetContent = currentField.getType().isArray() ?
+                        new HashSet<>(Arrays.asList((Object[]) fieldValue)) : ((Set<Object>) fieldValue);
+                for(Object object : fieldSetContent) {
+                    ReflectionHelper currentHelper = new ReflectionHelper(object);
+                    IYamlObject newSetElement = getYamlClassFromNativeType(object.getClass())
+                            .getDeclaredConstructor(String.class).newInstance("NoNeedName");
+                    setValueToYamlObject(newSetElement, object);
+                    for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
+                        newSetElement.addChildren(buildYamlObjectFromField(field, object));
+                    }
+                    ((YamlSetNode<IYamlObject>) newObject).add(newSetElement);
+                }
             } else if(currentField.getType().isAssignableFrom(Map.class)) {
                 // map node
             } else if(TypeUtils.isNativeObject(fieldValue)) {
