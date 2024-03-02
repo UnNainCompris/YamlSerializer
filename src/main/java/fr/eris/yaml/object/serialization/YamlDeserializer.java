@@ -1,6 +1,8 @@
 package fr.eris.yaml.object.serialization;
 
 import fr.eris.yaml.object.YamlDocument;
+import fr.eris.yaml.object.node.iterable.list.YamlListNode;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
@@ -73,11 +75,29 @@ public class YamlDeserializer<T> {
     }
 
     public String findYamlLineName(String fullLine) {
-        return fullLine.split(": ")[0].trim();
+        fullLine = IndentationUtils.removeIndentation(fullLine);
+        if(fullLine.contains(": ")) {
+            return fullLine.split(": ")[0].trim();
+        } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlSetNode.ELEMENT_PREFIX, "");
+        } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlListNode.ELEMENT_PREFIX, "");
+        } else {
+            return fullLine;
+        }
     }
 
     public String findYamlLineValue(String fullLine) {
-        return fullLine.split(": ")[1];
+        fullLine = IndentationUtils.removeIndentation(fullLine);
+        if(fullLine.contains(": ")) {
+            return fullLine.split(": ")[1];
+        } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlSetNode.ELEMENT_PREFIX, "");
+        } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlListNode.ELEMENT_PREFIX, "");
+        } else {
+            return fullLine;
+        }
     }
 
     public boolean isNextLineAnInnerYamlObject(List<String> content, int currentLine) {

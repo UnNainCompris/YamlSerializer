@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * Use to represent ArrayList, List... as yaml
+ * The only difference between set and list is the order of element
+ * list have a right ordered list and set not on deserialization the list or set is adapt from the class field
+ * or by default to a list
  */
 public class YamlListNode<V extends IYamlObject> extends IYamlObject {
 
@@ -38,9 +41,11 @@ public class YamlListNode<V extends IYamlObject> extends IYamlObject {
     public String serialize(int indentationLevel) {
         validateNode();
         StringBuilder serializedNode = new StringBuilder();
+        serializedNode.append(IndentationUtils.createIndentation(indentationLevel));
 
-        serializedNode.append(IndentationUtils.createIndentation(indentationLevel))
-                .append(prefix).append(name).append(": ");
+        if(prefix.isEmpty()) serializedNode.append(name).append(": ");
+        else serializedNode.append(prefix);
+
 
         for(V value : values) {
             serializedNode.append("\n").append(value.serialize(indentationLevel + 1));

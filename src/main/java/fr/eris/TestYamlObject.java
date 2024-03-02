@@ -18,7 +18,7 @@ public class TestYamlObject {
     @Setter @Getter private List<String> testListFieldFirst;
 
     @YamlExpose(yamlSaveName = "defaultSet", serializeEvenIfNull = false)
-    @Setter @Getter private Set<String> testSetFieldFirst;
+    @Setter @Getter private HashSet<String> testSetFieldFirst;
 
     @YamlExpose(yamlSaveName = "innerClass", serializeEvenIfNull = false)
     @Setter @Getter private TestYamlObject testInnerClass;

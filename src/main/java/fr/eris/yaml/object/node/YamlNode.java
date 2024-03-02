@@ -37,8 +37,9 @@ public class YamlNode<T> extends IYamlObject {
     public String serialize(int indentationLevel) {
         validateNode();
         StringBuilder serializedNode = new StringBuilder();
-        serializedNode.append(IndentationUtils.createIndentation(indentationLevel))
-                .append(prefix).append(name).append(": ");
+        serializedNode.append(IndentationUtils.createIndentation(indentationLevel));
+        if(prefix.isEmpty()) serializedNode.append(name).append(": ");
+        else serializedNode.append(prefix);
 
         if(children.isEmpty())
             serializedNode.append(value != null ? value.toString() : "none");

@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" afterDir="false" />
-    </list>
+    <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

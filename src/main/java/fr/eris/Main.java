@@ -68,7 +68,7 @@ public class Main {
         System.out.println("  -- <YAML SET> --  \n");
 
         YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
-        YamlSetNode<YamlNode<String>> listNode = new YamlSetNode<>("ListNode");
+        YamlSetNode<YamlNode<String>> listNode = new YamlSetNode<>("SetNode");
         rootNode.addChildren(listNode);
 
         for(int i = 1 ; i <= 5 ; i++) {
@@ -101,6 +101,7 @@ public class Main {
         System.out.println("  -- <YAML SERIALIZER> --  \n");
 
         TestYamlObject testYamlObject = new TestYamlObject();
+        testYamlObject.applyTestSetField();
         testYamlObject.applyTestListField();
         testYamlObject.applyInnerClass();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");

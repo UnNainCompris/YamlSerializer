@@ -14,10 +14,12 @@ import java.util.List;
 public abstract class IYamlObject implements YamlSerializable {
 
     @Getter protected final String name;
-    @Setter protected String prefix; // use to set prefix before the name
+    @Setter protected String prefix; // use to set prefix and replace the name (used for list & set management)
     protected IYamlObject parent;
     @Setter protected YamlObjectComment comment;
     protected final HashMap<String, IYamlObject> children;
+
+    public abstract void validateNode();
 
     public IYamlObject(String name) {
         prefix = "";

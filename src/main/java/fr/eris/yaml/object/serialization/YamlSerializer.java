@@ -74,7 +74,7 @@ public class YamlSerializer<T> {
                 }
             }
 
-            else if(currentField.getType().isAssignableFrom(List.class)
+            else if(List.class.isAssignableFrom(currentField.getType())
                     || currentField.getType().isArray()) {
                 newObject = new YamlListNode<>(exposeName);
                 List<Object> fieldListContent = currentField.getType().isArray() ?
@@ -89,7 +89,7 @@ public class YamlSerializer<T> {
                     }
                     ((YamlListNode<IYamlObject>) newObject).add(newListElement);
                 }
-            } else if(currentField.getType().isAssignableFrom(Set.class)) {
+            } else if(Set.class.isAssignableFrom(currentField.getType())) {
                 newObject = new YamlSetNode<>(exposeName);
                 Set<Object> fieldSetContent = currentField.getType().isArray() ?
                         new HashSet<>(Arrays.asList((Object[]) fieldValue)) : ((Set<Object>) fieldValue);
@@ -103,7 +103,7 @@ public class YamlSerializer<T> {
                     }
                     ((YamlSetNode<IYamlObject>) newObject).add(newSetElement);
                 }
-            } else if(currentField.getType().isAssignableFrom(Map.class)) {
+            } else if(Map.class.isAssignableFrom(currentField.getType())) {
                 // map node
             } else if(TypeUtils.isNativeObject(fieldValue)) {
                 newObject = new YamlNode<>(exposeName, fieldValue);
