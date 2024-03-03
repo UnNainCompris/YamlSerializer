@@ -6,20 +6,19 @@ import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
+import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
+import fr.eris.yaml.utils.storage.Tuple;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class YamlDeserializer<T> {
 
     private final String serializedData;
     private final Class<T> objectClass;
     private final ReflectionHelper<T> reflectionHelper;
-    private T buildedClass;
+    private T builtClass;
 
     public YamlDeserializer(String serializedData, Class<T> objectClass) {
         try {
@@ -35,16 +34,143 @@ public class YamlDeserializer<T> {
 
     public T retrieveClass() {
         HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
-
-
-
         return buildClassObject(serializedValue);
     }
 
     private T buildClassObject(HashMap<YamlPath, String> serializedValue) {
-        buildedClass = reflectionHelper.buildClass();
+        builtClass = reflectionHelper.buildClass();
+        HashMap<YamlPath, Tuple<Field, Object>> yamlPathToField = buildYamlPathToField(serializedValue.keySet());
+
+        for(YamlPath path : serializedValue.keySet()) {
+            Tuple<Field, Object> tuple = yamlPathToField.get(path);
+            if(tuple == null) {
+                System.out.println(path + " -- null");
+                continue;
+            }
+            Field field = tuple.getA();
+            System.out.println(path + " -- " + field.getName() + " -- " + tuple.getB().getClass().getCanonicalName());
+        }
+
+        System.out.println("\n\n\n\n\n");
+
+        for(YamlPath path : yamlPathToField.keySet()) {
+            Tuple<Field, Object> tuple = yamlPathToField.get(path);
+            if(tuple == null) {
+                System.out.println(path + " -- null");
+                continue;
+            }
+            Field field = tuple.getA();
+            System.out.println(path + " -- " + field.getName() + " -- " + tuple.getB().getClass().getCanonicalName());
+        }
+
+        applyValueToField(yamlPathToField, serializedValue);
         // use the deserializedDocument
-        return buildedClass;
+        return builtClass;
+    }
+
+    private void applyValueToField(HashMap<YamlPath, Tuple<Field, Object>> yamlPathToField,
+                                   HashMap<YamlPath, String> serializedValue) {
+        for(YamlPath path : serializedValue.keySet()) {
+            Tuple<Field, Object> tuple = yamlPathToField.get(path);
+            if (tuple == null)
+                continue;
+            try {
+                Field field = tuple.getA();
+                field.setAccessible(true);
+                if(Collection.class.isAssignableFrom(field.getType()) || field.getType().isArray()) {
+                    field.set(tuple.getB(), buildObjectFromField(field));
+                } else if(TypeUtils.isNativeClass(field.getType())) {
+                    field.set(tuple.getB(), serializedValue.get(path));
+                } else {
+                    System.out.println("j'ai plus d'idée de sysout");
+                }
+            } catch (Exception e) {
+                throw new ErisYamlException("Error here lmao x))))) " + e.getMessage());
+            }
+        }
+    }
+
+    public HashMap<YamlPath, Tuple<Field, Object>> buildYamlPathToField(Collection<YamlPath> requiredPath) {
+        HashMap<YamlPath, Tuple<Field, Object>> yamlPathToField = new HashMap<>();
+        for(YamlPath path : requiredPath)
+            createFieldObjectTuple(path, yamlPathToField);
+
+        //starting from parent as "builtClass"
+        return yamlPathToField;
+    }
+
+    public Tuple<Field, Object> createFieldObjectTuple(YamlPath path, HashMap<YamlPath, Tuple<Field, Object>> yamlPathToField) {
+        Field foundedField = null;
+        Object currentObject = builtClass;
+        List<String> pathAsList = Arrays.asList(path.retrieveParsedPathAsArray());
+
+        if(pathAsList.isEmpty()) return null;
+
+        YamlPath actualPath = null;
+        for(String currentPathValue : pathAsList) {
+            if(actualPath == null) actualPath = YamlPath.fromGlobalPath(pathAsList.get(0));
+            else actualPath.append(currentPathValue);
+
+            ReflectionHelper<?> reflectionHelper = new ReflectionHelper<>(currentObject.getClass(), currentObject);
+            List<Field> savableFields = reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
+
+            if(savableFields.isEmpty())
+                return null;
+
+            for(Field currentField : savableFields) {
+                YamlExpose exposeAnnotation = currentField.getAnnotation(YamlExpose.class);
+                String exposeSaveName = exposeAnnotation.yamlSaveName();
+                if(currentPathValue.equals(exposeSaveName)) {
+                    if((Collection.class.isAssignableFrom(currentField.getType()) || currentField.getType().isArray())
+                            && pathAsList.indexOf(currentPathValue) == pathAsList.size() - 2) {
+                        foundedField = currentField;
+                        break;
+                    }
+                    foundedField = currentField;
+                    break;
+                }
+            }
+            if(foundedField == null)
+                throw new ErisYamlException("Unable field null blah blah blah");
+
+            if(!yamlPathToField.containsKey(actualPath))
+                yamlPathToField.put(actualPath, new Tuple<>(foundedField, currentObject));
+            if(Collection.class.isAssignableFrom(currentObject.getClass()) || currentObject.getClass().isArray())
+                break;
+            currentObject = buildObjectFromField(foundedField);
+        }
+        return new Tuple<>(foundedField, currentObject);
+    }
+
+    public Object buildObjectFromField(Field field) {
+        if(List.class.isAssignableFrom(field.getType()))
+            return new ArrayList<>();
+        else if(Set.class.isAssignableFrom(field.getType()))
+            return new HashSet<>();
+        else if(Map.class.isAssignableFrom(field.getType()))
+            throw new ErisYamlException("Map is not handled yet !");
+        else return new ReflectionHelper<>(field.getType()).buildClass();
+    }
+    
+    private Field findFieldFromYamlPath(YamlPath path, Object startObject) {
+        Field foundedField = null;
+        Object currentObject = startObject;
+        String currentPathTarget = path.getPathValueFromIndex(0);
+
+        while(true) {
+            ReflectionHelper<?> reflectionHelper = new ReflectionHelper<>(startObject.getClass(), currentObject);
+            List<Field> savableFields = reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
+            for(Field currentField : savableFields) {
+                YamlExpose exposeAnnotation = currentField.getAnnotation(YamlExpose.class);
+                String exposeSaveName = exposeAnnotation.yamlSaveName();
+                if(currentPathTarget.equals(exposeSaveName)) {
+                    foundedField = currentField;
+                    break;
+                }
+            }
+            break;
+        }
+        return foundedField;
     }
 
     public HashMap<YamlPath, String> retrieveSerializedValue() {

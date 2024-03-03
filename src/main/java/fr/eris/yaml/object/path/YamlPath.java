@@ -12,13 +12,15 @@ public class YamlPath {
     // used in retrieveParsedPath (as regex char)!
     public static final String YAML_PATH_SPLIT_CHAR = "\\" + YAML_PATH_SEPARATOR;
 
-    public final String targetPath;
+    public String targetPath;
 
     public static YamlPath fromGlobalPath(String fullYamlPath) {
         return new YamlPath(fullYamlPath);
     }
 
     public YamlPath(String fullYamlPath) {
+        if(fullYamlPath == null)
+            throw new ErisYamlException("A yaml path cannot be null !");
         if(fullYamlPath.isEmpty())
             throw new ErisYamlException("A yaml path cannot be empty !");
         this.targetPath = fullYamlPath.trim();
@@ -58,8 +60,22 @@ public class YamlPath {
         return other instanceof YamlPath && ((YamlPath)other).targetPath.equals(this.targetPath);
     }
 
+    public YamlPath append(String pathToAdd) {
+        if(pathToAdd == null)
+            throw new ErisYamlException("A yaml path cannot be null !");
+        if(pathToAdd.isEmpty())
+            throw new ErisYamlException("A yaml path cannot be empty !");
+        this.targetPath += (YAML_PATH_SEPARATOR + pathToAdd.trim());
+        return this;
+    }
+
     public String toString() {
         return "{YamlPath:" + targetPath + "}";
+    }
+
+    @Override
+    public int hashCode() {
+        return targetPath.hashCode();
     }
 
 }
