@@ -58,8 +58,11 @@ public class YamlDocument {
     public <T extends IYamlObject> T retrieveAnyObject(YamlPath pathToObject, Class<T> yamlObjectType) {
         IYamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
         for(String objectName : pathToObject.retrieveParsedPathAsArray()) {
+            System.out.println(lastObject + " -- 1");
             if(lastObject == null) break;
-            lastObject = lastObject.getChild(objectName);
+            IYamlObject currentObject = lastObject.getChild(objectName);
+            if(currentObject == null) break;
+            lastObject = currentObject;
         }
         if(lastObject == null) return null;
         if(!lastObject.getClass().isAssignableFrom(yamlObjectType)) {
@@ -80,5 +83,4 @@ public class YamlDocument {
     public void set(YamlPath path, Object value) {
 
     }
-
 }

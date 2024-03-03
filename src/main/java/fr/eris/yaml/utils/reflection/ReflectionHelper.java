@@ -1,5 +1,8 @@
 package fr.eris.yaml.utils.reflection;
 
+import fr.eris.yaml.object.exception.ErisYamlException;
+import fr.eris.yaml.utils.TypeUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -37,6 +40,10 @@ public class ReflectionHelper<T> {
     }
 
     public T buildClass(Object... constructorParameter) {
+        if(TypeUtils.isNativeClass(targetClass)) {
+            throw new ErisYamlException("Cannot create a new instance of primitive or native class ! {type:" + targetClass + "}");
+        }
+
         List<Class<?>> constructorParamList = new ArrayList<>();
         for(Object object : constructorParameter)
             constructorParamList.add(object.getClass());

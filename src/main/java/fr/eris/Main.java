@@ -1,11 +1,13 @@
 package fr.eris;
 
 import fr.eris.objecttest.TestYamlObject;
+import fr.eris.objecttest.TestYamlTypeObject;
 import fr.eris.yaml.object.YamlDocument;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.utils.IndentationUtils;
 
@@ -18,6 +20,7 @@ public class Main {
         testYamlMap();
         testSerializer();
         testDeserializer();
+        testDeserializerType();
     }
 
     public void testIndentationUtils() {
@@ -139,5 +142,24 @@ public class Main {
         //        new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveSerializedValue().toString().replace(", ", "\n"));
 
         System.out.println("\n  -- </YAML DESERIALIZER> --  \n");
+    }
+
+    public void testDeserializerType() {
+        System.out.println("  -- <YAML DESERIALIZER TYPE> --  \n");
+
+        TestYamlTypeObject testYamlTypeObject = new TestYamlTypeObject();
+        testYamlTypeObject.printAll();
+        YamlDocument document = YamlDocument.generateFromClass(testYamlTypeObject);
+
+        document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).setValue(0);
+        System.out.println(document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).getValue());
+
+        String serializedDocument = document.serialize();
+
+        TestYamlTypeObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlTypeObject.class).retrieveClass();
+        deserializedObject.printAll();
+
+
+        System.out.println("\n  -- </YAML DESERIALIZER TYPE> --  \n");
     }
 }

@@ -56,7 +56,9 @@ public class YamlSerializer<T> {
         if(Modifier.isFinal(fieldToValidate.getModifiers()))
             throw new ErisYamlException("Cannot serialize a final field ! {fieldName:" + fieldToValidate.getName() + "}");
         try {
-            if(!Collection.class.isAssignableFrom(fieldToValidate.getType()))
+            if(!Collection.class.isAssignableFrom(fieldToValidate.getType())
+                    && !fieldToValidate.getType().isArray()
+                    && !TypeUtils.isNativeClass(fieldToValidate.getType()))
                 fieldToValidate.getType().getDeclaredConstructor();
         } catch (NoSuchMethodException exception) {
             throw new ErisYamlException("Cannot serialize a field without an empty constructor to build ! {fieldName:" + fieldToValidate.getName() + "}");

@@ -5,6 +5,7 @@ import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.path.YamlPath;
+import fr.eris.yaml.object.value.YamlValueParser;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
@@ -74,18 +75,17 @@ public class YamlDeserializer<T> {
             Tuple<Field, Object> tuple = yamlPathToField.get(path);
             if (tuple == null)
                 continue;
+            Field field = tuple.getA();
             try {
-                Field field = tuple.getA();
                 field.setAccessible(true);
                 if(Collection.class.isAssignableFrom(field.getType()) || field.getType().isArray()) {
                     field.set(tuple.getB(), buildObjectFromField(field));
                 } else if(TypeUtils.isNativeClass(field.getType())) {
-                    field.set(tuple.getB(), serializedValue.get(path));
-                } else {
-                    System.out.println("j'ai plus d'idée de sysout");
+                    field.set(tuple.getB(), YamlValueParser.parseValue(serializedValue.get(path), field.getType()));
                 }
             } catch (Exception e) {
-                throw new ErisYamlException("Error here lmao x))))) " + e.getMessage());
+                e.printStackTrace();
+                throw new ErisYamlException("Error while deserializing field ! {fieldName:" + field.getName() + "}");
             }
         }
     }
@@ -131,11 +131,13 @@ public class YamlDeserializer<T> {
                 }
             }
             if(foundedField == null)
-                throw new ErisYamlException("Unable field null blah blah blah");
+                throw new ErisYamlException("Error while deserializing field !");
 
             if(!yamlPathToField.containsKey(actualPath))
                 yamlPathToField.put(actualPath, new Tuple<>(foundedField, currentObject));
             if(Collection.class.isAssignableFrom(currentObject.getClass()) || currentObject.getClass().isArray())
+                break;
+            if(TypeUtils.isNativeClass(foundedField.getType()))
                 break;
             currentObject = buildObjectFromField(foundedField);
         }
