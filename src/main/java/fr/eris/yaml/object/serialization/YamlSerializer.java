@@ -12,20 +12,21 @@ import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class YamlSerializer<T> {
 
     private final T objectToSerialize;
-    private final Class<?> objectClass;
-    private final ReflectionHelper reflectionHelper;
+    private final Class<T> objectClass;
+    private final ReflectionHelper<T> reflectionHelper;
 
     private YamlDocument serializedDocument;
 
     public YamlSerializer(T objectToSerialize) {
         this.objectToSerialize = objectToSerialize;
-        this.objectClass = objectToSerialize.getClass();
-        this.reflectionHelper = new ReflectionHelper(objectClass);
+        this.objectClass = (Class<T>) objectToSerialize.getClass();
+        this.reflectionHelper = new ReflectionHelper<>(objectClass);
     }
 
     public static YamlDocument serializeData(String serializedData) {
@@ -42,9 +43,23 @@ public class YamlSerializer<T> {
 
     public void build() {
         for(Field field : getSavableField()) {
+            validateNewField(field);
             IYamlObject newRoot = buildYamlObjectFromField(field, objectToSerialize);
             if(newRoot == null) continue;
             serializedDocument.addRootObject(newRoot);
+        }
+    }
+
+    public void validateNewField(Field fieldToValidate) {
+        if(fieldToValidate == null)
+            throw new ErisYamlException("Field cannot be null !");
+        if(Modifier.isFinal(fieldToValidate.getModifiers()))
+            throw new ErisYamlException("Cannot serialize a final field ! {fieldName:" + fieldToValidate.getName() + "}");
+        try {
+            if(!Collection.class.isAssignableFrom(fieldToValidate.getType()))
+                fieldToValidate.getType().getDeclaredConstructor();
+        } catch (NoSuchMethodException exception) {
+            throw new ErisYamlException("Cannot serialize a field without an empty constructor to build ! {fieldName:" + fieldToValidate.getName() + "}");
         }
     }
 
@@ -65,7 +80,7 @@ public class YamlSerializer<T> {
             }
 
             if(!TypeUtils.isAnYamlSupportedType(currentField.getType())) {
-                ReflectionHelper currentHelper = new ReflectionHelper(parentFieldObject);
+                ReflectionHelper<?> currentHelper = new ReflectionHelper<>(currentField.getType(), fieldValue);
                 newObject = YamlNode.buildEmptyNode(exposeName);
                 for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                     IYamlObject newChild = buildYamlObjectFromField(field, fieldValue);
@@ -80,7 +95,7 @@ public class YamlSerializer<T> {
                 List<Object> fieldListContent = currentField.getType().isArray() ?
                         Arrays.asList((Object[]) fieldValue) : ((List<Object>) fieldValue);
                 for(Object object : fieldListContent) {
-                    ReflectionHelper currentHelper = new ReflectionHelper(object);
+                    ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
                     IYamlObject newListElement = getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance(String.valueOf(fieldListContent.indexOf(object)));
                     setValueToYamlObject(newListElement, object);
@@ -94,7 +109,7 @@ public class YamlSerializer<T> {
                 Set<Object> fieldSetContent = currentField.getType().isArray() ?
                         new HashSet<>(Arrays.asList((Object[]) fieldValue)) : ((Set<Object>) fieldValue);
                 for(Object object : fieldSetContent) {
-                    ReflectionHelper currentHelper = new ReflectionHelper(object);
+                    ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
                     IYamlObject newSetElement = getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance("NoNeedName");
                     setValueToYamlObject(newSetElement, object);

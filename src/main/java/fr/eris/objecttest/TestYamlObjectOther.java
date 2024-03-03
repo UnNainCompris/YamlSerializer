@@ -1,15 +1,17 @@
-package fr.eris;
+package fr.eris.objecttest;
 
 import fr.eris.yaml.object.annotation.YamlExpose;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
-public class TestYamlObject {
+public class TestYamlObjectOther {
 
     @YamlExpose(yamlSaveName = "defaultFieldName1")
-    @Setter @Getter private String testFieldFirst = "TestValue1";
+    @Setter @Getter private String testFieldFirste = "TestValue1";
 
     @YamlExpose(yamlSaveName = "defaultFieldName2")
     @Setter @Getter private String testFieldSecond = "TestValue2";
@@ -21,10 +23,10 @@ public class TestYamlObject {
     @Setter @Getter private HashSet<String> testSetFieldFirst;
 
     @YamlExpose(yamlSaveName = "innerClass", serializeEvenIfNull = false)
-    @Setter @Getter private TestYamlObject testInnerClass;
+    @Setter @Getter private TestYamlObjectOther testInnerClass;
 
     public void applyInnerClass() {
-        testInnerClass = new TestYamlObject();
+        testInnerClass = new TestYamlObjectOther();
     }
 
     public void applyTestListField() {

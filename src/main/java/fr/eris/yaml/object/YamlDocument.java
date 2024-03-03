@@ -77,4 +77,8 @@ public class YamlDocument {
         return retrieveObject(yamlObjectName, IYamlObject.class);
     }
 
+    public void set(YamlPath path, Object value) {
+
+    }
+
 }

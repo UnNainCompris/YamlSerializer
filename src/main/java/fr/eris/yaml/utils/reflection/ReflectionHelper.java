@@ -1,11 +1,13 @@
 package fr.eris.yaml.utils.reflection;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ReflectionHelper {
+public class ReflectionHelper<T> {
 
     static {
         defaultConfiguration = new ReflectionConfiguration();
@@ -13,18 +15,14 @@ public class ReflectionHelper {
 
     public static final ReflectionConfiguration defaultConfiguration;
     private ReflectionConfiguration currentConfiguration;
-    private final Class<?> targetClass;
+    private final Class<T> targetClass;
     private final Object targetObject;
 
-    public ReflectionHelper(Class<?> targetClass) {
+    public ReflectionHelper(Class<T> targetClass) {
         this(targetClass, null);
     }
 
-    public ReflectionHelper(Object targetObject) {
-        this(targetObject.getClass(), targetObject);
-    }
-
-    private ReflectionHelper(Class<?> targetClass, Object targetObject) {
+    public ReflectionHelper(Class<T> targetClass, Object targetObject) {
         this.targetClass = targetClass;
         this.targetObject = targetObject;
     }
@@ -38,4 +36,16 @@ public class ReflectionHelper {
         return foundedField;
     }
 
+    public T buildClass(Object... constructorParameter) {
+        List<Class<?>> constructorParamList = new ArrayList<>();
+        for(Object object : constructorParameter)
+            constructorParamList.add(object.getClass());
+        Class<?>[] constructorParameterType = constructorParamList.toArray(new Class[0]);
+        try {
+            Constructor<T> constructor = targetClass.getConstructor(constructorParameterType);
+            return constructor.newInstance(constructorParameter);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 }

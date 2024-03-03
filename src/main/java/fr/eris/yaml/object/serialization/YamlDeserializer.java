@@ -1,6 +1,7 @@
 package fr.eris.yaml.object.serialization;
 
-import fr.eris.yaml.object.YamlDocument;
+import fr.eris.yaml.object.annotation.YamlExpose;
+import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.path.YamlPath;
@@ -17,29 +18,33 @@ public class YamlDeserializer<T> {
 
     private final String serializedData;
     private final Class<T> objectClass;
-    private final ReflectionHelper reflectionHelper;
-
-    private YamlDocument serializedDocument;
+    private final ReflectionHelper<T> reflectionHelper;
+    private T buildedClass;
 
     public YamlDeserializer(String serializedData, Class<T> objectClass) {
+        try {
+            objectClass.getDeclaredConstructor();
+        } catch (NoSuchMethodException exception) {
+            throw new ErisYamlException("The deserialized class type need an empty constructor to build !");
+        }
+
         this.serializedData = serializedData;
         this.objectClass = objectClass;
-        this.reflectionHelper = new ReflectionHelper(objectClass);
+        this.reflectionHelper = new ReflectionHelper<>(objectClass);
     }
 
     public T retrieveClass() {
-        serializedDocument = retrieveDocument();
+        HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
 
-        return null;
+
+
+        return buildClassObject(serializedValue);
     }
 
-    public YamlDocument retrieveDocument() {
-        YamlDocument deserializedDocument = new YamlDocument();
-        HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
-        HashMap<YamlPath, Field> pathToField = new HashMap<>(); // TODO: 01/03/2024  
-
-
-        return deserializedDocument;
+    private T buildClassObject(HashMap<YamlPath, String> serializedValue) {
+        buildedClass = reflectionHelper.buildClass();
+        // use the deserializedDocument
+        return buildedClass;
     }
 
     public HashMap<YamlPath, String> retrieveSerializedValue() {
@@ -71,18 +76,28 @@ public class YamlDeserializer<T> {
         StringBuilder yamlPath = new StringBuilder();
         for(String string : currentPath)
             yamlPath.append(string).append(".");
-        return YamlPath.fromGlobalPath(yamlPath.deleteCharAt(yamlPath.lastIndexOf(".")).toString());
+
+        int lastDotIndex;
+        while((lastDotIndex = yamlPath.lastIndexOf(".")) == yamlPath.length() - 1)
+            yamlPath.deleteCharAt(lastDotIndex);
+
+        return YamlPath.fromGlobalPath(yamlPath.toString());
     }
 
+    private int listIndex = 0;
     public String findYamlLineName(String fullLine) {
         fullLine = IndentationUtils.removeIndentation(fullLine);
         if(fullLine.contains(": ")) {
+            listIndex = 0;
             return fullLine.split(": ")[0].trim();
         } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlSetNode.ELEMENT_PREFIX, "");
+            listIndex++;
+            return Integer.toString(listIndex);
         } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlListNode.ELEMENT_PREFIX, "");
+            listIndex++;
+            return Integer.toString(listIndex);
         } else {
+            listIndex = 0;
             return fullLine;
         }
     }
@@ -110,4 +125,7 @@ public class YamlDeserializer<T> {
         return content.size() - 1 > currentLine;
     }
 
+    public List<Field> getSavableField() {
+        return reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
+    }
 }

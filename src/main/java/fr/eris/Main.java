@@ -1,5 +1,6 @@
 package fr.eris;
 
+import fr.eris.objecttest.TestYamlObject;
 import fr.eris.yaml.object.YamlDocument;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
@@ -104,6 +105,7 @@ public class Main {
         testYamlObject.applyTestSetField();
         testYamlObject.applyTestListField();
         testYamlObject.applyInnerClass();
+        testYamlObject.applyInnerOtherClass();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
         YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
@@ -122,6 +124,7 @@ public class Main {
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
         testYamlObject.getTestInnerClass().applyInnerClass();
+        testYamlObject.applyInnerOtherClass();
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldFirst("TestDoubleInner1");
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldSecond("TestDoubleInner2");
         YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
@@ -132,8 +135,6 @@ public class Main {
         System.out.println("Default document: \n\n" + serializedDocument);
         System.out.println("Deserialized document: \n\n" +
                 new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveSerializedValue().toString().replace(", ", "\n"));
-
-
 
         System.out.println("\n  -- </YAML DESERIALIZER> --  \n");
     }

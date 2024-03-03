@@ -24,10 +24,12 @@ public enum YamlDictionary {
                         valueToCheck.equalsIgnoreCase("false") ||
                         valueToCheck.equalsIgnoreCase("deny"));
 
-
-
     YamlDictionary(Object value, String defaultVisualValue, YamlValueChecker yamlValueChecker) {
 
+    }
+
+    interface YamlValueRetriever<T> {
+        T retrieveValue(String valueToCheck);
     }
 
     interface YamlValueChecker {
