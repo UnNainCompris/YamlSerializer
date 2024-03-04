@@ -25,7 +25,7 @@ public class YamlNode<T> extends IYamlObject {
 
     public void validateNode() {
         if(value != null && !children.isEmpty()) {
-            throw new ErisYamlException("A node cannot have children and a value !");
+            throw new ErisYamlException("A separator node cannot have children and a value !");
         }
     }
 

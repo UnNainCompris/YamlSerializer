@@ -2,10 +2,19 @@ package fr.eris.yaml.object;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.node.YamlNode;
+import fr.eris.yaml.object.node.iterable.list.YamlListNode;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.node.map.YamlMap;
 import fr.eris.yaml.object.path.YamlPath;
+import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.object.serialization.YamlSerializer;
+import fr.eris.yaml.utils.YamlUtils;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class YamlDocument {
 
@@ -41,7 +50,7 @@ public class YamlDocument {
     }
 
     public <T> T deserialize(Class<T> deserializationClassType) {
-        return null;
+        return new YamlDeserializer<T>(serialize(), deserializationClassType).retrieveClass();
     }
 
     public <T extends IYamlObject> T retrieveObject(String yamlObjectName, Class<T> yamlObjectType) {
@@ -58,7 +67,6 @@ public class YamlDocument {
     public <T extends IYamlObject> T retrieveAnyObject(YamlPath pathToObject, Class<T> yamlObjectType) {
         IYamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
         for(String objectName : pathToObject.retrieveParsedPathAsArray()) {
-            System.out.println(lastObject + " -- 1");
             if(lastObject == null) break;
             IYamlObject currentObject = lastObject.getChild(objectName);
             if(currentObject == null) break;
@@ -80,7 +88,32 @@ public class YamlDocument {
         return retrieveObject(yamlObjectName, IYamlObject.class);
     }
 
-    public void set(YamlPath path, Object value) {
+    public void set(String path, Object value) {
+        set(YamlPath.fromGlobalPath(path), value);
+    }
 
+    public void set(YamlPath path, Object value) {
+        IYamlObject currentObject;
+
+        if(rootObjects.containsKey(path.getFirstPathValue()))
+            currentObject = retrieveObject(path.getFirstPathValue());
+        else {
+            currentObject = YamlNode.buildEmptyNode(path.getFirstPathValue());
+            addRootObject(currentObject);
+        }
+
+
+        for (String currentNodeName : path.getWholePathExceptFirstValue()) {
+            if(currentObject.hasChild(currentNodeName)) {
+                currentObject = currentObject.getChild(currentNodeName);
+            } else {
+                IYamlObject newObject = YamlNode.buildEmptyNode(currentNodeName);
+                currentObject.addChildren(newObject);
+                currentObject = newObject;
+            }
+        }
+        if(currentObject == null)
+            throw new ErisYamlException("Cannot add children to a object that is null");
+        YamlUtils.setValueToYamlObject(currentObject, value);
     }
 }

@@ -106,7 +106,8 @@ public class Main {
 
         TestYamlObject testYamlObject = new TestYamlObject();
         testYamlObject.applyTestSetField();
-        testYamlObject.applyTestListField();
+        testYamlObject.applyTestListIntField(1);
+        testYamlObject.applyTestListStringField();
         testYamlObject.applyInnerClass();
         testYamlObject.applyInnerOtherClass();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
@@ -121,25 +122,30 @@ public class Main {
         System.out.println("  -- <YAML DESERIALIZER> --  \n");
 
         TestYamlObject testYamlObject = new TestYamlObject();
-        testYamlObject.applyTestListField();
+        testYamlObject.applyTestListIntField(10);
+        testYamlObject.applyTestListStringField();
         testYamlObject.applyTestSetField();
         testYamlObject.applyInnerClass();
+        testYamlObject.getTestInnerClass().applyTestListIntField(100);
+        testYamlObject.getTestInnerClass().applyTestListStringField();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
         testYamlObject.getTestInnerClass().applyInnerClass();
         testYamlObject.applyInnerOtherClass();
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldFirst("TestDoubleInner1");
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldSecond("TestDoubleInner2");
-
+        //testYamlObject.getTestInnerClass().applyTestListField("SERIRIRIEJHD");
         testYamlObject.setTestFieldFirst("HEREDESERIALIZED");
         YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
         String serializedDocument = document.serialize();
 
+        System.out.println("Default document: \n\n" + serializedDocument);
         TestYamlObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveClass();
-        System.out.println(testYamlObject.getTestFieldFirst());
-        //System.out.println("Default document: \n\n" + serializedDocument);
-        //System.out.println("Deserialized document: \n\n" +
-        //        new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveSerializedValue().toString().replace(", ", "\n"));
+        YamlDocument deserializedDocument = YamlDocument.generateFromClass(deserializedObject);
+        System.out.println("-- " + deserializedObject.getTestSetFieldFirst());
+        System.out.println("Deserialized document: \n\n" + deserializedDocument.serialize());
+
+        System.out.println("List " + deserializedObject.getTestInnerClass().getTestListFieldInteger());
 
         System.out.println("\n  -- </YAML DESERIALIZER> --  \n");
     }
@@ -151,13 +157,15 @@ public class Main {
         testYamlTypeObject.printAll();
         YamlDocument document = YamlDocument.generateFromClass(testYamlTypeObject);
 
-        document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).setValue(0);
-        System.out.println(document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).getValue());
+        document.set(YamlPath.fromGlobalPath("byteValueField"), 0);
+        document.set(YamlPath.fromGlobalPath("test.attempt"), 0);
+        //document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).setValue(0);
+        //System.out.println(document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).getValue());
 
         String serializedDocument = document.serialize();
-
-        TestYamlTypeObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlTypeObject.class).retrieveClass();
-        deserializedObject.printAll();
+        System.out.println(serializedDocument);
+        //TestYamlTypeObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlTypeObject.class).retrieveClass();
+        //deserializedObject.printAll();
 
 
         System.out.println("\n  -- </YAML DESERIALIZER TYPE> --  \n");

@@ -14,8 +14,11 @@ public class TestYamlObject {
     @YamlExpose(yamlSaveName = "defaultFieldName2")
     @Setter @Getter private String testFieldSecond = "TestValue2";
 
-    @YamlExpose(yamlSaveName = "defaultList", serializeEvenIfNull = false)
-    @Setter @Getter private List<String> testListFieldFirst;
+    @YamlExpose(yamlSaveName = "defaultListString", serializeEvenIfNull = false)
+    @Setter @Getter private List<String> testListFieldString;
+
+    @YamlExpose(yamlSaveName = "defaultListInteger", serializeEvenIfNull = false)
+    @Setter @Getter private List<Integer> testListFieldInteger;
 
     @YamlExpose(yamlSaveName = "defaultSet", serializeEvenIfNull = false)
     @Setter @Getter private HashSet<String> testSetFieldFirst;
@@ -33,8 +36,16 @@ public class TestYamlObject {
         testInnerOtherClass = new TestYamlObjectOther();
     }
 
-    public void applyTestListField() {
-        testListFieldFirst = Arrays.asList("TestList1", "TestList2", "TestList3");
+    public void applyTestListStringField() {
+        testListFieldString = Arrays.asList("TestList1", "TestList2", "TestList3");
+    }
+
+    public void applyTestListIntField(int aditional) {
+        testListFieldInteger = Arrays.asList(111 + aditional, 222 + aditional, 333 + aditional);
+    }
+
+    public void applyTestListField(String customPrefix) {
+        testListFieldString = Arrays.asList(customPrefix + "TestList1", customPrefix + "TestList2", customPrefix + "TestList3");
     }
 
     public void applyTestSetField() {

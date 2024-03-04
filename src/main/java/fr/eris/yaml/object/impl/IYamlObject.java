@@ -67,4 +67,8 @@ public abstract class IYamlObject implements YamlSerializable {
     public IYamlObject getChild(String objectName) {
         return children.get(objectName);
     }
+
+    public boolean hasChild(String objectName) {
+        return children.containsKey(objectName);
+    }
 }

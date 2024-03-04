@@ -9,6 +9,7 @@ import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.node.map.YamlMap;
 import fr.eris.yaml.utils.TypeUtils;
+import fr.eris.yaml.utils.YamlUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 
 import java.lang.reflect.Field;
@@ -56,9 +57,7 @@ public class YamlSerializer<T> {
         if(Modifier.isFinal(fieldToValidate.getModifiers()))
             throw new ErisYamlException("Cannot serialize a final field ! {fieldName:" + fieldToValidate.getName() + "}");
         try {
-            if(!Collection.class.isAssignableFrom(fieldToValidate.getType())
-                    && !fieldToValidate.getType().isArray()
-                    && !TypeUtils.isNativeClass(fieldToValidate.getType()))
+            if(!TypeUtils.isAnYamlSupportedType(fieldToValidate.getType()))
                 fieldToValidate.getType().getDeclaredConstructor();
         } catch (NoSuchMethodException exception) {
             throw new ErisYamlException("Cannot serialize a field without an empty constructor to build ! {fieldName:" + fieldToValidate.getName() + "}");
@@ -100,7 +99,7 @@ public class YamlSerializer<T> {
                     ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
                     IYamlObject newListElement = getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance(String.valueOf(fieldListContent.indexOf(object)));
-                    setValueToYamlObject(newListElement, object);
+                    YamlUtils.setValueToYamlObject(newListElement, object);
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                         newListElement.addChildren(buildYamlObjectFromField(field, object));
                     }
@@ -114,7 +113,7 @@ public class YamlSerializer<T> {
                     ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
                     IYamlObject newSetElement = getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance("NoNeedName");
-                    setValueToYamlObject(newSetElement, object);
+                    YamlUtils.setValueToYamlObject(newSetElement, object);
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                         newSetElement.addChildren(buildYamlObjectFromField(field, object));
                     }
@@ -148,27 +147,6 @@ public class YamlSerializer<T> {
             return YamlNode.class;
         }
         return null;
-    }
-
-    public void setValueToYamlObject(IYamlObject object, Object valueToSet) {
-        Class<? extends IYamlObject> clazz = object.getClass();
-        if(YamlListNode.class.isAssignableFrom(clazz)) {
-            if(valueToSet instanceof List)
-                (YamlListNode.class.cast(object)).set((List<?>) valueToSet);
-            else throw new ErisYamlException("You cannot set other type of element to a YamlListNode than a list !");
-            return;
-        } else if(YamlSetNode.class.isAssignableFrom(clazz)) {
-            if(valueToSet instanceof Set)
-                (YamlSetNode.class.cast(object)).set((Set<?>) valueToSet);
-            else throw new ErisYamlException("You cannot set other type of element to a YamlSetNode than a set !");
-            return;
-        } else if(YamlMap.class.isAssignableFrom(clazz)) {
-
-            return;
-        } else if(YamlNode.class.isAssignableFrom(clazz)) {
-            YamlNode.class.cast(object).setValue(valueToSet);
-            return;
-        }
     }
 
     public List<Field> getSavableField() {

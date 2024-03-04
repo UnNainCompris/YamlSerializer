@@ -12,10 +12,19 @@ public class YamlPath {
     // used in retrieveParsedPath (as regex char)!
     public static final String YAML_PATH_SPLIT_CHAR = "\\" + YAML_PATH_SEPARATOR;
 
-    public String targetPath;
+    private String targetPath;
 
     public static YamlPath fromGlobalPath(String fullYamlPath) {
         return new YamlPath(fullYamlPath);
+    }
+
+    public static YamlPath fromGlobalPath(String[] fullYamlPath) {
+        if(fullYamlPath == null || fullYamlPath.length == 0)
+            return null;
+        StringBuilder path = new StringBuilder();
+        for(String currentPath : fullYamlPath)
+            path.append(currentPath.trim()).append(".");
+        return new YamlPath(path.deleteCharAt(path.lastIndexOf(".")).toString());
     }
 
     public YamlPath(String fullYamlPath) {
@@ -47,8 +56,29 @@ public class YamlPath {
         return getPathValueFromIndex(0);
     }
 
+    public String[] getPathInRange(int start, int end) {
+        int startCopy = start;
+        start = Math.max(Math.min(startCopy, end), 0);
+        end = Math.max(Math.max(startCopy, end), 0);
+
+        System.out.println(start + " -- " + end + " -- " + getSplitPathLength());
+
+        if(start >= getSplitPathLength())
+            return new String[0];
+        end = Math.min(getSplitPathLength() - 1, end);
+        return Arrays.copyOfRange(retrieveParsedPathAsArray(), start, end);
+    }
+
     public String[] getWholePathExceptLastValue() {
-        return Arrays.copyOfRange(retrieveParsedPathAsArray(), 0, getSplitPathLength() - 2);
+        if(retrieveParsedPathAsArray().length <= 1)
+            return new String[0];
+        return Arrays.copyOfRange(retrieveParsedPathAsArray(), 0, getSplitPathLength() - 1);
+    }
+
+    public String[] getWholePathExceptFirstValue() {
+        if(retrieveParsedPathAsArray().length <= 1)
+            return new String[0];
+        return Arrays.copyOfRange(retrieveParsedPathAsArray(), 1, getSplitPathLength());
     }
 
     public void validateAccessIndex(int index) {
@@ -75,7 +105,11 @@ public class YamlPath {
 
     @Override
     public int hashCode() {
-        return targetPath.hashCode();
+        return toString().hashCode();
+    }
+
+    public YamlPath clone() {
+        return new YamlPath(targetPath);
     }
 
 }

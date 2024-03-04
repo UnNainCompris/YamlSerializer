@@ -50,7 +50,6 @@ public class YamlListNode<V extends IYamlObject> extends IYamlObject {
         for(V value : values) {
             serializedNode.append("\n").append(value.serialize(indentationLevel + 1));
         }
-        serializedNode.append("\n");
         return serializedNode.toString();
     }
 }
