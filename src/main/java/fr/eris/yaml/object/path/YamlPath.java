@@ -19,6 +19,7 @@ public class YamlPath {
     }
 
     public static YamlPath fromGlobalPath(String[] fullYamlPath) {
+        System.out.println("New global path " + Arrays.toString(fullYamlPath));
         if(fullYamlPath == null || fullYamlPath.length == 0)
             return null;
         StringBuilder path = new StringBuilder();
@@ -112,4 +113,17 @@ public class YamlPath {
         return new YamlPath(targetPath);
     }
 
+    public YamlPath removeLast() {
+        StringBuilder newTargetPath = new StringBuilder();
+        for(String path : targetPath.split(YAML_PATH_SPLIT_CHAR))
+            newTargetPath.append(path).append(YAML_PATH_SEPARATOR);
+
+        newTargetPath.deleteCharAt(newTargetPath.lastIndexOf(YAML_PATH_SEPARATOR));
+
+        int lastIndex = newTargetPath.lastIndexOf(YAML_PATH_SEPARATOR);
+        if(lastIndex != -1)
+            newTargetPath.replace(lastIndex, newTargetPath.length(), "");
+
+        return this;
+    }
 }

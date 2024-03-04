@@ -3,18 +3,12 @@ package fr.eris.yaml.object;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
-import fr.eris.yaml.object.node.iterable.list.YamlListNode;
-import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
-import fr.eris.yaml.object.node.map.YamlMap;
 import fr.eris.yaml.object.path.YamlPath;
-import fr.eris.yaml.object.serialization.YamlDeserializer;
+import fr.eris.yaml.object.serialization.YamlDeserializerOld;
 import fr.eris.yaml.object.serialization.YamlSerializer;
 import fr.eris.yaml.utils.YamlUtils;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class YamlDocument {
 
@@ -50,7 +44,7 @@ public class YamlDocument {
     }
 
     public <T> T deserialize(Class<T> deserializationClassType) {
-        return new YamlDeserializer<T>(serialize(), deserializationClassType).retrieveClass();
+        return new YamlDeserializerOld<T>(serialize(), deserializationClassType).retrieveClass();
     }
 
     public <T extends IYamlObject> T retrieveObject(String yamlObjectName, Class<T> yamlObjectType) {

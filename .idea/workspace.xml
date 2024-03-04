@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/storage/Tuple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializerOld.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlSerializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,9 +72,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="fr.eris.yaml.object.comment" />
-      <recent name="fr.evermon.yaml.object.map" />
-      <recent name="fr.evermon.yaml.object.annotation" />
+      <recent name="fr.eris.yaml.object.serialization" />
+      <recent name="fr.eris.yaml.object.value.type.number.decimal" />
+      <recent name="fr.eris.yaml.object.value.type.number.nondecimal" />
+      <recent name="fr.eris.yaml.object.value.type.number" />
+      <recent name="fr.eris.yaml.object.value.type" />
     </key>
   </component>
   <component name="RunManager">
@@ -114,6 +116,10 @@
           <line>14</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
