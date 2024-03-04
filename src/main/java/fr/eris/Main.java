@@ -11,6 +11,8 @@ import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.utils.IndentationUtils;
 
+import java.util.Arrays;
+
 public class Main {
     public void start() {
         testIndentationUtils();
@@ -20,7 +22,7 @@ public class Main {
         testYamlMap();
         testSerializer();
         testDeserializer();
-        testDeserializerType();
+        //testDeserializerType();
     }
 
     public void testIndentationUtils() {
@@ -137,6 +139,7 @@ public class Main {
         //testYamlObject.getTestInnerClass().applyTestListField("SERIRIRIEJHD");
         testYamlObject.setTestFieldFirst("HEREDESERIALIZED");
         YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
+        document.set("innerClass.defaultListInteger", Arrays.asList(1, 2, 999));
         String serializedDocument = document.serialize();
 
         System.out.println("Default document: \n\n" + serializedDocument);

@@ -7,6 +7,7 @@ import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.node.map.YamlMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,8 +17,17 @@ public class YamlUtils {
     public static void setValueToYamlObject(IYamlObject object, Object valueToSet) {
         Class<? extends IYamlObject> clazz = object.getClass();
         if(YamlListNode.class.isAssignableFrom(clazz)) {
+            if(((List<?>) valueToSet).isEmpty()) return;
+            List<IYamlObject> listValue = new ArrayList<>();
+
+            if(IYamlObject.class.isAssignableFrom(((List<?>) valueToSet).get(0).getClass())) {
+                listValue = (List<IYamlObject>) valueToSet;
+            } else {
+                for (Object listObject : (List<?>) valueToSet)
+                    listValue.add(new YamlNode<>(String.valueOf(((List<?>) valueToSet).indexOf(listObject) + 1), listObject));
+            }
             if(valueToSet instanceof List)
-                (YamlListNode.class.cast(object)).set((List<?>) valueToSet);
+                (YamlListNode.class.cast(object)).set(listValue);
             else throw new ErisYamlException("You cannot set other type of element to a YamlListNode than a list !");
         } else if(YamlSetNode.class.isAssignableFrom(clazz)) {
             if(valueToSet instanceof Set)
