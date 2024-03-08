@@ -1,8 +1,8 @@
 package fr.eris.yaml.object.value.type;
 
-import fr.eris.yaml.object.value.YamlValue;
+import fr.eris.yaml.object.value.IYamlValue;
 
-public class YamlBoolean extends YamlValue<Boolean> {
+public class YamlBoolean extends IYamlValue<Boolean> {
     public YamlBoolean() {
         super(Boolean.class);
     }

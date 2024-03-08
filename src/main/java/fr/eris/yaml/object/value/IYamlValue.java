@@ -1,13 +1,13 @@
 package fr.eris.yaml.object.value;
 
+import fr.eris.yaml.api.object.value.YamlValue;
 import lombok.Getter;
 
-public abstract class YamlValue<T> {
+@Getter
+public abstract class IYamlValue<T> implements YamlValue<T> {
 
-    @Getter
     protected final Class<T> handledType;
-
-    public YamlValue(Class<T> handledType) {
+    public IYamlValue(Class<T> handledType) {
         this.handledType = handledType;
     }
 

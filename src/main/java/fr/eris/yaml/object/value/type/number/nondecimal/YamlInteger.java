@@ -1,6 +1,5 @@
 package fr.eris.yaml.object.value.type.number.nondecimal;
 
-import fr.eris.yaml.object.value.YamlValue;
 import fr.eris.yaml.object.value.type.number.YamlNumberValue;
 
 public class YamlInteger extends YamlNumberValue<Integer> {

@@ -1,8 +1,8 @@
 package fr.eris.yaml.object.value.type;
 
-import fr.eris.yaml.object.value.YamlValue;
+import fr.eris.yaml.object.value.IYamlValue;
 
-public class YamlNull extends YamlValue<Object> {
+public class YamlNull extends IYamlValue<Object> {
     public YamlNull() {
         super(Object.class);
     }

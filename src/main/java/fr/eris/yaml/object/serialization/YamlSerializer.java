@@ -1,13 +1,12 @@
 package fr.eris.yaml.object.serialization;
 
-import fr.eris.yaml.object.YamlDocument;
+import fr.eris.yaml.object.IYamlDocument;
 import fr.eris.yaml.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
-import fr.eris.yaml.object.node.map.YamlMap;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.YamlUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
@@ -22,7 +21,7 @@ public class YamlSerializer<T> {
     private final Class<T> objectClass;
     private final ReflectionHelper<T> reflectionHelper;
 
-    private YamlDocument serializedDocument;
+    private IYamlDocument serializedDocument;
 
     public YamlSerializer(T objectToSerialize) {
         this.objectToSerialize = objectToSerialize;
@@ -30,12 +29,8 @@ public class YamlSerializer<T> {
         this.reflectionHelper = new ReflectionHelper<>(objectClass);
     }
 
-    public static YamlDocument serializeData(String serializedData) {
-        return null;
-    }
-
-    public YamlDocument serialize() {
-        serializedDocument = new YamlDocument();
+    public IYamlDocument serialize() {
+        serializedDocument = new IYamlDocument();
 
         build();
 

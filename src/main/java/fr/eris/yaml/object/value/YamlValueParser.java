@@ -1,5 +1,6 @@
 package fr.eris.yaml.object.value;
 
+import fr.eris.yaml.api.object.value.YamlValue;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.value.type.YamlBoolean;
 import fr.eris.yaml.object.value.type.YamlNull;
@@ -16,9 +17,9 @@ import java.util.HashMap;
 
 public class YamlValueParser {
 
-    private static final HashMap<Class<?>, YamlValue<?>> registeredYamlValue = new HashMap<>();
+    private final HashMap<Class<?>, YamlValue<?>> registeredYamlValue = new HashMap<>();
 
-    static {
+    public YamlValueParser(){
         registeredYamlValue.put(Object.class, new YamlNull());
         registeredYamlValue.put(String.class, new YamlString());
         registeredYamlValue.put(Boolean.class, new YamlBoolean());
@@ -32,12 +33,8 @@ public class YamlValueParser {
         registeredYamlValue.put(Byte.class, new YamlByte());
     }
 
-    public static Object parseValue(String rawValue, Class<?> type) {
-        if(type.isPrimitive()) {
-            Class<?> primitiveToObject = TypeUtils.primitiveToObject(type);
-            if (primitiveToObject != null)
-                type = primitiveToObject;
-        }
+    public Object parseValue(String rawValue, Class<?> type) {
+        type = TypeUtils.convertIfPrimitiveToObject(type);
         for(Class<?> valueClassType : registeredYamlValue.keySet()) {
             if(!valueClassType.isAssignableFrom(type)) continue;
 
@@ -50,4 +47,12 @@ public class YamlValueParser {
                 rawValue + " of type: " + type + " !");
     }
 
+    public boolean isAlreadyHandledType(Class<?> type) {
+        type = TypeUtils.convertIfPrimitiveToObject(type);
+        return registeredYamlValue.containsKey(type);
+    }
+
+    public void registerNewValue(YamlValue<?> newYamlValue) {
+        registeredYamlValue.put(TypeUtils.convertIfPrimitiveToObject(newYamlValue.getHandledType()), newYamlValue);
+    }
 }

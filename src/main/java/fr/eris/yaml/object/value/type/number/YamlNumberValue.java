@@ -1,8 +1,8 @@
 package fr.eris.yaml.object.value.type.number;
 
-import fr.eris.yaml.object.value.YamlValue;
+import fr.eris.yaml.object.value.IYamlValue;
 
-public abstract class YamlNumberValue<T extends Number> extends YamlValue<T> {
+public abstract class YamlNumberValue<T extends Number> extends IYamlValue<T> {
     public YamlNumberValue(Class<T> handledType) {
         super(handledType);
     }
