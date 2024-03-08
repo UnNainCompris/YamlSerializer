@@ -134,8 +134,8 @@ public class Main {
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
         testYamlObject.getTestInnerClass().applyInnerClass();
         testYamlObject.applyInnerOtherClass();
-        testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldFirst("TestDoubleInner1");
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldSecond("TestDoubleInner2");
+        testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldFirst("TestDoubleInner1");
         //testYamlObject.getTestInnerClass().applyTestListField("SERIRIRIEJHD");
         testYamlObject.setTestFieldFirst("HEREDESERIALIZED");
         YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
@@ -143,12 +143,12 @@ public class Main {
         String serializedDocument = document.serialize();
 
         System.out.println("Default document: \n\n" + serializedDocument);
-        TestYamlObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveClass();
-        YamlDocument deserializedDocument = YamlDocument.generateFromClass(deserializedObject);
-        System.out.println("-- " + deserializedObject.getTestSetFieldFirst());
-        System.out.println("Deserialized document: \n\n" + deserializedDocument.serialize());
 
-        System.out.println("List " + deserializedObject.getTestInnerClass().getTestListFieldInteger());
+        //TestYamlObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveClass();
+        //YamlDocument deserializedDocument = YamlDocument.generateFromClass(deserializedObject);
+
+        System.out.println("Deserialized document: \n\n" + new YamlDeserializer<>(serializedDocument, TestYamlObject.class)
+                .buildObject());
 
         System.out.println("\n  -- </YAML DESERIALIZER> --  \n");
     }

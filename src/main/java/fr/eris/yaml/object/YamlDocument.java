@@ -4,6 +4,7 @@ import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.path.YamlPath;
+import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.object.serialization.YamlDeserializerOld;
 import fr.eris.yaml.object.serialization.YamlSerializer;
 import fr.eris.yaml.utils.YamlUtils;
@@ -17,7 +18,7 @@ public class YamlDocument {
     public YamlDocument() {
         rootObjects = new HashMap<>();
     }
-    
+
     public void addRootObject(IYamlObject newRootObject) {
         if(rootObjects.containsKey(newRootObject.getName()))
             throw new ErisYamlException("Cannot have root object with same name");

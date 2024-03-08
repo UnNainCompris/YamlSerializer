@@ -10,11 +10,11 @@ import java.util.List;
 
 public class TestYamlObjectOther {
 
-    @YamlExpose(yamlSaveName = "defaultFieldName1")
+    @YamlExpose(yamlSaveName = "defaultFieldName1Other")
     @Setter @Getter private String testFieldFirste = "TestValue1";
 
-    @YamlExpose(yamlSaveName = "defaultFieldName2")
-    @Setter @Getter private String testFieldSecond = "TestValue2";
+    @YamlExpose(yamlSaveName = "defaultFieldName2Other")
+    @Setter @Getter private String testFieldSeconde = "TestValue2";
 
     @YamlExpose(yamlSaveName = "defaultList", serializeEvenIfNull = false)
     @Setter @Getter private List<String> testListFieldFirst;

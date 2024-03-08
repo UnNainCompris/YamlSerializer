@@ -1,6 +1,7 @@
 package fr.eris.yaml.object.serialization;
 
 import fr.eris.objecttest.TestYamlObject;
+import fr.eris.yaml.object.YamlDocument;
 import fr.eris.yaml.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
@@ -11,6 +12,7 @@ import fr.eris.yaml.object.value.YamlValueParser;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
+import fr.eris.yaml.utils.reflection.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -22,6 +24,8 @@ public class YamlDeserializer<T> {
     private final Class<T> objectClass;
     private final ReflectionHelper<T> reflectionHelper;
     private T builtClass;
+
+    private HashMap<YamlPath, YamlDeserializationObject> deserializationObjectMap;
 
     public YamlDeserializer(String serializedData, Class<T> objectClass) {
         try {
@@ -35,285 +39,6 @@ public class YamlDeserializer<T> {
         this.reflectionHelper = new ReflectionHelper<>(objectClass);
     }
 
-    public T retrieveClass() {
-        HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
-        return buildClassObject(serializedValue);
-    }
-
-    private T buildClassObject(HashMap<YamlPath, String> serializedValue) {
-        builtClass = reflectionHelper.buildClass();
-        HashMap<YamlPath, YamlDeserializationObject> yamlPathToField = buildYamlPathToField(serializedValue.keySet());
-
-        for(YamlPath path : serializedValue.keySet()) {
-            YamlDeserializationObject tuple = yamlPathToField.get(path);
-            if(tuple == null) {
-                System.out.println(path + " -- null");
-                continue;
-            }
-            Field field = tuple.getAssosiatedField();
-            System.out.println(path + " -- " + field.getName() + " -- " + tuple.getFieldParentObject().getClass().getCanonicalName());
-        }
-
-        System.out.println("\n\n\n\n\n");
-
-        for(YamlPath path : yamlPathToField.keySet()) {
-            YamlDeserializationObject tuple = yamlPathToField.get(path);
-            if(tuple == null) {
-                System.out.println(path + " -- null");
-                continue;
-            }
-            Field field = tuple.getAssosiatedField();
-            System.out.println(path + " -- " + field.getName() + " -- " + tuple.getFieldParentObject().getClass().getCanonicalName());
-        }
-
-        applyValueToField(yamlPathToField, serializedValue);
-        // use the deserializedDocument
-        return builtClass;
-    }
-
-    private void applyValueToField(HashMap<YamlPath, YamlDeserializationObject> yamlPathToField,
-                                   HashMap<YamlPath, String> serializedValue) {
-
-        for(YamlPath path : yamlPathToField.keySet()) {
-            if(true) break;
-            YamlDeserializationObject tuple = yamlPathToField.get(path);
-            YamlPath actualPath = null;
-            List<String> pathAsList = Arrays.asList(path.retrieveParsedPathAsArray());
-            for (String currentPathValue : pathAsList) {
-                if (actualPath == null) actualPath = YamlPath.fromGlobalPath(pathAsList.get(0));
-                else actualPath.append(currentPathValue);
-
-                for(YamlPath currentPath : yamlPathToField.keySet()) {
-                    if (actualPath.getSplitPathLength() <= 1) break;
-                    if (YamlPath.fromGlobalPath(actualPath.getWholePathExceptLastValue()).equals
-                            (YamlPath.fromGlobalPath(currentPath.getWholePathExceptLastValue())) && !actualPath.equals(currentPath)) {
-                        System.out.println("Found similar ! " + actualPath + " -- " + currentPath);
-                        System.out.println("-- Found similar ! " + actualPath + " -- " + currentPath);
-                        yamlPathToField.get(path).setParentFieldObject(yamlPathToField.get(actualPath).getFieldParentObject());
-                        break;
-                    }
-                }
-            }
-        }
-
-
-        for(YamlPath path : yamlPathToField.keySet()) {
-            YamlDeserializationObject tuple = yamlPathToField.get(path);
-            YamlPath actualPath = null;
-            List<String> pathAsList = Arrays.asList(path.retrieveParsedPathAsArray());
-            for(String currentPathValue : pathAsList) {
-                if (actualPath == null) actualPath = YamlPath.fromGlobalPath(pathAsList.get(0));
-                else actualPath.append(currentPathValue);
-                tuple = yamlPathToField.get(actualPath);
-                if(tuple == null) continue;
-                try {
-                    tuple.getAssosiatedField().setAccessible(true);
-                    if (tuple.getAssosiatedField().get(tuple.getFieldParentObject()) == null) {
-                        System.out.println("Parent object " + tuple.getFieldParentObject() + " for " + actualPath);
-                        //System.out.println("New value for " + actualPath + " -- " + path);
-                        tuple.getAssosiatedField().set(tuple.getFieldParentObject(), buildObjectFromField(tuple.getAssosiatedField()));
-                    }
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        }
-
-        for(YamlPath path : new ArrayList<>(serializedValue.keySet())) {
-            YamlDeserializationObject tuple = yamlPathToField.get(path);
-            if (tuple == null) {
-
-                YamlPath other = YamlPath.fromGlobalPath(path.getWholePathExceptLastValue());
-                tuple = yamlPathToField.get(other);
-                if(tuple == null) {
-                    System.out.println("Le mec a rien compris " + other);
-                    continue;
-                }
-                Field field = tuple.getAssosiatedField();
-                if(Collection.class.isAssignableFrom(field.getType()) || field.getType().isArray()) {
-                    Collection<Object> collection;
-                    for(int i = 0 ; i < 999 ; i++) {
-                        YamlPath newPath = other.clone().append(String.valueOf(i + 1));
-                        if(!serializedValue.containsKey(newPath)) {
-                            System.out.println("Doesn't contain " + newPath);
-                            break;
-                        } else {
-                            //System.out.println("Contain " + newPath + " -- " + serializedValue.get(newPath) + " -- ");
-                        }
-                        try {
-                            System.out.println(newPath + " -- " + serializedValue.get(newPath));
-                            collection = (Collection<Object>)field.get(tuple.getFieldParentObject());
-                            if(collection == null) {
-                                collection = new ArrayList<>();
-                                field.set(tuple.getFieldParentObject(), collection);
-                            }
-                            ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
-                            Class<?> stringListClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-                            collection.add(YamlValueParser.parseValue(serializedValue.get(newPath), stringListClass));
-
-                            if(newPath.equals(YamlPath.fromGlobalPath("innerClass.defaultListString.3"))) {
-                                System.out.println("HERERRE " + ((TestYamlObject)builtClass).getTestInnerClass().getTestListFieldString()
-                                        + " -- " + ((TestYamlObject)builtClass).getTestInnerClass() + " -- " + builtClass);
-                                System.out.println(tuple.getFieldParentObject() + " - " + field.getName() + " -- " + field.get(tuple.getFieldParentObject()));
-                            }
-
-                            if(newPath.equals(YamlPath.fromGlobalPath("innerClass.defaultListInteger.3"))) {
-                                System.out.println("HERERRE " + ((TestYamlObject)builtClass).getTestInnerClass().getTestListFieldInteger()
-                                        + " -- " + ((TestYamlObject)builtClass).getTestInnerClass()
-                                        + " -- " + builtClass);
-                                System.out.println(tuple.getFieldParentObject() + " - " + field.getName() + " -- " + field.get(tuple.getFieldParentObject()));
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        serializedValue.remove(newPath);
-                    }
-                    //System.out.println("List ouuu " + path);
-                }
-                continue;
-            }
-            //System.out.println("Allowed - " + path);
-            Field field = tuple.getAssosiatedField();
-            try {
-                field.setAccessible(true);
-                if(Collection.class.isAssignableFrom(field.getType()) || field.getType().isArray()) {
-                    field.set(tuple.getFieldParentObject(), buildObjectFromField(field));
-                } else if(TypeUtils.isNativeClass(field.getType())) {
-                    //System.out.println("Native set " + path);
-                    field.set(tuple.getFieldParentObject(), YamlValueParser.parseValue(serializedValue.get(path), field.getType()));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new ErisYamlException("Error while deserializing field ! {fieldName:" + field.getName() + "}");
-            }
-        }
-    }
-    public HashMap<YamlPath, YamlDeserializationObject> buildYamlPathToField(Collection<YamlPath> requiredPath) {
-        HashMap<YamlPath, YamlDeserializationObject> yamlPathToField = new HashMap<>();
-        for(YamlPath path : requiredPath)
-            createFieldObjectTuple(path, yamlPathToField);
-
-        System.out.println("\n\n\nHHHHHHHHHHHHHHHHHHHH\n\n\n");
-
-        HashMap<YamlPath, YamlDeserializationObject> test = new HashMap<>();
-        for(YamlPath path : requiredPath)
-            buildDeserializationObject(path, builtClass, 1, test);
-
-        System.out.println("\n\nNEWTEST\n\n");
-        System.out.println(test.toString().replace(", ", "\n"));
-        System.out.println("\n\nNEWTEST\n\n");
-
-        return yamlPathToField;
-    }
-
-    /**
-     *
-     * @param path The path where we are going to apply value if we found one in the currentObjectToSearch
-     * @param currentObjectToSearch The object where we are going to search if the path exist and if so create YamlDeserializationObject
-     */
-    public void buildDeserializationObject(YamlPath path, Object currentObjectToSearch, int pathDepth,
-                                           HashMap<YamlPath, YamlDeserializationObject> builtDeserializationObject) {
-
-        if(builtDeserializationObject == null) builtDeserializationObject = new HashMap<>();
-        YamlPath actualPath = null;
-        ReflectionHelper<?> reflectionHelper = new ReflectionHelper<>(currentObjectToSearch.getClass(), currentObjectToSearch);
-        List<Field> savableFields = reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
-
-        for(String currentPathValue : path.retrieveParsedPathAsArray()) {
-            if (savableFields.isEmpty())
-                break;
-            if(actualPath == null) {
-                actualPath = YamlPath.fromGlobalPath(path.getPathInRange(0, pathDepth));
-                if(actualPath == null) YamlPath.fromGlobalPath(currentPathValue);
-            }
-            else actualPath.append(currentPathValue);
-
-            if(actualPath == null)
-                break;
-
-            if (!builtDeserializationObject.containsKey(actualPath)) {
-                for (Field currentField : savableFields) {
-                    YamlExpose exposeAnnotation = currentField.getAnnotation(YamlExpose.class);
-                    String exposeSaveName = exposeAnnotation.yamlSaveName();
-
-                    if (TypeUtils.isArrayOrCollection(currentField.getType())) {
-                        if(actualPath.clone().removeLast().getLastPathValue().equals(exposeSaveName)) {
-                            System.out.println("field : " + currentField.getName() + " -- " + exposeSaveName
-                                    + " -- " + actualPath.clone().removeLast().getLastPathValue() + " -- " + actualPath.getLastPathValue());
-                            YamlDeserializationObject newDeserializationObject =
-                                    YamlDeserializationObject.build(currentField, currentObjectToSearch, actualPath.clone());
-                            newDeserializationObject.setFieldValue(buildObjectFromField(currentField));
-                            builtDeserializationObject.put(actualPath.clone(), newDeserializationObject);
-                            break;
-                        }
-                    } else if (exposeSaveName.equals(currentPathValue)) {
-                        YamlDeserializationObject newDeserializationObject =
-                                YamlDeserializationObject.build(currentField, currentObjectToSearch, actualPath.clone());
-                        builtDeserializationObject.put(actualPath.clone(), newDeserializationObject);
-                        if(TypeUtils.isNativeClass(currentField.getType()))
-                            break;
-                        Object fieldToObject = buildObjectFromField(currentField);
-                        newDeserializationObject.setFieldValue(fieldToObject);
-                        buildDeserializationObject(path, fieldToObject, pathDepth + 1, builtDeserializationObject);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    public void createFieldObjectTuple(YamlPath path, HashMap<YamlPath, YamlDeserializationObject> yamlPathToField) {
-        Field foundedField = null;
-        Object currentObject = builtClass;
-        List<String> pathAsList = Arrays.asList(path.retrieveParsedPathAsArray());
-
-        if(pathAsList.isEmpty()) return;
-
-        YamlPath actualPath = null;
-        for(String currentPathValue : pathAsList) {
-            if(actualPath == null) actualPath = YamlPath.fromGlobalPath(pathAsList.get(0));
-            else actualPath.append(currentPathValue);
-
-            if(actualPath.getSplitPathLength() > 1 &&
-                    yamlPathToField.containsKey(YamlPath.fromGlobalPath(actualPath.getWholePathExceptFirstValue()))) {
-                System.out.println("Setting similar for " + actualPath + " -- " + YamlPath.fromGlobalPath(actualPath.getWholePathExceptFirstValue()));
-                currentObject = yamlPathToField.get(YamlPath.fromGlobalPath(actualPath.getWholePathExceptLastValue()));
-            }
-
-            ReflectionHelper<?> reflectionHelper = new ReflectionHelper<>(currentObject.getClass(), currentObject);
-            List<Field> savableFields = reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
-
-            if(savableFields.isEmpty())
-                return;
-
-            for(Field currentField : savableFields) {
-                YamlExpose exposeAnnotation = currentField.getAnnotation(YamlExpose.class);
-                String exposeSaveName = exposeAnnotation.yamlSaveName();
-                if(currentPathValue.equals(exposeSaveName)) {
-                    if((Collection.class.isAssignableFrom(currentField.getType()) || currentField.getType().isArray())
-                            && pathAsList.indexOf(currentPathValue) == pathAsList.size() - 2) {
-                        foundedField = currentField;
-                        break;
-                    }
-                    foundedField = currentField;
-                    break;
-                }
-            }
-            if(foundedField == null)
-                throw new ErisYamlException("Error while deserializing field !");
-
-            if(!yamlPathToField.containsKey(actualPath)) {
-                yamlPathToField.put(actualPath.clone(), YamlDeserializationObject.build(foundedField, currentObject, actualPath.clone()));
-            }
-            if(Collection.class.isAssignableFrom(currentObject.getClass()) || currentObject.getClass().isArray())
-                break;
-            if(TypeUtils.isNativeClass(foundedField.getType()))
-                break;
-
-            currentObject = buildObjectFromField(foundedField);
-        }
-    }
-
     public Object buildObjectFromField(Field field) {
         if(List.class.isAssignableFrom(field.getType()))
             return new ArrayList<>();
@@ -322,6 +47,134 @@ public class YamlDeserializer<T> {
         else if(Map.class.isAssignableFrom(field.getType()))
             throw new ErisYamlException("Map is not handled yet !");
         else return new ReflectionHelper<>(field.getType()).buildClass();
+    }
+
+    public T buildObject() {
+        HashMap<YamlPath, String> serializedValue = retrieveSerializedValue();
+        HashMap<YamlPath, YamlDeserializationObject> pathToField = retrievePathToField(serializedValue);
+
+        //System.out.println(pathToField.toString().replace(", ", "\n"));
+
+        return buildClass(pathToField);
+    }
+
+    private T buildClass(HashMap<YamlPath, YamlDeserializationObject> pathToField) {
+        return null;
+    }
+
+    public HashMap<YamlPath, YamlDeserializationObject> retrievePathToField(HashMap<YamlPath, String> requestedPath) {
+
+        HashMap<YamlPath, YamlDeserializationObject> map = new HashMap<>();
+        builtClass = new ReflectionHelper<>(objectClass).buildClass();
+
+        List<YamlPath> pathToThing = new ArrayList<>(requestedPath.keySet());
+        pathToThing.sort(Comparator.comparingInt(o -> o.retrieveParsedPathAsArray().length));
+        Collections.reverse(pathToThing);
+
+        for(YamlPath path : pathToThing) {
+            YamlPath lastPath = null;
+            for(YamlPath splitPath : splitPath(path)) {
+                if(map.containsKey(splitPath.clone())) {
+                    lastPath = splitPath;
+                    continue;
+                }
+
+                YamlDeserializationObject lastObject = map.get(lastPath);
+                if(lastObject == null)
+                    lastObject = YamlDeserializationObject.build(null, builtClass, null);
+
+                if(lastObject.getAssosiatedField() != null &&
+                        Collection.class.isAssignableFrom(lastObject.getAssosiatedField().getType())) {
+                    lastObject.setObjectListValue(Integer.parseInt(splitPath.getLastPathValue()), requestedPath.get(splitPath));
+                    continue;
+                }
+
+
+                Class<?> whereToSearch = lastObject.getAssosiatedField() != null ? lastObject.getAssosiatedField().getType() : builtClass.getClass();
+                Field newField = null;
+                for(Field field : new ReflectionHelper<>(whereToSearch).findFieldWithAnnotation(YamlExpose.class)) {
+                    if(!field.getDeclaredAnnotation(YamlExpose.class).yamlSaveName().equals(splitPath.getLastPathValue())) continue;
+                    newField = field;
+                }
+
+                if(newField == null)
+                    throw new ErisYamlException("T'a le seum");
+
+                Object parentObject = null;
+                if(lastObject.getAssosiatedField() != null)
+                    parentObject = lastObject.getFieldValue();
+                else parentObject = builtClass;
+
+                YamlDeserializationObject newObject = YamlDeserializationObject.build(newField, parentObject, splitPath);
+
+                try {
+                    newObject.setFieldValue(buildObjectFromField(newField));
+                } catch (Exception ignored) {
+                    newObject.setFieldValue(YamlValueParser.parseValue(requestedPath.get(splitPath), newField.getType()));
+                    map.put(splitPath.clone(), newObject);
+                    break;
+                }
+
+                map.put(splitPath.clone(), newObject);
+                System.out.println(splitPath);
+
+                lastPath = splitPath;
+            }
+        }
+
+        for(YamlDeserializationObject deserializationObject : map.values()) {
+            deserializationObject.doCollectionThings();
+        }
+
+        System.out.println("---- " + ((TestYamlObject)builtClass).getTestInnerClass().getTestInnerClass().getTestFieldFirst());
+        System.out.println("---- " + ((TestYamlObject)builtClass).getTestInnerClass().getTestInnerClass().getTestFieldSecond());
+
+        System.out.println("---- " + ((TestYamlObject)builtClass).getTestListFieldInteger());
+        System.out.println("---- " + ((TestYamlObject)builtClass).getTestInnerClass().getTestListFieldInteger());
+        return map;
+    }
+
+    public List<YamlPath> splitPath(YamlPath path) {
+        List<YamlPath> newPath = new ArrayList<>();
+
+        List<String> splitPath = new ArrayList<>();
+
+        HashMap<Integer, UUID> indexIdMap = new HashMap<>();
+        int temp = 0;
+        for(String actualPath : path.retrieveParsedPathAsArray()) {
+            UUID uuid = UUID.randomUUID();
+            splitPath.add(actualPath + uuid);
+            indexIdMap.put(temp, uuid);
+            temp++;
+        }
+
+        List<String> newPathBuffer = new ArrayList<>();
+
+        for(int i = 0 ; i < splitPath.size() ; i++)
+            newPathBuffer.add("");
+
+        for(String actualPath : splitPath) {
+            for (int i = 0; i < splitPath.size(); i++) {
+                if (i < splitPath.indexOf(actualPath)) continue;
+                String toAdd = actualPath;
+                for(UUID value : indexIdMap.values())
+                    toAdd = toAdd.replace(value.toString(), "");
+                newPathBuffer.set(i, newPathBuffer.get(i) + (newPathBuffer.get(i).isEmpty() ? "" : YamlPath.YAML_PATH_SEPARATOR) + toAdd);
+            }
+        }
+
+        //System.out.println(newPathBuffer);
+        //System.out.println(splitPath);
+        //System.out.println(path);
+
+        for(String builtPath : newPathBuffer)
+            newPath.add(YamlPath.fromGlobalPath(builtPath));
+
+        return newPath;
+    }
+
+    public Field findFieldFromPath(YamlPath pathToFollow, Class<?> startingClass) {
+        return null;
     }
 
     public HashMap<YamlPath, String> retrieveSerializedValue() {
@@ -334,7 +187,6 @@ public class YamlDeserializer<T> {
             currentPath.add(findYamlLineName(currentLine));
 
             if(!isNextLineAnInnerYamlObject(content, currentLineIndex)) {
-                System.out.println(buildYamlPath(currentPath) + " -- " + findYamlLineValue(currentLine));
                 serializedValue.put(buildYamlPath(currentPath), findYamlLineValue(currentLine));
                 if(hasNextLine(content, currentLineIndex)) {
                     int indentationDifference =
@@ -364,20 +216,20 @@ public class YamlDeserializer<T> {
         return YamlPath.fromGlobalPath(yamlPath.toString());
     }
 
-    private int listIndex = 0;
+    private int actualListIndex = 0;
     public String findYamlLineName(String fullLine) {
         fullLine = IndentationUtils.removeIndentation(fullLine);
         if(fullLine.contains(": ")) {
-            listIndex = 0;
+            actualListIndex = 0;
             return fullLine.split(": ")[0].trim();
         } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
-            listIndex++;
-            return Integer.toString(listIndex);
+            actualListIndex++;
+            return Integer.toString(actualListIndex);
         } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
-            listIndex++;
-            return Integer.toString(listIndex);
+            actualListIndex++;
+            return Integer.toString(actualListIndex);
         } else {
-            listIndex = 0;
+            actualListIndex = 0;
             return fullLine;
         }
     }
@@ -403,9 +255,5 @@ public class YamlDeserializer<T> {
 
     public boolean hasNextLine(List<String> content, int currentLine) {
         return content.size() - 1 > currentLine;
-    }
-
-    public List<Field> getSavableField() {
-        return reflectionHelper.findFieldWithAnnotation(YamlExpose.class);
     }
 }

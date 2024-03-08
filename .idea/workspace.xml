@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializerOld.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestYamlObjectOther.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestYamlObjectOther.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocument.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/TypeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,19 +58,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/$_Project/Eris/YamlSerializer&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;background.image.plus&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/$_Project/Eris/YamlSerializer",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="fr.eris.yaml.object.serialization" />
