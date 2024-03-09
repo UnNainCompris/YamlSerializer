@@ -1,13 +1,17 @@
 package fr.eris.yaml.utils;
 
+import fr.eris.yaml.object.exception.ErisYamlException;
+import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.node.YamlNode;
+import fr.eris.yaml.object.node.iterable.list.YamlListNode;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.utils.reflection.ReflectionHelper;
 import javafx.print.Collation;
 import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.lang.reflect.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TypeUtils {
 
@@ -51,5 +55,37 @@ public class TypeUtils {
     }
     public static boolean isArrayOrCollection(Class<?> clazz) {
         return clazz.isArray() || Collection.class.isAssignableFrom(clazz);
+    }
+
+    public static Class<?> convertIfPrimitiveToObject(Class<?> type) {
+        if(type.isPrimitive()) {
+            Class<?> primitiveToObject = TypeUtils.primitiveToObject(type);
+            if (primitiveToObject != null)
+                type = primitiveToObject;
+        }
+        return type;
+    }
+
+    public static Class<? extends IYamlObject> getYamlClassFromNativeType(Class<?> clazz) {
+        if(List.class.isAssignableFrom(clazz)) {
+            return YamlListNode.class;
+        } else if(Set.class.isAssignableFrom(clazz)) {
+            return YamlSetNode.class;
+        } else if(Map.class.isAssignableFrom(clazz)) {
+            return null; //return YamlMap.class;
+        } else if(TypeUtils.isNativeClass(clazz)) {
+            return YamlNode.class;
+        }
+        return null;
+    }
+
+    public static Object buildObjectFromField(Field field) {
+        if(List.class.isAssignableFrom(field.getType()))
+            return new ArrayList<>();
+        else if(Set.class.isAssignableFrom(field.getType()))
+            return new HashSet<>();
+        else if(Map.class.isAssignableFrom(field.getType()))
+            throw new ErisYamlException("Map is not handled yet !");
+        else return new ReflectionHelper<>(field.getType()).buildClass();
     }
 }

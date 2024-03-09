@@ -1,6 +1,7 @@
 package fr.eris.yaml.object.serialization;
 
-import fr.eris.yaml.object.IYamlDocument;
+import fr.eris.yaml.api.object.serializer.YamlSerializer;
+import fr.eris.yaml.object.YamlDocumentImpl;
 import fr.eris.yaml.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
@@ -10,27 +11,28 @@ import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.YamlUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
+import lombok.Getter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class YamlSerializer<T> {
+public class YamlSerializerImpl<T> implements YamlSerializer<T> {
 
-    private final T objectToSerialize;
-    private final Class<T> objectClass;
+    @Getter private final T serializedObject;
+    @Getter private final Class<T> serializedObjectClass;
     private final ReflectionHelper<T> reflectionHelper;
 
-    private IYamlDocument serializedDocument;
+    private YamlDocumentImpl serializedDocument;
 
-    public YamlSerializer(T objectToSerialize) {
-        this.objectToSerialize = objectToSerialize;
-        this.objectClass = (Class<T>) objectToSerialize.getClass();
-        this.reflectionHelper = new ReflectionHelper<>(objectClass);
+    public YamlSerializerImpl(T serializedObject) {
+        this.serializedObject = serializedObject;
+        this.serializedObjectClass = (Class<T>) serializedObject.getClass();
+        this.reflectionHelper = new ReflectionHelper<>(serializedObjectClass);
     }
 
-    public IYamlDocument serialize() {
-        serializedDocument = new IYamlDocument();
+    public YamlDocumentImpl serialize() {
+        serializedDocument = new YamlDocumentImpl();
 
         build();
 
@@ -40,7 +42,7 @@ public class YamlSerializer<T> {
     public void build() {
         for(Field field : getSavableField()) {
             validateNewField(field);
-            IYamlObject newRoot = buildYamlObjectFromField(field, objectToSerialize);
+            IYamlObject newRoot = buildYamlObjectFromField(field, serializedObject);
             if(newRoot == null) continue;
             serializedDocument.addRootObject(newRoot);
         }
@@ -92,7 +94,7 @@ public class YamlSerializer<T> {
                         Arrays.asList((Object[]) fieldValue) : ((List<Object>) fieldValue);
                 for(Object object : fieldListContent) {
                     ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
-                    IYamlObject newListElement = getYamlClassFromNativeType(object.getClass())
+                    IYamlObject newListElement = TypeUtils.getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance(String.valueOf(fieldListContent.indexOf(object)));
                     YamlUtils.setValueToYamlObject(newListElement, object);
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
@@ -106,7 +108,7 @@ public class YamlSerializer<T> {
                         new HashSet<>(Arrays.asList((Object[]) fieldValue)) : ((Set<Object>) fieldValue);
                 for(Object object : fieldSetContent) {
                     ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
-                    IYamlObject newSetElement = getYamlClassFromNativeType(object.getClass())
+                    IYamlObject newSetElement = TypeUtils.getYamlClassFromNativeType(object.getClass())
                             .getDeclaredConstructor(String.class).newInstance("NoNeedName");
                     YamlUtils.setValueToYamlObject(newSetElement, object);
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
@@ -129,19 +131,6 @@ public class YamlSerializer<T> {
             throw new ErisYamlException("Error while parsing !");
         }
         return newObject;
-    }
-
-    public Class<? extends IYamlObject> getYamlClassFromNativeType(Class<?> clazz) {
-        if(List.class.isAssignableFrom(clazz)) {
-            return YamlListNode.class;
-        } else if(Set.class.isAssignableFrom(clazz)) {
-            return YamlSetNode.class;
-        } else if(Map.class.isAssignableFrom(clazz)) {
-            return null; //return YamlMap.class;
-        } else if(TypeUtils.isNativeClass(clazz)) {
-            return YamlNode.class;
-        }
-        return null;
     }
 
     public List<Field> getSavableField() {

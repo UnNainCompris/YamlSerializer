@@ -1,28 +1,25 @@
 package fr.eris.yaml.object;
 
+import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.path.YamlPath;
-import fr.eris.yaml.object.serialization.YamlDeserializer;
-import fr.eris.yaml.object.serialization.YamlDeserializerOld;
-import fr.eris.yaml.object.serialization.YamlSerializer;
 import fr.eris.yaml.utils.YamlUtils;
 
 import java.util.HashMap;
 
-public class YamlDocument {
+public class YamlDocumentImpl implements YamlDocument {
 
     private final HashMap<String, IYamlObject> rootObjects;
 
-    public YamlDocument() {
+    public YamlDocumentImpl() {
         rootObjects = new HashMap<>();
     }
 
     public void addRootObject(IYamlObject newRootObject) {
         if(rootObjects.containsKey(newRootObject.getName()))
             throw new ErisYamlException("Cannot have root object with same name");
-        
         rootObjects.put(newRootObject.getName(), newRootObject);
     }
     
@@ -30,10 +27,6 @@ public class YamlDocument {
         rootObjects.remove(rootObjectName);
     }
 
-    public static <T> YamlDocument generateFromClass(T clazz) {
-        return new YamlSerializer<>(clazz).serialize();
-    }
-    
     public String serialize() {
         StringBuilder serializedDocument = new StringBuilder();
 
@@ -44,22 +37,7 @@ public class YamlDocument {
         return serializedDocument.toString();
     }
 
-    public <T> T deserialize(Class<T> deserializationClassType) {
-        return new YamlDeserializerOld<T>(serialize(), deserializationClassType).retrieveClass();
-    }
-
-    public <T extends IYamlObject> T retrieveObject(String yamlObjectName, Class<T> yamlObjectType) {
-        IYamlObject foundedObject = rootObjects.get(yamlObjectName);
-        if(foundedObject == null) return null;
-        if(yamlObjectType.isAssignableFrom(foundedObject.getClass())) {
-            return yamlObjectType.cast(foundedObject);
-        } else {
-            throw new ErisYamlException("Illegal class type for " + yamlObjectName + " {Class type requested: " 
-                    + yamlObjectType + " ; real class type: " + foundedObject.getClass() + "}");
-        }
-    }
-
-    public <T extends IYamlObject> T retrieveAnyObject(YamlPath pathToObject, Class<T> yamlObjectType) {
+    public <T extends IYamlObject> T retrieveObject(YamlPath pathToObject, Class<T> yamlObjectType) {
         IYamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
         for(String objectName : pathToObject.retrieveParsedPathAsArray()) {
             if(lastObject == null) break;
@@ -75,12 +53,16 @@ public class YamlDocument {
         return yamlObjectType.cast(lastObject);
     }
 
-    public IYamlObject retrieveAnyObject(YamlPath pathToObject) {
-        return retrieveAnyObject(pathToObject, IYamlObject.class);
+    public IYamlObject retrieveObject(YamlPath pathToObject) {
+        return retrieveObject(pathToObject, IYamlObject.class);
     }
 
-    public IYamlObject retrieveObject(String yamlObjectName) {
-        return retrieveObject(yamlObjectName, IYamlObject.class);
+    public IYamlObject retrieveObject(String pathToObject) {
+        return retrieveObject(YamlPath.fromGlobalPath(pathToObject), IYamlObject.class);
+    }
+
+    public <T extends IYamlObject> T retrieveObject(String pathToObject, Class<T> yamlObjectType) {
+        return retrieveObject(YamlPath.fromGlobalPath(pathToObject), yamlObjectType);
     }
 
     public void set(String path, Object value) {
