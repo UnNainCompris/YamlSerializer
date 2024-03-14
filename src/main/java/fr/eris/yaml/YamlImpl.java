@@ -2,10 +2,12 @@ package fr.eris.yaml;
 
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
-import fr.eris.yaml.api.object.parser.YamlParser;
+import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.api.object.value.YamlValue;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.parser.YamlParserImpl;
+import fr.eris.yaml.object.serialization.YamlDeserializerImpl;
+import fr.eris.yaml.object.serialization.YamlSerializerImpl;
 import fr.eris.yaml.object.value.YamlValueParser;
 import lombok.Getter;
 
@@ -33,21 +35,23 @@ public class YamlImpl implements Yaml {
     }
 
     public String serializeObject(Object toSerialize) {
-        YamlDocument document = new YamlSerializer<>(toSerialize).serialize();
+        YamlDocument document = new YamlSerializerImpl<>(toSerialize).serialize();
         return document.serialize();
     }
 
-    public <T> T deserializeObject(Class<T> clazz, String serializedData) {
-        return null;
-    }
-
     public YamlDocument createDocumentFromObject(Object object) {
-        YamlSerializer<?> yamlSerializer = new YamlSerializer<>(object);
+        YamlSerializerImpl<?> yamlSerializer = new YamlSerializerImpl<>(object);
         return yamlSerializer.serialize();
     }
 
     public <T> T deserializeDocument(Class<T> clazz, YamlDocument document) {
-        return null;
+        YamlDeserializer<T> yamlDeserializer = new YamlDeserializerImpl<>(document.serialize(), clazz);
+        return yamlDeserializer.buildObject();
+    }
+
+    public <T> T deserializeData(Class<T> clazz, String serializedData) {
+        YamlDeserializer<T> yamlDeserializer = new YamlDeserializerImpl<>(serializedData, clazz);
+        return yamlDeserializer.buildObject();
     }
 
 }

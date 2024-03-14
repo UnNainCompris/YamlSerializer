@@ -46,7 +46,7 @@ public class YamlDocumentImpl implements YamlDocument {
             lastObject = currentObject;
         }
         if(lastObject == null) return null;
-        if(!lastObject.getClass().isAssignableFrom(yamlObjectType)) {
+        if(!yamlObjectType.isAssignableFrom(lastObject.getClass())) {
             throw new ErisYamlException("The requested value was not the right type of value ! " +
                     "{Requested=" + yamlObjectType + ";Given=" + lastObject.getClass() + "}");
         }

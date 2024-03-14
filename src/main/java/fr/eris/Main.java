@@ -2,13 +2,14 @@ package fr.eris;
 
 import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
-import fr.eris.yaml.object.YamlDocument;
+import fr.eris.yaml.api.Yaml;
+import fr.eris.yaml.api.object.YamlDocument;
+import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
 import fr.eris.yaml.object.path.YamlPath;
-import fr.eris.yaml.object.serialization.YamlDeserializer;
 import fr.eris.yaml.utils.IndentationUtils;
 
 import java.util.Arrays;
@@ -114,7 +115,7 @@ public class Main {
         testYamlObject.applyInnerOtherClass();
         testYamlObject.getTestInnerClass().setTestFieldSecond("TestInnerSecond");
         testYamlObject.getTestInnerClass().setTestFieldFirst("TestInnerFirst");
-        YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlObject);
         System.out.println(document.serialize());
 
         System.out.println("\n  -- </YAML SERIALIZER> --  \n");
@@ -138,7 +139,7 @@ public class Main {
         testYamlObject.getTestInnerClass().getTestInnerClass().setTestFieldFirst("TestDoubleInner1");
         //testYamlObject.getTestInnerClass().applyTestListField("SERIRIRIEJHD");
         testYamlObject.setTestFieldFirst("HEREDESERIALIZED");
-        YamlDocument document = YamlDocument.generateFromClass(testYamlObject);
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlObject);
         document.set("innerClass.defaultListInteger", Arrays.asList(1, 2, 999));
         String serializedDocument = document.serialize();
 
@@ -147,8 +148,9 @@ public class Main {
         //TestYamlObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlObject.class).retrieveClass();
         //YamlDocument deserializedDocument = YamlDocument.generateFromClass(deserializedObject);
 
-        System.out.println("Deserialized document: \n\n" + new YamlDeserializer<>(serializedDocument, TestYamlObject.class)
-                .buildObject());
+        TestYamlObject objectDeserializer = Yaml.getYaml().deserializeData(TestYamlObject.class, serializedDocument);
+
+        System.out.println("Deserialized document: \n\n" + objectDeserializer);
 
         System.out.println("\n  -- </YAML DESERIALIZER> --  \n");
     }
@@ -158,7 +160,7 @@ public class Main {
 
         TestYamlTypeObject testYamlTypeObject = new TestYamlTypeObject();
         testYamlTypeObject.printAll();
-        YamlDocument document = YamlDocument.generateFromClass(testYamlTypeObject);
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlTypeObject);
 
         document.set(YamlPath.fromGlobalPath("byteValueField"), 0);
         document.set(YamlPath.fromGlobalPath("test.attempt"), 0);
