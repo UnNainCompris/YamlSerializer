@@ -40,10 +40,13 @@ public class TestYamlTypeObject {
     @Setter @Getter private byte byteValue = 5;
 
     public void printAll() {
+
+        System.out.println("\nPRINT ALL\n");
+
         for(Field field : this.getClass().getDeclaredFields()) {
             try {
-                if(field.getType().isPrimitive())
-                    System.out.println(TypeUtils.primitiveToObject(field.getType()));
+                //if(field.getType().isPrimitive())
+                //    System.out.println(TypeUtils.primitiveToObject(field.getType()));
                 System.out.println(field.getName() + " -- " + field.get(this) + " (" + field.getType().getCanonicalName() + ")");
             } catch (Exception e) {
                 e.printStackTrace();

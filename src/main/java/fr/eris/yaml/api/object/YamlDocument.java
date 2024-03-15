@@ -16,5 +16,21 @@ public interface YamlDocument {
     void set(YamlPath path, Object value);
     void set(String path, Object value);
 
+    Object get(YamlPath path);
+    Object get(String path);
+
+    <T> T get(YamlPath path, Class<T> classCast);
+    <T> T get(String path, Class<T> classCast);
+
+    boolean isType(String path, Class<?> requestedType);
+    boolean contains(String path);
+
+    String getString(String path);
+    double getDouble(String path);
+    float getFloat(String path);
+    long getLong(String path);
+    int getInt(String path);
+    short getShort(String path);
+    byte getByte(String path);
 
 }

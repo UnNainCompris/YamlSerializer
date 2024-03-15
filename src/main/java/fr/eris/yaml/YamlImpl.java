@@ -4,6 +4,7 @@ import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.api.object.value.YamlValue;
+import fr.eris.yaml.object.YamlDocumentImpl;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.parser.YamlParserImpl;
 import fr.eris.yaml.object.serialization.YamlDeserializerImpl;
@@ -32,6 +33,10 @@ public class YamlImpl implements Yaml {
             throw new ErisYamlException("A yaml value cannot be register twice in the parser !");
 
         yamlValueParser.registerNewValue(newYamlValue);
+    }
+
+    public YamlDocument createEmptyDocument() {
+        return new YamlDocumentImpl();
     }
 
     public String serializeObject(Object toSerialize) {

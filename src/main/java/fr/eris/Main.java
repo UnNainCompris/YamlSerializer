@@ -23,7 +23,8 @@ public class Main {
         testYamlMap();
         testSerializer();
         testDeserializer();
-        //testDeserializerType();
+        testDeserializerType();
+        rawDocumentCreation();
     }
 
     public void testIndentationUtils() {
@@ -162,17 +163,39 @@ public class Main {
         testYamlTypeObject.printAll();
         YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlTypeObject);
 
-        document.set(YamlPath.fromGlobalPath("byteValueField"), 0);
+        document.set(YamlPath.fromGlobalPath("byteValueField"), Byte.MAX_VALUE);
         document.set(YamlPath.fromGlobalPath("test.attempt"), 0);
         //document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).setValue(0);
         //System.out.println(document.retrieveAnyObject(YamlPath.fromGlobalPath("byteValueField"), YamlNode.class).getValue());
 
         String serializedDocument = document.serialize();
         System.out.println(serializedDocument);
-        //TestYamlTypeObject deserializedObject = new YamlDeserializer<>(serializedDocument, TestYamlTypeObject.class).retrieveClass();
-        //deserializedObject.printAll();
+        TestYamlTypeObject deserializedObject = Yaml.getYaml().deserializeData(TestYamlTypeObject.class, serializedDocument);
+        deserializedObject.printAll();
 
 
         System.out.println("\n  -- </YAML DESERIALIZER TYPE> --  \n");
+    }
+
+    public void rawDocumentCreation() {
+        System.out.println("\n  -- <YAML RAW DOCUMENT CREATION> --  \n");
+
+
+        YamlDocument document = Yaml.getYaml().createEmptyDocument();
+
+        document.set("test.value", 10);
+        document.set("test.value2", 200);
+        document.set("test.test.test.list", Arrays.asList("BigTest1", "BigTest2", "BigTest3"));
+        document.set("list", Arrays.asList("Test1", "Test2", "Test3"));
+
+        System.out.println("Document content: \n\n" + document.serialize());
+
+        System.out.println("Value of test.value = " + document.get("test.value"));
+        System.out.println("Value of test.value2 = " + document.get("test.value2"));
+        System.out.println("Value of test.test.test.list = " + document.get("test.test.test.list"));
+        System.out.println("Value of list = " + document.get("list"));
+
+
+        System.out.println("\n  -- </YAML RAW DOCUMENT CREATION> --  \n");
     }
 }

@@ -5,6 +5,7 @@ import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.api.object.parser.YamlParser;
 import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.api.object.value.YamlValue;
+import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.YamlDeserializerImpl;
 import fr.eris.yaml.object.value.YamlValueParser;
 
@@ -26,4 +27,6 @@ public interface Yaml {
     <T> T deserializeData(Class<T> clazz, String serializedData);
 
     <T extends YamlValue<?>> void loadYamlValue(T newYamlValue);
+
+    YamlDocument createEmptyDocument();
 }

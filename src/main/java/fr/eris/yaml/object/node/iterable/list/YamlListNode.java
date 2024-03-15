@@ -38,6 +38,10 @@ public class YamlListNode<V extends IYamlObject> extends IYamlObject {
         }
     }
 
+    public List<V> get() {
+        return new ArrayList<>(values);
+    }
+
     public String serialize(int indentationLevel) {
         validateNode();
         StringBuilder serializedNode = new StringBuilder();

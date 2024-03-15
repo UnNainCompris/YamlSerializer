@@ -58,4 +58,17 @@ public class YamlUtils {
         return objectToReturn;
     }
 
+    public static Object getYamlObjectValue(IYamlObject object) {
+        if(object instanceof YamlListNode<?>)
+            return ((YamlListNode<?>) object).get();
+        if(object instanceof YamlSetNode<?>)
+            return ((YamlSetNode<?>) object).get();
+        if(object instanceof YamlNode<?>)
+            return ((YamlNode<?>) object).getValue();
+        if(object instanceof YamlMap<?, ?>)
+            throw new ErisYamlException("Map aren't implemented yet");
+
+        throw new ErisYamlException("Invalid Yaml object");
+    }
+
 }

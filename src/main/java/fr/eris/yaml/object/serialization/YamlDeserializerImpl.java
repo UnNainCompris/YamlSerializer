@@ -68,8 +68,10 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
                     newField = field;
                 }
 
-                if(newField == null)
-                    throw new ErisYamlException("Error while deserializing field");
+                if(newField == null) {
+                    System.out.println("|INVALID DOCUMENT| Unable to find an associated field for the path: " + path);
+                    continue;
+                }
 
                 Object parentObject;
                 if(lastObject.getAssosiatedField() != null)

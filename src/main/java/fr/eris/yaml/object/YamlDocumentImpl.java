@@ -4,6 +4,9 @@ import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
+import fr.eris.yaml.object.node.iterable.list.YamlListNode;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.node.map.YamlMap;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.YamlUtils;
 
@@ -22,8 +25,8 @@ public class YamlDocumentImpl implements YamlDocument {
             throw new ErisYamlException("Cannot have root object with same name");
         rootObjects.put(newRootObject.getName(), newRootObject);
     }
-    
-    public void removeRootObject(String rootObjectName) {
+
+    private void removeRootObject(String rootObjectName) {
         rootObjects.remove(rootObjectName);
     }
 
@@ -39,7 +42,7 @@ public class YamlDocumentImpl implements YamlDocument {
 
     public <T extends IYamlObject> T retrieveObject(YamlPath pathToObject, Class<T> yamlObjectType) {
         IYamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
-        for(String objectName : pathToObject.retrieveParsedPathAsArray()) {
+        for(String objectName : pathToObject.getWholePathExceptFirstValue()) {
             if(lastObject == null) break;
             IYamlObject currentObject = lastObject.getChild(objectName);
             if(currentObject == null) break;
@@ -92,5 +95,62 @@ public class YamlDocumentImpl implements YamlDocument {
         if(currentObject == null)
             throw new ErisYamlException("Cannot add children to a object that is null");
         YamlUtils.setValueToYamlObject(currentObject, value);
+    }
+
+    public Object get(YamlPath path) {
+        try {
+            return YamlUtils.getYamlObjectValue(retrieveObject(path));
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    public Object get(String path) {
+        return get(YamlPath.fromGlobalPath(path));
+    }
+
+    public <T> T get(YamlPath path, Class<T> classCast) {
+        return classCast.cast(get(path));
+    }
+    public <T> T get(String path, Class<T> classCast) {
+        return classCast.cast(get(path));
+    }
+
+    public boolean isType(String path, Class<?> requestedType) {
+        Object rawTargetObject = get(path);
+        if(rawTargetObject == null) return false;
+        return requestedType.isAssignableFrom(rawTargetObject.getClass());
+    }
+
+    public boolean contains(String path) {
+        return get(path) != null;
+    }
+
+    public String getString(String path) {
+        return get(path, String.class);
+    }
+
+    public double getDouble(String path) {
+        return get(path, double.class);
+    }
+
+    public float getFloat(String path) {
+        return get(path, float.class);
+    }
+
+    public long getLong(String path) {
+        return get(path, long.class);
+    }
+
+    public int getInt(String path) {
+        return get(path, int.class);
+    }
+
+    public short getShort(String path) {
+        return get(path, short.class);
+    }
+
+    public byte getByte(String path) {
+        return get(path, byte.class);
     }
 }

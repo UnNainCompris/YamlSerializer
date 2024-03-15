@@ -32,6 +32,10 @@ public class YamlSetNode<V extends IYamlObject> extends IYamlObject {
         this.values = newValues;
     }
 
+    public Set<V> get() {
+        return new HashSet<>(values);
+    }
+
     public void validateNode() {
         if(!children.isEmpty()) {
             throw new ErisYamlException("A set node cannot have children !");
