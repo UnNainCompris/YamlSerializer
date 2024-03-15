@@ -15,4 +15,11 @@ import java.lang.annotation.Target;
 public @interface YamlExpose {
     String yamlSaveName() default "";
     boolean serializeEvenIfNull() default false;
+
+    /**
+     * If true on deserialization if the field is not found inside the serialized data
+     * we use the default value of the field if set to false we set it to null.
+     * @return
+     */
+    boolean useDefaultValue() default false;
 }

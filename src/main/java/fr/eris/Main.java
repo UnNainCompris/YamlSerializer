@@ -4,7 +4,6 @@ import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
-import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.object.impl.IYamlObject;
 import fr.eris.yaml.object.node.YamlNode;
 import fr.eris.yaml.object.node.iterable.list.YamlListNode;

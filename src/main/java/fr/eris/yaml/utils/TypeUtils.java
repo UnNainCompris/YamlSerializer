@@ -38,7 +38,7 @@ public class TypeUtils {
         if(Integer.class.isAssignableFrom(clazz)) return int.class;
         if(Short.class.isAssignableFrom(clazz)) return short.class;
         if(Byte.class.isAssignableFrom(clazz)) return byte.class;
-        return null;
+        return clazz;
     }
 
     public static Class<?> primitiveToObject(Class<?> clazz) {
@@ -87,5 +87,17 @@ public class TypeUtils {
         else if(Map.class.isAssignableFrom(field.getType()))
             throw new ErisYamlException("Map is not handled yet !");
         else return new ReflectionHelper<>(field.getType()).buildClass();
+    }
+
+    public static Object getDefaultNativeValue(Class<?> clazz) {
+        if(boolean.class.isAssignableFrom(clazz)) return false;
+        if(double.class.isAssignableFrom(clazz)) return 0d;
+        if(float.class.isAssignableFrom(clazz)) return 0f;
+        if(long.class.isAssignableFrom(clazz)) return 0L;
+        if(int.class.isAssignableFrom(clazz)) return 0;
+        if(short.class.isAssignableFrom(clazz)) return ((short) 0);
+        if(byte.class.isAssignableFrom(clazz)) return ((byte) 0);
+        if(String.class.isAssignableFrom(clazz)) return "";
+        return null;
     }
 }

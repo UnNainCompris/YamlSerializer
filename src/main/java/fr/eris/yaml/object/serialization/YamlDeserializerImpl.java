@@ -12,6 +12,7 @@ import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 import lombok.Getter;
+import org.omg.SendingContext.RunTime;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -60,11 +61,24 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
                     continue;
                 }
 
-
+                Object whereToSearchObject = lastObject.getAssosiatedField() != null ? lastObject.getFieldValue() : builtClass;
                 Class<?> whereToSearch = lastObject.getAssosiatedField() != null ? lastObject.getAssosiatedField().getType() : builtClass.getClass();
                 Field newField = null;
                 for(Field field : new ReflectionHelper<>(whereToSearch).findFieldWithAnnotation(YamlExpose.class)) {
-                    if(!field.getDeclaredAnnotation(YamlExpose.class).yamlSaveName().equals(splitPath.getLastPathValue())) continue;
+                    YamlExpose yamlExpose = field.getDeclaredAnnotation(YamlExpose.class);
+                    if(!yamlExpose.yamlSaveName().equals(splitPath.getLastPathValue())) continue;
+                    if(!yamlExpose.useDefaultValue()) {
+                        field.setAccessible(true);
+                        try {
+                            if(TypeUtils.isNativeClass(field.getType())) {
+                                field.set(whereToSearchObject, TypeUtils.getDefaultNativeValue(field.getType()));
+                            } else {
+                                field.set(whereToSearchObject, null);
+                            }
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                     newField = field;
                 }
 

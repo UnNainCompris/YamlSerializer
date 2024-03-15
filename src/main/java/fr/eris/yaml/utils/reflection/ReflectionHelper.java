@@ -12,12 +12,6 @@ import java.util.List;
 
 public class ReflectionHelper<T> {
 
-    static {
-        defaultConfiguration = new ReflectionConfiguration();
-    }
-
-    public static final ReflectionConfiguration defaultConfiguration;
-    private ReflectionConfiguration currentConfiguration;
     private final Class<T> targetClass;
     private final Object targetObject;
 
