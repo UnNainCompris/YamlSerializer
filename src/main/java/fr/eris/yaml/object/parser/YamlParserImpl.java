@@ -1,8 +1,8 @@
 package fr.eris.yaml.object.parser;
 
 import fr.eris.yaml.api.object.parser.YamlParser;
-import fr.eris.yaml.object.node.iterable.list.YamlListNode;
-import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.node.iterable.list.YamlListNodeImpl;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNodeImpl;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
 
@@ -58,10 +58,10 @@ public class YamlParserImpl implements YamlParser {
         if(fullLine.contains(": ")) {
             actualListIndex = 0;
             return fullLine.split(": ")[0].trim();
-        } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
+        } else if(fullLine.startsWith(YamlSetNodeImpl.ELEMENT_PREFIX)) {
             actualListIndex++;
             return Integer.toString(actualListIndex);
-        } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
+        } else if(fullLine.startsWith(YamlListNodeImpl.ELEMENT_PREFIX)) {
             actualListIndex++;
             return Integer.toString(actualListIndex);
         } else {
@@ -74,10 +74,10 @@ public class YamlParserImpl implements YamlParser {
         fullLine = IndentationUtils.removeIndentation(fullLine);
         if(fullLine.contains(": ")) {
             return fullLine.split(": ")[1];
-        } else if(fullLine.startsWith(YamlSetNode.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlSetNode.ELEMENT_PREFIX, "");
-        } else if(fullLine.startsWith(YamlListNode.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlListNode.ELEMENT_PREFIX, "");
+        } else if(fullLine.startsWith(YamlSetNodeImpl.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlSetNodeImpl.ELEMENT_PREFIX, "");
+        } else if(fullLine.startsWith(YamlListNodeImpl.ELEMENT_PREFIX)) {
+            return fullLine.replaceFirst(YamlListNodeImpl.ELEMENT_PREFIX, "");
         } else {
             return fullLine;
         }

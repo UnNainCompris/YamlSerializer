@@ -1,6 +1,6 @@
 package fr.eris.yaml.object.comment;
 
-import fr.eris.yaml.object.impl.YamlSerializable;
+import fr.eris.yaml.api.object.YamlSerializable;
 
 public abstract class YamlComment implements YamlSerializable {
     public static final String YAML_COMMENT_CHAR = "#";

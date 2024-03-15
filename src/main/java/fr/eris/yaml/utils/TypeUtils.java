@@ -1,14 +1,11 @@
 package fr.eris.yaml.utils;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
-import fr.eris.yaml.object.impl.IYamlObject;
-import fr.eris.yaml.object.node.YamlNode;
-import fr.eris.yaml.object.node.iterable.list.YamlListNode;
-import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.impl.YamlObjectImpl;
+import fr.eris.yaml.object.node.YamlNodeImpl;
+import fr.eris.yaml.object.node.iterable.list.YamlListNodeImpl;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNodeImpl;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
-import javafx.print.Collation;
-import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -66,15 +63,15 @@ public class TypeUtils {
         return type;
     }
 
-    public static Class<? extends IYamlObject> getYamlClassFromNativeType(Class<?> clazz) {
+    public static Class<? extends YamlObjectImpl> getYamlClassFromNativeType(Class<?> clazz) {
         if(List.class.isAssignableFrom(clazz)) {
-            return YamlListNode.class;
+            return YamlListNodeImpl.class;
         } else if(Set.class.isAssignableFrom(clazz)) {
-            return YamlSetNode.class;
+            return YamlSetNodeImpl.class;
         } else if(Map.class.isAssignableFrom(clazz)) {
             return null; //return YamlMap.class;
         } else if(TypeUtils.isNativeClass(clazz)) {
-            return YamlNode.class;
+            return YamlNodeImpl.class;
         }
         return null;
     }

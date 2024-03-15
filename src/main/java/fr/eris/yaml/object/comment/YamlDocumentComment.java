@@ -1,8 +1,5 @@
 package fr.eris.yaml.object.comment;
 
-import fr.eris.yaml.object.annotation.YamlCommentPlacement;
-import fr.eris.yaml.object.impl.YamlSerializable;
-
 import java.util.Arrays;
 
 /**

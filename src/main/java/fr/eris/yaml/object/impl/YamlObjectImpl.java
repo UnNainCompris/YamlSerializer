@@ -1,27 +1,25 @@
 package fr.eris.yaml.object.impl;
 
-import fr.eris.yaml.object.annotation.YamlCommentPlacement;
+import fr.eris.yaml.api.object.YamlObject;
+import fr.eris.yaml.api.object.YamlSerializable;
+import fr.eris.yaml.api.object.annotation.YamlCommentPlacement;
 import fr.eris.yaml.object.comment.YamlObjectComment;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.path.YamlPath;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public abstract class IYamlObject implements YamlSerializable {
+public abstract class YamlObjectImpl implements YamlObject {
 
     @Getter protected final String name;
     @Setter protected String prefix; // use to set prefix and replace the name (used for list & set management)
-    protected IYamlObject parent;
+    protected YamlObjectImpl parent;
     @Setter protected YamlObjectComment comment;
-    protected final HashMap<String, IYamlObject> children;
+    protected final HashMap<String, YamlObjectImpl> children;
 
-    public abstract void validateNode();
-
-    public IYamlObject(String name) {
+    public YamlObjectImpl(String name) {
         prefix = "";
         this.name = name;
         validateName();
@@ -37,9 +35,9 @@ public abstract class IYamlObject implements YamlSerializable {
         }
     }
 
-    public void addChildren(IYamlObject... newChildren) {
+    public void addChildren(YamlObjectImpl... newChildren) {
         if(newChildren == null) return;
-        for(IYamlObject child : newChildren) {
+        for(YamlObjectImpl child : newChildren) {
             if(child == null)
                 throw new ErisYamlException("Cannot add children that is null ! {parent:" + this.getName() + "}");
             if(child.getName() == null)
@@ -64,7 +62,11 @@ public abstract class IYamlObject implements YamlSerializable {
         return "";
     }
 
-    public IYamlObject getChild(String objectName) {
+    public String toString() {
+        return serialize(0);
+    }
+
+    public YamlObjectImpl getChild(String objectName) {
         return children.get(objectName);
     }
 

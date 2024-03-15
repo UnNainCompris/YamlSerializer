@@ -1,26 +1,25 @@
-package fr.eris.yaml.object.node.iterable.list;
+package fr.eris.yaml.object.node.iterable.set;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
-import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.utils.IndentationUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Use to represent ArrayList, List... as yaml
+ * Use to represent Collection, Set... as yaml
  * The only difference between set and list is the order of element
  * list have a right ordered list and set not on deserialization the list or set is adapt from the class field
  * or by default to a list
  */
-public class YamlListNode<V extends IYamlObject> extends IYamlObject {
-
+public class YamlSetNodeImpl<V extends YamlObjectImpl> extends YamlObjectImpl {
     public static final String ELEMENT_PREFIX = "- ";
-    private List<V> values;
+    private Set<V> values;
 
-    public YamlListNode(String objectName) {
+    public YamlSetNodeImpl(String objectName) {
         super(objectName);
-        values = new ArrayList<>();
+        values = new HashSet<>();
     }
 
     public void add(V newElement) {
@@ -28,31 +27,30 @@ public class YamlListNode<V extends IYamlObject> extends IYamlObject {
         newElement.setPrefix(ELEMENT_PREFIX);
     }
 
-    public void set(List<V> newValues) {
+    public void set(Set<V> newValues) {
         this.values = newValues;
+    }
+
+    public Set<V> get() {
+        return new HashSet<>(values);
     }
 
     public void validateNode() {
         if(!children.isEmpty()) {
-            throw new ErisYamlException("A list node cannot have children !");
+            throw new ErisYamlException("A set node cannot have children !");
         }
-    }
-
-    public List<V> get() {
-        return new ArrayList<>(values);
     }
 
     public String serialize(int indentationLevel) {
         validateNode();
         StringBuilder serializedNode = new StringBuilder();
         serializedNode.append(IndentationUtils.createIndentation(indentationLevel));
-
         if(prefix.isEmpty()) serializedNode.append(name).append(": ");
         else serializedNode.append(prefix);
 
 
-        for(V value : values) {
-            serializedNode.append("\n").append(value.serialize(indentationLevel + 1));
+        for(YamlObjectImpl child : values) {
+            serializedNode.append("\n").append(child.serialize(indentationLevel + 1));
         }
         return serializedNode.toString();
     }

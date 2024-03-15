@@ -1,4 +1,4 @@
-package fr.eris.yaml.object.annotation;
+package fr.eris.yaml.api.object.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

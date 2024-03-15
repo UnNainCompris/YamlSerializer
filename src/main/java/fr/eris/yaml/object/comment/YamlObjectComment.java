@@ -1,11 +1,8 @@
 package fr.eris.yaml.object.comment;
 
-import fr.eris.yaml.object.annotation.YamlCommentPlacement;
-import fr.eris.yaml.object.impl.YamlSerializable;
+import fr.eris.yaml.api.object.annotation.YamlCommentPlacement;
 import fr.eris.yaml.utils.IndentationUtils;
 import lombok.Getter;
-
-import java.util.Arrays;
 
 public class YamlObjectComment extends YamlComment {
     @Getter private final YamlCommentPlacement yamlCommentPlacement;

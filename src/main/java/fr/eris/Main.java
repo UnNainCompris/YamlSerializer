@@ -4,10 +4,10 @@ import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
-import fr.eris.yaml.object.impl.IYamlObject;
-import fr.eris.yaml.object.node.YamlNode;
-import fr.eris.yaml.object.node.iterable.list.YamlListNode;
-import fr.eris.yaml.object.node.iterable.set.YamlSetNode;
+import fr.eris.yaml.object.impl.YamlObjectImpl;
+import fr.eris.yaml.object.node.YamlNodeImpl;
+import fr.eris.yaml.object.node.iterable.list.YamlListNodeImpl;
+import fr.eris.yaml.object.node.iterable.set.YamlSetNodeImpl;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
 
@@ -40,14 +40,14 @@ public class Main {
     public void testYamlNode() {
         System.out.println("  -- <YAML NODE> --  \n");
 
-        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
-        IYamlObject lastNode = rootNode;
+        YamlNodeImpl<?> rootNode = YamlNodeImpl.buildEmptyNode("RootNode");
+        YamlObjectImpl lastNode = rootNode;
         for(int i = 1 ; i <= 5 ; i++) {
-            YamlNode<?> newNode = YamlNode.buildEmptyNode("ChildNode{" + i + "}");
+            YamlNodeImpl<?> newNode = YamlNodeImpl.buildEmptyNode("ChildNode{" + i + "}");
             lastNode.addChildren(newNode);
             lastNode = newNode;
         }
-        lastNode.addChildren(new YamlNode<>("LastNode", "Here a value"));
+        lastNode.addChildren(new YamlNodeImpl<>("LastNode", "Here a value"));
 
         System.out.println(rootNode.serialize(0));
 
@@ -57,12 +57,12 @@ public class Main {
     public void testYamlList() {
         System.out.println("  -- <YAML LIST> --  \n");
 
-        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
-        YamlListNode<YamlNode<String>> listNode = new YamlListNode<>("ListNode");
+        YamlNodeImpl<?> rootNode = YamlNodeImpl.buildEmptyNode("RootNode");
+        YamlListNodeImpl<YamlNodeImpl<String>> listNode = new YamlListNodeImpl<>("ListNode");
         rootNode.addChildren(listNode);
 
         for(int i = 1 ; i <= 5 ; i++) {
-            YamlNode<String> newNode = new YamlNode<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
+            YamlNodeImpl<String> newNode = new YamlNodeImpl<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
             listNode.add(newNode);
         }
 
@@ -74,12 +74,12 @@ public class Main {
     public void testYamlSet() {
         System.out.println("  -- <YAML SET> --  \n");
 
-        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
-        YamlSetNode<YamlNode<String>> listNode = new YamlSetNode<>("SetNode");
+        YamlNodeImpl<?> rootNode = YamlNodeImpl.buildEmptyNode("RootNode");
+        YamlSetNodeImpl<YamlNodeImpl<String>> listNode = new YamlSetNodeImpl<>("SetNode");
         rootNode.addChildren(listNode);
 
         for(int i = 1 ; i <= 5 ; i++) {
-            YamlNode<String> newNode = new YamlNode<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
+            YamlNodeImpl<String> newNode = new YamlNodeImpl<>("ChildNode{" + i + "}", "Here a value {" + i + "}");
             listNode.add(newNode);
         }
 
@@ -91,7 +91,7 @@ public class Main {
     public void testYamlMap() {
         System.out.println("  -- <YAML MAP> --  \n");
 
-        YamlNode<?> rootNode = YamlNode.buildEmptyNode("RootNode");
+        YamlNodeImpl<?> rootNode = YamlNodeImpl.buildEmptyNode("RootNode");
         //YamlMap<String, Integer> yamlMap = new YamlMap<>("MapNode");
         //rootNode.addChild(yamlMap);
 

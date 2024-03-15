@@ -1,6 +1,6 @@
 package fr.eris.objecttest;
 
-import fr.eris.yaml.object.annotation.YamlExpose;
+import fr.eris.yaml.api.object.annotation.YamlExpose;
 import lombok.Getter;
 import lombok.Setter;
 

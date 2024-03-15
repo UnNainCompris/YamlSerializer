@@ -1,17 +1,16 @@
 package fr.eris.yaml.object.node;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
-import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import lombok.Getter;
-import lombok.Setter;
 
-public class YamlNode<T> extends IYamlObject {
+public class YamlNodeImpl<T> extends YamlObjectImpl {
 
     @Getter private T value;
 
-    public YamlNode(String objectName, T value) {
+    public YamlNodeImpl(String objectName, T value) {
         super(objectName);
         if(value != null && !TypeUtils.isNativeObject(value)) {
             throw new ErisYamlException("A node value can only be an Native type like String, integer and other.");
@@ -19,7 +18,7 @@ public class YamlNode<T> extends IYamlObject {
         this.value = value;
     }
 
-    public YamlNode(String objectName) {
+    public YamlNodeImpl(String objectName) {
         this(objectName, null);
     }
 
@@ -44,17 +43,13 @@ public class YamlNode<T> extends IYamlObject {
         if(children.isEmpty())
             serializedNode.append(value != null ? value.toString() : "none");
 
-        for(IYamlObject child : children.values()) {
+        for(YamlObjectImpl child : children.values()) {
             serializedNode.append("\n").append(child.serialize(indentationLevel + 1));
         }
         return serializedNode.toString();
     }
 
-    public String toString() {
-        return serialize(0);
-    }
-
-    public static YamlNode<?> buildEmptyNode(String nodeName) {
-        return new YamlNode<>(nodeName);
+    public static YamlNodeImpl<?> buildEmptyNode(String nodeName) {
+        return new YamlNodeImpl<>(nodeName);
     }
 }

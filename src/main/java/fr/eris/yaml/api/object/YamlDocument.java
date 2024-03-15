@@ -1,15 +1,15 @@
 package fr.eris.yaml.api.object;
 
-import fr.eris.yaml.object.impl.IYamlObject;
+import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.object.path.YamlPath;
 
 public interface YamlDocument {
 
-    <T extends IYamlObject> T retrieveObject(YamlPath pathToObject, Class<T> requiredObject);
-    IYamlObject retrieveObject(YamlPath pathToObject);
+    <T extends YamlObjectImpl> T retrieveObject(YamlPath pathToObject, Class<T> requiredObject);
+    YamlObjectImpl retrieveObject(YamlPath pathToObject);
 
-    <T extends IYamlObject> T retrieveObject(String pathToObject, Class<T> requiredObject);
-    IYamlObject retrieveObject(String pathToObject);
+    <T extends YamlObjectImpl> T retrieveObject(String pathToObject, Class<T> requiredObject);
+    YamlObjectImpl retrieveObject(String pathToObject);
 
     String serialize();
 
