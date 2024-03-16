@@ -2,8 +2,21 @@ plugins {
     id 'java'
 }
 
-group = 'fr.evermon'
-version = '1.0-SNAPSHOT'
+group = 'fr.eris'
+version = '1.0'
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
 
 repositories {
     mavenCentral()
