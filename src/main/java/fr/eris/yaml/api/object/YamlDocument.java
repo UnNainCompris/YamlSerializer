@@ -29,11 +29,21 @@ public interface YamlDocument {
     boolean isSectionExist(String path);
 
     String getString(String path);
+    String getString(String path, String def);
     double getDouble(String path);
+    double getDouble(String path, double def);
     float getFloat(String path);
+    float getFloat(String path, float def);
     long getLong(String path);
+    long getLong(String path, long def);
     int getInt(String path);
+    int getInt(String path, int def);
     short getShort(String path);
+    short getShort(String path, short def);
     byte getByte(String path);
+    byte getByte(String path, byte def);
+    Boolean getBoolean(String path);
+    Boolean getBoolean(String path, Boolean def);
+
 
 }

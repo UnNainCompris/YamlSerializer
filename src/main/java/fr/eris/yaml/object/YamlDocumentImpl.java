@@ -150,27 +150,70 @@ public class YamlDocumentImpl implements YamlDocument {
         return get(path, String.class);
     }
 
+    public String getString(String path, String def) {
+        if(!contains(path)) return def;
+        return get(path, String.class);
+    }
+
     public double getDouble(String path) {
         return get(path, double.class);
+    }
+
+    public double getDouble(String path, double def) {
+        if(!contains(path)) return def;
+        return getDouble(path);
     }
 
     public float getFloat(String path) {
         return get(path, float.class);
     }
 
+    public float getFloat(String path, float def) {
+        if(!contains(path)) return def;
+        return getFloat(path);
+    }
+
     public long getLong(String path) {
         return get(path, long.class);
+    }
+
+    public long getLong(String path, long def) {
+        if(!contains(path)) return def;
+        return getLong(path);
     }
 
     public int getInt(String path) {
         return get(path, int.class);
     }
 
+    public int getInt(String path, int def) {
+        if(!contains(path)) return def;
+        return getInt(path);
+    }
+
     public short getShort(String path) {
         return get(path, short.class);
     }
 
+    public short getShort(String path, short def) {
+        if(!contains(path)) return def;
+        return getShort(path);
+    }
+
     public byte getByte(String path) {
         return get(path, byte.class);
+    }
+
+    public byte getByte(String path, byte def) {
+        if(!contains(path)) return def;
+        return getByte(path);
+    }
+    public Boolean getBoolean(String path) {
+        return get(path, Boolean.class);
+    }
+
+    public Boolean getBoolean(String path, Boolean def) {
+        if(!contains(path)) return def;
+        return getBoolean(path);
     }
 }
