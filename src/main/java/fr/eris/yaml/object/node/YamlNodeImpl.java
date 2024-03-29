@@ -1,5 +1,6 @@
 package fr.eris.yaml.object.node;
 
+import fr.eris.yaml.api.object.YamlObject;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.utils.IndentationUtils;
@@ -43,7 +44,7 @@ public class YamlNodeImpl<T> extends YamlObjectImpl {
         if(children.isEmpty())
             serializedNode.append(value != null ? value.toString() : "none");
 
-        for(YamlObjectImpl child : children.values()) {
+        for(YamlObject child : children.values()) {
             serializedNode.append("\n").append(child.serialize(indentationLevel + 1));
         }
         return serializedNode.toString();

@@ -8,6 +8,9 @@ import fr.eris.yaml.api.object.value.YamlValue;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.YamlDeserializerImpl;
 import fr.eris.yaml.object.value.YamlValueParser;
+import fr.eris.yaml.utils.FileUtils;
+
+import java.io.File;
 
 public interface Yaml {
 
@@ -29,4 +32,13 @@ public interface Yaml {
     <T extends YamlValue<?>> void loadYamlValue(T newYamlValue);
 
     YamlDocument createEmptyDocument();
+    YamlDocument createDocumentFromFile(File file);
+    YamlDocument createDocumentFromData(String data);
+
+    void saveDocument(YamlDocument document, File file);
+    <T> T retrieveObjectFromFile(File file, Class<T> clazz);
+
+    void loadObjectFromFile(File file, Object object);
+    void loadObjectFromData(String data, Object object);
+
 }

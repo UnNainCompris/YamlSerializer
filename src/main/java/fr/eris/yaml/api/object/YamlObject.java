@@ -7,8 +7,13 @@ public interface YamlObject extends YamlSerializable {
 
     void validateName();
 
+    YamlObject getParent();
+    void setParent(YamlObject newParent);
+
     YamlObject getChild(String childName);
+    void addChildren(YamlObject... newChildren);
     boolean hasChild(String childName);
+    boolean hasAnyChild();
 
     void validateNode();
 

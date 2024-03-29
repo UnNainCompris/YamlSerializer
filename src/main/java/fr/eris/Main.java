@@ -24,6 +24,9 @@ public class Main {
         testDeserializer();
         testDeserializerType();
         rawDocumentCreation();
+        loadCurrent();
+        applyData();
+        sectionExist();
     }
 
     public void testIndentationUtils() {
@@ -196,5 +199,60 @@ public class Main {
 
 
         System.out.println("\n  -- </YAML RAW DOCUMENT CREATION> --  \n");
+    }
+
+    public void loadCurrent() {
+        System.out.println("\n  -- <YAML LOAD CURRENT> --  \n");
+
+
+        TestYamlTypeObject testYamlTypeObject = new TestYamlTypeObject();
+        System.out.println(testYamlTypeObject.getByteValue());
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlTypeObject);
+
+        document.set(YamlPath.fromGlobalPath("byteValueField"), Byte.MAX_VALUE);
+
+        String serializedDocument = document.serialize();
+        System.out.println(serializedDocument);
+
+        Yaml.getYaml().loadObjectFromData(serializedDocument, testYamlTypeObject);
+        System.out.println(testYamlTypeObject.getByteValue());
+
+
+        System.out.println("\n  -- </YAML LOAD CURRENT> --  \n");
+    }
+
+    public void applyData() {
+        System.out.println("\n  -- <YAML APPLY DATA> --  \n");
+
+        YamlDocument document = Yaml.getYaml().createEmptyDocument();
+        document.applyData("testValue1: 1\n" +
+                            "testValue2: 2\n" +
+                "test:\n" +
+                "  hereInden1: \"test1\"\n" +
+                "  hereInden2: \"test2\"");
+
+        String serializedDocument = document.serialize();
+        System.out.println(serializedDocument);
+
+        System.out.println("\n  -- </YAML APPLY DATA> --  \n");
+    }
+
+    public void sectionExist() {
+        System.out.println("\n  -- <YAML SECTION> --  \n");
+
+        YamlDocument document = Yaml.getYaml().createEmptyDocument();
+        document.applyData("testValue1: 1\n" +
+                "testValue2: 2\n" +
+                "test:\n" +
+                "  hereInden1: \"test1\"\n" +
+                "  hereInden2: \"test2\"");
+
+        String serializedDocument = document.serialize();
+        System.out.println(serializedDocument);
+        System.out.println("Is 'test' exist -> " + document.isSectionExist("test"));
+        System.out.println("Is 'nothing' exist -> " + document.isSectionExist("nothing"));
+        System.out.println("Is 'testValue1' exist -> " + document.isSectionExist("testValue1"));
+
+        System.out.println("\n  -- </YAML SECTION> --  \n");
     }
 }

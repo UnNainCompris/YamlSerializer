@@ -1,6 +1,8 @@
 package fr.eris.yaml.object;
 
+import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
+import fr.eris.yaml.api.object.YamlObject;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.object.node.YamlNodeImpl;
@@ -8,16 +10,17 @@ import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.YamlUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class YamlDocumentImpl implements YamlDocument {
 
-    private final HashMap<String, YamlObjectImpl> rootObjects;
+    private final HashMap<String, YamlObject> rootObjects;
 
     public YamlDocumentImpl() {
         rootObjects = new HashMap<>();
     }
 
-    public void addRootObject(YamlObjectImpl newRootObject) {
+    public void addRootObject(YamlObject newRootObject) {
         if(rootObjects.containsKey(newRootObject.getName()))
             throw new ErisYamlException("Cannot have root object with same name");
         rootObjects.put(newRootObject.getName(), newRootObject);
@@ -30,18 +33,18 @@ public class YamlDocumentImpl implements YamlDocument {
     public String serialize() {
         StringBuilder serializedDocument = new StringBuilder();
 
-        for(YamlObjectImpl rootObject : rootObjects.values()) {
+        for(YamlObject rootObject : rootObjects.values()) {
             serializedDocument.append(rootObject.serialize(0)).append("\n");
         }
 
         return serializedDocument.toString();
     }
 
-    public <T extends YamlObjectImpl> T retrieveObject(YamlPath pathToObject, Class<T> yamlObjectType) {
-        YamlObjectImpl lastObject = rootObjects.get(pathToObject.getFirstPathValue());
+    public <T extends YamlObject> T retrieveObject(YamlPath pathToObject, Class<T> yamlObjectType) {
+        YamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
         for(String objectName : pathToObject.getWholePathExceptFirstValue()) {
             if(lastObject == null) break;
-            YamlObjectImpl currentObject = lastObject.getChild(objectName);
+            YamlObject currentObject = lastObject.getChild(objectName);
             if(currentObject == null) break;
             lastObject = currentObject;
         }
@@ -53,15 +56,22 @@ public class YamlDocumentImpl implements YamlDocument {
         return yamlObjectType.cast(lastObject);
     }
 
+    public void applyData(String data) {
+        HashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(data);
+        for(Map.Entry<YamlPath, String> entry : serializedValue.entrySet()) {
+            set(entry.getKey(), entry.getValue());
+        }
+    }
+
     public YamlObjectImpl retrieveObject(YamlPath pathToObject) {
         return retrieveObject(pathToObject, YamlObjectImpl.class);
     }
 
-    public YamlObjectImpl retrieveObject(String pathToObject) {
+    public YamlObject retrieveObject(String pathToObject) {
         return retrieveObject(YamlPath.fromGlobalPath(pathToObject), YamlObjectImpl.class);
     }
 
-    public <T extends YamlObjectImpl> T retrieveObject(String pathToObject, Class<T> yamlObjectType) {
+    public <T extends YamlObject> T retrieveObject(String pathToObject, Class<T> yamlObjectType) {
         return retrieveObject(YamlPath.fromGlobalPath(pathToObject), yamlObjectType);
     }
 
@@ -70,7 +80,7 @@ public class YamlDocumentImpl implements YamlDocument {
     }
 
     public void set(YamlPath path, Object value) {
-        YamlObjectImpl currentObject;
+        YamlObject currentObject;
 
         if(rootObjects.containsKey(path.getFirstPathValue()))
             currentObject = retrieveObject(path.getFirstPathValue());
@@ -84,7 +94,7 @@ public class YamlDocumentImpl implements YamlDocument {
             if(currentObject.hasChild(currentNodeName)) {
                 currentObject = currentObject.getChild(currentNodeName);
             } else {
-                YamlObjectImpl newObject = YamlNodeImpl.buildEmptyNode(currentNodeName);
+                YamlObject newObject = YamlNodeImpl.buildEmptyNode(currentNodeName);
                 currentObject.addChildren(newObject);
                 currentObject = newObject;
             }
@@ -121,6 +131,19 @@ public class YamlDocumentImpl implements YamlDocument {
 
     public boolean contains(String path) {
         return get(path) != null;
+    }
+
+    public boolean isSectionExist(String path) {
+        YamlPath pathToObject = YamlPath.fromGlobalPath(path);
+        YamlObject lastObject = rootObjects.get(pathToObject.getFirstPathValue());
+        if(lastObject == null) return false;
+        for(String objectName : pathToObject.getWholePathExceptLastAndFirstValue()) {
+            YamlObject currentObject = lastObject.getChild(objectName);
+            if(currentObject == null)
+                return false;
+            lastObject = currentObject;
+        }
+        return lastObject.hasAnyChild();
     }
 
     public String getString(String path) {

@@ -10,7 +10,10 @@ import fr.eris.yaml.object.parser.YamlParserImpl;
 import fr.eris.yaml.object.serialization.YamlDeserializerImpl;
 import fr.eris.yaml.object.serialization.YamlSerializerImpl;
 import fr.eris.yaml.object.value.YamlValueParser;
+import fr.eris.yaml.utils.FileUtils;
 import lombok.Getter;
+
+import java.io.File;
 
 public class YamlImpl implements Yaml {
 
@@ -59,4 +62,30 @@ public class YamlImpl implements Yaml {
         return yamlDeserializer.buildObject();
     }
 
+    public void saveDocument(YamlDocument document, File file) {
+        String serializedData = document.serialize();
+        FileUtils.writeFile(file, serializedData);
+    }
+
+    public YamlDocument createDocumentFromFile(File file) {
+        return createDocumentFromData(FileUtils.readFile(file));
+    }
+
+    public YamlDocument createDocumentFromData(String data) {
+        YamlDocument document = new YamlDocumentImpl();
+        document.applyData(data);
+        return document;
+    }
+
+    public <T> T retrieveObjectFromFile(File file, Class<T> clazz) {
+        return deserializeData(clazz, FileUtils.readFile(file));
+    }
+
+    public void loadObjectFromFile(File file, Object object) {
+        new YamlDeserializerImpl<>(FileUtils.readFile(file), object).buildObject();
+    }
+
+    public void loadObjectFromData(String data, Object object) {
+        new YamlDeserializerImpl<>(data, object).buildObject();
+    }
 }

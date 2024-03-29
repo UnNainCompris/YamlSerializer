@@ -17,6 +17,14 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
 
     @Getter private final String serializedData;
     @Getter private final Class<T> requiredObjectClass;
+    private T builtClass;
+
+    public YamlDeserializerImpl(String serializedData, T currentExistingObject) {
+
+        this.serializedData = serializedData;
+        this.builtClass = currentExistingObject;
+        this.requiredObjectClass = (Class<T>)currentExistingObject.getClass();
+    }
 
     public YamlDeserializerImpl(String serializedData, Class<T> requiredObjectClass) {
         try {
@@ -33,7 +41,8 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
         HashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(serializedData);
 
         HashMap<YamlPath, YamlDeserializationObject> map = new HashMap<>();
-        T builtClass = new ReflectionHelper<>(requiredObjectClass).buildClass();
+        if(builtClass == null)
+            builtClass = new ReflectionHelper<>(requiredObjectClass).buildClass();
 
         List<YamlPath> pathToThing = new ArrayList<>(serializedValue.keySet());
         pathToThing.sort(Comparator.comparingInt(o -> o.retrieveParsedPathAsArray().length));
@@ -142,9 +151,5 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
             newPath.add(YamlPath.fromGlobalPath(builtPath));
 
         return newPath;
-    }
-
-    public Field findFieldFromPath(YamlPath pathToFollow, Class<?> startingClass) {
-        return null;
     }
 }

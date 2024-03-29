@@ -1,7 +1,7 @@
 package fr.eris.yaml.utils;
 
+import fr.eris.yaml.api.object.YamlObject;
 import fr.eris.yaml.object.exception.ErisYamlException;
-import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.object.node.YamlNodeImpl;
 import fr.eris.yaml.object.node.iterable.list.YamlListNodeImpl;
 import fr.eris.yaml.object.node.iterable.set.YamlSetNodeImpl;
@@ -14,14 +14,14 @@ import java.util.Set;
 
 public class YamlUtils {
 
-    public static void setValueToYamlObject(YamlObjectImpl object, Object valueToSet) {
-        Class<? extends YamlObjectImpl> clazz = object.getClass();
+    public static void setValueToYamlObject(YamlObject object, Object valueToSet) {
+        Class<? extends YamlObject> clazz = object.getClass();
         if(YamlListNodeImpl.class.isAssignableFrom(clazz)) {
             if(((List<?>) valueToSet).isEmpty()) return;
-            List<YamlObjectImpl> listValue = new ArrayList<>();
+            List<YamlObject> listValue = new ArrayList<>();
 
-            if(YamlObjectImpl.class.isAssignableFrom(((List<?>) valueToSet).get(0).getClass())) {
-                listValue = (List<YamlObjectImpl>) valueToSet;
+            if(YamlObject.class.isAssignableFrom(((List<?>) valueToSet).get(0).getClass())) {
+                listValue = (List<YamlObject>) valueToSet;
             } else {
                 for (Object listObject : (List<?>) valueToSet)
                     listValue.add(new YamlNodeImpl<>(String.valueOf(((List<?>) valueToSet).indexOf(listObject) + 1), listObject));
@@ -42,8 +42,8 @@ public class YamlUtils {
         }
     }
 
-    public static YamlObjectImpl createNodeWithDefaultValue(String nodeName, Object object) {
-        YamlObjectImpl objectToReturn;
+    public static YamlObject createNodeWithDefaultValue(String nodeName, Object object) {
+        YamlObject objectToReturn;
         if(object instanceof List) {
             objectToReturn = new YamlListNodeImpl<>(nodeName);
             (YamlListNodeImpl.class.cast(object)).set((List<?>) object);
@@ -58,7 +58,7 @@ public class YamlUtils {
         return objectToReturn;
     }
 
-    public static Object getYamlObjectValue(YamlObjectImpl object) {
+    public static Object getYamlObjectValue(YamlObject object) {
         if(object instanceof YamlListNodeImpl<?>)
             return ((YamlListNodeImpl<?>) object).get();
         if(object instanceof YamlSetNodeImpl<?>)

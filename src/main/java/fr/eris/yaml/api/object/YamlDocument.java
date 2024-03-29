@@ -5,11 +5,13 @@ import fr.eris.yaml.object.path.YamlPath;
 
 public interface YamlDocument {
 
-    <T extends YamlObjectImpl> T retrieveObject(YamlPath pathToObject, Class<T> requiredObject);
-    YamlObjectImpl retrieveObject(YamlPath pathToObject);
+    <T extends YamlObject> T retrieveObject(YamlPath pathToObject, Class<T> requiredObject);
+    YamlObject retrieveObject(YamlPath pathToObject);
 
-    <T extends YamlObjectImpl> T retrieveObject(String pathToObject, Class<T> requiredObject);
-    YamlObjectImpl retrieveObject(String pathToObject);
+    <T extends YamlObject> T retrieveObject(String pathToObject, Class<T> requiredObject);
+    YamlObject retrieveObject(String pathToObject);
+
+    void applyData(String data);
 
     String serialize();
 
@@ -24,6 +26,7 @@ public interface YamlDocument {
 
     boolean isType(String path, Class<?> requestedType);
     boolean contains(String path);
+    boolean isSectionExist(String path);
 
     String getString(String path);
     double getDouble(String path);

@@ -20,6 +20,9 @@ public class YamlParserImpl implements YamlParser {
         List<String> currentPath = new ArrayList<>();
         for(int currentLineIndex = 0 ; currentLineIndex < content.size() ; currentLineIndex++) {
             String currentLine = content.get(currentLineIndex);
+            if(currentLine.trim().isEmpty()) {
+                continue;
+            }
             currentPath.add(findYamlLineName(currentLine));
 
             if(!isNextLineAnInnerObject(content, currentLineIndex)) {
@@ -39,6 +42,7 @@ public class YamlParserImpl implements YamlParser {
 
     public YamlPath buildYamlPath(List<String> currentPath) {
         StringBuilder yamlPath = new StringBuilder();
+
         for(String string : currentPath)
             yamlPath.append(string).append(".");
 

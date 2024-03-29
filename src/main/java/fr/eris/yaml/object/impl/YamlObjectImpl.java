@@ -15,9 +15,9 @@ public abstract class YamlObjectImpl implements YamlObject {
 
     @Getter protected final String name;
     @Setter protected String prefix; // use to set prefix and replace the name (used for list & set management)
-    protected YamlObjectImpl parent;
+    @Setter @Getter protected YamlObject parent;
     @Setter protected YamlObjectComment comment;
-    protected final HashMap<String, YamlObjectImpl> children;
+    protected final HashMap<String, YamlObject> children;
 
     public YamlObjectImpl(String name) {
         prefix = "";
@@ -35,18 +35,18 @@ public abstract class YamlObjectImpl implements YamlObject {
         }
     }
 
-    public void addChildren(YamlObjectImpl... newChildren) {
+    public void addChildren(YamlObject... newChildren) {
         if(newChildren == null) return;
-        for(YamlObjectImpl child : newChildren) {
+        for(YamlObject child : newChildren) {
             if(child == null)
                 throw new ErisYamlException("Cannot add children that is null ! {parent:" + this.getName() + "}");
             if(child.getName() == null)
                 throw new ErisYamlException("Object name cannot be null ! {parent:" + this.getName() + "}");
             if(children.containsKey(child.getName()))
                 throw new ErisYamlException("Cannot have 2 children with the same name and case !");
-            if(child.parent != null)
+            if(child.getParent() != null)
                 throw new ErisYamlException("An singular IYamlObject cannot have 2 parent !");
-            child.parent = this;
+            child.setParent(this);
             this.children.put(child.getName(), child);
         }
     }
@@ -66,11 +66,14 @@ public abstract class YamlObjectImpl implements YamlObject {
         return serialize(0);
     }
 
-    public YamlObjectImpl getChild(String objectName) {
+    public YamlObject getChild(String objectName) {
         return children.get(objectName);
     }
 
     public boolean hasChild(String objectName) {
         return children.containsKey(objectName);
+    }
+    public boolean hasAnyChild() {
+        return !children.isEmpty();
     }
 }

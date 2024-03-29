@@ -83,6 +83,7 @@ public class YamlDeserializationObject {
 
             for(int i = 0 ; i < highest ; i++)
                 list.add(listValue.get(i+1));
+
         } else if(Set.class.isAssignableFrom(assosiatedField.getType())) {
             Set<Object> set = (Set<Object>)getFieldValue();
             set.addAll(listValue.values());
