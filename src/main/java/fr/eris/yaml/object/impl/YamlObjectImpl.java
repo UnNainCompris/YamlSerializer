@@ -9,7 +9,7 @@ import fr.eris.yaml.object.path.YamlPath;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class YamlObjectImpl implements YamlObject {
 
@@ -17,13 +17,13 @@ public abstract class YamlObjectImpl implements YamlObject {
     @Setter protected String prefix; // use to set prefix and replace the name (used for list & set management)
     @Setter @Getter protected YamlObject parent;
     @Setter protected YamlObjectComment comment;
-    protected final HashMap<String, YamlObject> children;
+    protected final LinkedHashMap<String, YamlObject> children;
 
     public YamlObjectImpl(String name) {
         prefix = "";
         this.name = name;
         validateName();
-        this.children = new HashMap<>();
+        this.children = new LinkedHashMap<>();
     }
 
     public void validateName() {

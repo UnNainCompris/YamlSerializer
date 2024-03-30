@@ -6,8 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/YamlDocument.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/YamlDocument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/parser/YamlParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/parser/YamlParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/serializer/YamlDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/api/object/serializer/YamlDeserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocumentImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocumentImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/YamlObjectImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/impl/YamlObjectImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/parser/YamlParserImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/parser/YamlParserImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/path/YamlPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/YamlDeserializerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/serialization/deserialization/YamlDeserializationObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/YamlValueParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/YamlValueParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

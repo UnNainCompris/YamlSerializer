@@ -13,11 +13,11 @@ import fr.eris.yaml.object.value.type.number.nondecimal.YamlLong;
 import fr.eris.yaml.object.value.type.number.nondecimal.YamlShort;
 import fr.eris.yaml.utils.TypeUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class YamlValueParser {
 
-    private final HashMap<Class<?>, YamlValue<?>> registeredYamlValue = new HashMap<>();
+    private final LinkedHashMap<Class<?>, YamlValue<?>> registeredYamlValue = new LinkedHashMap<>();
 
     public YamlValueParser(){
         registeredYamlValue.put(Object.class, new YamlNull());

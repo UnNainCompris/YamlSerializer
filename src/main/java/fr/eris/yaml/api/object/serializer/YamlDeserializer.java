@@ -2,7 +2,7 @@ package fr.eris.yaml.api.object.serializer;
 
 import fr.eris.yaml.object.path.YamlPath;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public interface YamlDeserializer<T> {
 

@@ -2,12 +2,12 @@ package fr.eris.yaml.api.object.parser;
 
 import fr.eris.yaml.object.path.YamlPath;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public interface YamlParser {
 
-    HashMap<YamlPath, String> parseYamlContent(String rawContent);
+    LinkedHashMap<YamlPath, String> parseYamlContent(String rawContent);
     String findYamlLineName(String fullLine);
     String findYamlLineValue(String fullLine);
 

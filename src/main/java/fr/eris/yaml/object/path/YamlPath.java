@@ -33,11 +33,12 @@ public class YamlPath {
     public YamlPath(String fullYamlPath) {
         if(fullYamlPath == null)
             throw new ErisYamlException("A yaml path cannot be null !");
-        if(fullYamlPath.isEmpty())
-            throw new ErisYamlException("A yaml path cannot be empty !");
 
         for(String illegalChar : YAML_ILLEGAL_PATH_CHAR)
             fullYamlPath = fullYamlPath.replace(illegalChar, "");
+
+        if(fullYamlPath.isEmpty())
+            throw new ErisYamlException("A yaml path cannot be empty !");
 
         this.targetPath = fullYamlPath.trim();
     }

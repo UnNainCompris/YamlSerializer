@@ -9,15 +9,15 @@ import fr.eris.yaml.object.node.YamlNodeImpl;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.YamlUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class YamlDocumentImpl implements YamlDocument {
 
-    private final HashMap<String, YamlObject> rootObjects;
+    private final LinkedHashMap<String, YamlObject> rootObjects;
 
     public YamlDocumentImpl() {
-        rootObjects = new HashMap<>();
+        rootObjects = new LinkedHashMap<>();
     }
 
     public void addRootObject(YamlObject newRootObject) {
@@ -57,7 +57,7 @@ public class YamlDocumentImpl implements YamlDocument {
     }
 
     public void applyData(String data) {
-        HashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(data);
+        LinkedHashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(data);
         for(Map.Entry<YamlPath, String> entry : serializedValue.entrySet()) {
             set(entry.getKey(), entry.getValue());
         }

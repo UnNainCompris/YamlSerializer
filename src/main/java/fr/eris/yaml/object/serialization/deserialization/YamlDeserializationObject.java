@@ -5,7 +5,7 @@ import fr.eris.yaml.object.path.YamlPath;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class YamlDeserializationObject {
     private Object fieldParentObject;
     private YamlPath objectSerializationPath;
 
-    private HashMap<Integer, String> listValue = new HashMap<>();
+    private LinkedHashMap<Integer, String> listValue = new LinkedHashMap<>();
 
     public static YamlDeserializationObject build(Field field, Object parentFieldObject,
                                                  YamlPath objectSerializationPath) {

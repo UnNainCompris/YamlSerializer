@@ -8,13 +8,13 @@ import fr.eris.yaml.utils.IndentationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class YamlParserImpl implements YamlParser {
 
-    public HashMap<YamlPath, String> parseYamlContent(String rawContent) {
-        HashMap<YamlPath, String> serializedValue = new HashMap<>();
+    public LinkedHashMap<YamlPath, String> parseYamlContent(String rawContent) {
+        LinkedHashMap<YamlPath, String> serializedValue = new LinkedHashMap<>();
         List<String> content = new ArrayList<>(Arrays.asList(rawContent.split("\n")));
 
         List<String> currentPath = new ArrayList<>();

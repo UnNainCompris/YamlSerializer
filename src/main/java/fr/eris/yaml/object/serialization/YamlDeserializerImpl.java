@@ -38,9 +38,9 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
     }
 
     public T buildObject() {
-        HashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(serializedData);
+        LinkedHashMap<YamlPath, String> serializedValue = Yaml.getYaml().getYamlParser().parseYamlContent(serializedData);
 
-        HashMap<YamlPath, YamlDeserializationObject> map = new HashMap<>();
+        LinkedHashMap<YamlPath, YamlDeserializationObject> map = new LinkedHashMap<>();
         if(builtClass == null)
             builtClass = new ReflectionHelper<>(requiredObjectClass).buildClass();
 
@@ -123,7 +123,7 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
         List<YamlPath> newPath = new ArrayList<>();
         List<String> splitPath = new ArrayList<>();
 
-        HashMap<Integer, UUID> indexIdMap = new HashMap<>();
+        LinkedHashMap<Integer, UUID> indexIdMap = new LinkedHashMap<>();
         int temp = 0;
         for(String actualPath : path.retrieveParsedPathAsArray()) {
             UUID uuid = UUID.randomUUID();
