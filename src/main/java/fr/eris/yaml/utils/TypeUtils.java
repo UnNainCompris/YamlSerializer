@@ -70,10 +70,10 @@ public class TypeUtils {
             return YamlSetNodeImpl.class;
         } else if(Map.class.isAssignableFrom(clazz)) {
             return null; //return YamlMap.class;
-        } else if(TypeUtils.isNativeClass(clazz)) {
+        } else /* if(TypeUtils.isNativeClass(clazz))*/ {
             return YamlNodeImpl.class;
         }
-        return null;
+        //return null;
     }
 
     public static Object buildObjectFromField(Field field) {

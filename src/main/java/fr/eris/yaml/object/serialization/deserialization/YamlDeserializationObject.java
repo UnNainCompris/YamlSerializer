@@ -15,7 +15,7 @@ public class YamlDeserializationObject {
     private Object fieldParentObject;
     private YamlPath objectSerializationPath;
 
-    private LinkedHashMap<Integer, String> listValue = new LinkedHashMap<>();
+    private LinkedHashMap<Integer, Object> listValue = new LinkedHashMap<>();
 
     public static YamlDeserializationObject build(Field field, Object parentFieldObject,
                                                  YamlPath objectSerializationPath) {
@@ -69,7 +69,7 @@ public class YamlDeserializationObject {
                 + fieldParentObject + ";path: " + objectSerializationPath + (fieldParentObject != null ? (";value: " + getFieldValue()) : "") + "}";
     }
 
-    public void setObjectListValue(int index, String value) {
+    public void setObjectListValue(int index, Object value) {
         listValue.put(index, value);
     }
 

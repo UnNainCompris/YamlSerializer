@@ -43,7 +43,7 @@ public class YamlValueParser {
                 continue;
             }
 
-            YamlValue<?> yamlValue = registeredYamlValue.get(type.isEnum() ? Enum.class : type);
+            YamlValue<?> yamlValue = registeredYamlValue.get((type.isEnum() || Enum.class.isAssignableFrom(type)) ? Enum.class : type);
             if(!yamlValue.validateValue(rawValue, type)) continue;
 
             return yamlValue.parseValue(rawValue, type);

@@ -17,6 +17,9 @@ public class TestYamlObject {
     @YamlExpose(yamlSaveName = "defaultFieldEnum")
     @Setter @Getter private TestEnum testEnumFirst = TestEnum.BAR;
 
+    @YamlExpose(yamlSaveName = "defaultListObject", serializeEvenIfNull = false)
+    @Setter @Getter private List<TestYamlObject> testListFieldObject;
+
     @YamlExpose(yamlSaveName = "defaultListString", serializeEvenIfNull = false)
     @Setter @Getter private List<String> testListFieldString;
 
@@ -58,4 +61,12 @@ public class TestYamlObject {
         testSetFieldFirst.add("TestSet3");
     }
 
+    public void applyTestObjectList() {
+        testListFieldObject = new ArrayList<>();
+        for(int i = 1 ; i <= 3 ; i++) {
+            TestYamlObject newObject = new TestYamlObject();
+            newObject.setTestFieldFirst("Here:" + i + "!");
+            testListFieldObject.add(newObject);
+        }
+    }
 }

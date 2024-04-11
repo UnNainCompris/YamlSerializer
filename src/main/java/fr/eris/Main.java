@@ -29,6 +29,8 @@ public class Main {
         applyData();
         sectionExist();
         testDeserializerEnum();
+        testSerializerObjectList();
+        testDeserializerObjectList();
     }
 
     public void testIndentationUtils() {
@@ -271,5 +273,39 @@ public class Main {
         System.out.println("Deserialized document: \n\n" + objectDeserializer.getTestEnumFirst());
 
         System.out.println("\n  -- </YAML DESERIALIZER ENUM> --  \n");
+    }
+
+    public void testSerializerObjectList() {
+        System.out.println("  -- <YAML SERIALIZER OBJECT LIST> --  \n");
+
+        TestYamlObject testYamlObject = new TestYamlObject();
+        testYamlObject.applyTestObjectList();
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlObject);
+        String serializedDocument = document.serialize();
+
+        System.out.println("Serialized document: \n\n" + serializedDocument);
+
+        System.out.println("\n  -- </YAML SERIALIZER OBJECT LIST> --  \n");
+    }
+
+    public void testDeserializerObjectList() {
+        System.out.println("  -- <YAML DESERIALIZER OBJECT LIST> --  \n");
+
+        TestYamlObject testYamlObject = new TestYamlObject();
+        testYamlObject.applyTestObjectList();
+
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlObject);
+        String serializedDocument = document.serialize();
+        System.out.println("Serialized document: \n\n" + serializedDocument);
+
+        TestYamlObject objectDeserializer = Yaml.getYaml().deserializeData(TestYamlObject.class, serializedDocument);
+
+        System.out.println("Deserialized document: \n\n");
+
+        for(TestYamlObject object : objectDeserializer.getTestListFieldObject()) {
+            System.out.println("Deserialized value: " + object.getTestFieldFirst());
+        }
+
+        System.out.println("\n  -- </YAML DESERIALIZER OBJECT LIST> --  \n");
     }
 }

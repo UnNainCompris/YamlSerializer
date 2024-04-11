@@ -1,16 +1,19 @@
 package fr.eris.yaml.object.serialization;
 
+import fr.eris.objecttest.TestYamlObject;
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.api.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.deserialization.YamlDeserializationObject;
+import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
@@ -48,7 +51,11 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
         pathToThing.sort(Comparator.comparingInt(o -> o.retrieveParsedPathAsArray().length));
         Collections.reverse(pathToThing);
 
+        YamlPath skipTillPath = null;
+        outerFor:
         for(YamlPath path : pathToThing) {
+            if(skipTillPath != null && !path.equals(skipTillPath)) continue;
+            else skipTillPath = null;
             YamlPath lastPath = null;
             for(YamlPath splitPath : splitPath(path)) {
                 if(map.containsKey(splitPath.clone())) {
@@ -62,8 +69,40 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
 
                 if(lastObject.getAssosiatedField() != null &&
                         Collection.class.isAssignableFrom(lastObject.getAssosiatedField().getType())) {
-                    lastObject.setObjectListValue(Integer.parseInt(splitPath.getLastPathValue()), serializedValue.get(splitPath));
-                    continue;
+                    Object toSet = serializedValue.get(splitPath);
+                    if(toSet == null) {
+                        StringBuilder innerData = new StringBuilder();
+                        int startIndentationLevel = -1;
+                        for(YamlPath currentPath : serializedValue.keySet()) {
+                            if(currentPath.equals(path)) {
+                                startIndentationLevel = IndentationUtils.retrieveIndentationLevel(path.getTargetPath());
+                                continue;
+                            }
+                            if(startIndentationLevel != -1) {
+                                int currentIndentationLevel = IndentationUtils.retrieveIndentationLevel(currentPath.getTargetPath());
+                                if(currentIndentationLevel < startIndentationLevel) {
+                                    System.out.println("°°°° " + currentPath.getTargetPath());
+                                    break;
+                                }
+                                System.out.println(currentPath.getTargetPath());
+                                innerData.append(IndentationUtils.createIndentation(startIndentationLevel - currentIndentationLevel))
+                                        .append(IndentationUtils.removeIndentation(currentPath.getTargetPath()).replace(splitPath.getTargetPath().trim() + ".", ""))
+                                        .append(": ").append(serializedValue.get(currentPath)).append("\n");
+                                System.out.println("----\n" + innerData + "\n----");
+                                skipTillPath = currentPath;
+                            }
+                        }
+                        //System.out.println("\n" + innerData.toString());
+                        toSet = new YamlDeserializerImpl<>(innerData.toString(),
+                                ((Class<?>) ((ParameterizedType) lastObject.getAssosiatedField().getGenericType())
+                                        .getActualTypeArguments()[0])).buildObject();
+                        // build the custom object using the inner value
+                    }
+                    if(toSet instanceof TestYamlObject)
+                        System.out.println("#" + ((TestYamlObject)toSet).getTestFieldFirst());
+
+                    lastObject.setObjectListValue(Integer.parseInt(splitPath.getLastPathValue()), toSet);
+                    continue outerFor;
                 }
 
                 Object whereToSearchObject = lastObject.getAssosiatedField() != null ? lastObject.getFieldValue() : builtClass;

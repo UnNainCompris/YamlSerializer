@@ -1,6 +1,7 @@
 package fr.eris.yaml.object.path;
 
 import fr.eris.yaml.object.exception.ErisYamlException;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ public class YamlPath {
 
     public static final String[] YAML_ILLEGAL_PATH_CHAR = new String[]{":"};
 
-    private String targetPath;
+    @Getter private String targetPath;
 
     public static YamlPath fromGlobalPath(String fullYamlPath) {
         return new YamlPath(fullYamlPath);
