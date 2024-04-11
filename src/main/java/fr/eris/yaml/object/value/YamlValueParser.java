@@ -3,6 +3,7 @@ package fr.eris.yaml.object.value;
 import fr.eris.yaml.api.object.value.YamlValue;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.value.type.YamlBoolean;
+import fr.eris.yaml.object.value.type.YamlEnum;
 import fr.eris.yaml.object.value.type.YamlNull;
 import fr.eris.yaml.object.value.type.YamlString;
 import fr.eris.yaml.object.value.type.number.decimal.YamlDouble;
@@ -31,17 +32,21 @@ public class YamlValueParser {
         registeredYamlValue.put(Long.class, new YamlLong());
         registeredYamlValue.put(Short.class, new YamlShort());
         registeredYamlValue.put(Byte.class, new YamlByte());
+
+        registeredYamlValue.put(Enum.class, new YamlEnum());
     }
 
     public Object parseValue(String rawValue, Class<?> type) {
         type = TypeUtils.convertIfPrimitiveToObject(type);
         for(Class<?> valueClassType : registeredYamlValue.keySet()) {
-            if(!valueClassType.isAssignableFrom(type)) continue;
+            if(!valueClassType.isAssignableFrom(type)) {
+                continue;
+            }
 
-            YamlValue<?> yamlValue = registeredYamlValue.get(type);
-            if(!yamlValue.validateValue(rawValue)) continue;
+            YamlValue<?> yamlValue = registeredYamlValue.get(type.isEnum() ? Enum.class : type);
+            if(!yamlValue.validateValue(rawValue, type)) continue;
 
-            return yamlValue.parseValue(rawValue);
+            return yamlValue.parseValue(rawValue, type);
         }
         throw new ErisYamlException("No legal value found for the rawValue: " +
                 rawValue + " of type: " + type + " !");

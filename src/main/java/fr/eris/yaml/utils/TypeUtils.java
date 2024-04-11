@@ -14,7 +14,7 @@ public class TypeUtils {
 
     public static boolean isNativeClass(Class<?> clazz) {
         Class<?> objectToPrimitive = objectToPrimitive(clazz);
-        return clazz.isPrimitive() || String.class.isAssignableFrom(clazz) ||
+        return clazz.isPrimitive() || String.class.isAssignableFrom(clazz) || clazz.isEnum() ||
                 (objectToPrimitive != null && objectToPrimitive.isPrimitive());
     }
 
@@ -23,7 +23,7 @@ public class TypeUtils {
     }
 
     public static boolean isAnYamlSupportedType(Class<?> clazz) {
-        return isNativeClass(clazz) || clazz.isArray() ||
+        return isNativeClass(clazz) || clazz.isArray() || clazz.isEnum() ||
                 Collection.class.isAssignableFrom(clazz);
     }
 

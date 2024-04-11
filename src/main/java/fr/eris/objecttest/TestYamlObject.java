@@ -14,6 +14,9 @@ public class TestYamlObject {
     @YamlExpose(yamlSaveName = "defaultFieldName2")
     @Setter @Getter private String testFieldSecond = "TestValue2";
 
+    @YamlExpose(yamlSaveName = "defaultFieldEnum")
+    @Setter @Getter private TestEnum testEnumFirst = TestEnum.BAR;
+
     @YamlExpose(yamlSaveName = "defaultListString", serializeEvenIfNull = false)
     @Setter @Getter private List<String> testListFieldString;
 

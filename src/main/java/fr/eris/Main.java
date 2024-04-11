@@ -1,5 +1,6 @@
 package fr.eris;
 
+import fr.eris.objecttest.TestEnum;
 import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
 import fr.eris.yaml.api.Yaml;
@@ -27,6 +28,7 @@ public class Main {
         loadCurrent();
         applyData();
         sectionExist();
+        testDeserializerEnum();
     }
 
     public void testIndentationUtils() {
@@ -254,5 +256,20 @@ public class Main {
         System.out.println("Is 'testValue1' exist -> " + document.isSectionExist("testValue1"));
 
         System.out.println("\n  -- </YAML SECTION> --  \n");
+    }
+
+    public void testDeserializerEnum() {
+        System.out.println("  -- <YAML DESERIALIZER ENUM> --  \n");
+
+        TestYamlObject testYamlObject = new TestYamlObject();
+
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(testYamlObject);
+        document.set("defaultFieldEnum", "FOO");
+        String serializedDocument = document.serialize();
+        TestYamlObject objectDeserializer = Yaml.getYaml().deserializeData(TestYamlObject.class, serializedDocument);
+
+        System.out.println("Deserialized document: \n\n" + objectDeserializer.getTestEnumFirst());
+
+        System.out.println("\n  -- </YAML DESERIALIZER ENUM> --  \n");
     }
 }

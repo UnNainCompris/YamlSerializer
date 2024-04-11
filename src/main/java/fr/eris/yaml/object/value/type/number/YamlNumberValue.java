@@ -19,11 +19,13 @@ public abstract class YamlNumberValue<T extends Number> extends IYamlValue<T> {
     }
 
     public final boolean validateValue(String value) {
+        value = value.trim();
         return validateNumberValue(valueToNumberValue(value));
     }
 
 
     public final T parseValue(String value) {
+        value = value.trim();
         return parseNumberValue(valueToNumberValue(value));
     }
 

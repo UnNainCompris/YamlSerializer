@@ -7,6 +7,7 @@ import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.impl.YamlObjectImpl;
 import fr.eris.yaml.object.node.YamlNodeImpl;
 import fr.eris.yaml.object.path.YamlPath;
+import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.YamlUtils;
 
 import java.util.LinkedHashMap;
@@ -117,9 +118,17 @@ public class YamlDocumentImpl implements YamlDocument {
     }
 
     public <T> T get(YamlPath path, Class<T> classCast) {
+        Object object = get(path);
+        if(String.class.isAssignableFrom(object.getClass())) {
+            return classCast.cast(Yaml.getYaml().getYamlValueParser().parseValue((String) object, classCast));
+        }
         return classCast.cast(get(path));
     }
     public <T> T get(String path, Class<T> classCast) {
+        Object object = get(path);
+        if(String.class.isAssignableFrom(object.getClass())) {
+            return classCast.cast(Yaml.getYaml().getYamlValueParser().parseValue((String) object, classCast));
+        }
         return classCast.cast(get(path));
     }
 
