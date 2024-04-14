@@ -12,18 +12,13 @@ public class YamlEnum extends IYamlValue<Enum> {
     }
 
     public boolean validateValue(String value, Class<?> type) {
-        System.out.println("not and zefzefzef");
         if(!Enum.class.isAssignableFrom(type)) {
-            System.out.println("not and enum");
             return false;
         }
         try {
-            System.out.println(type + " -- " + value);
             Enum.valueOf((Class<Enum>) type, value);
-            System.out.println("quoi");
             return true;
         } catch (Exception ignored) {
-            System.out.println("feur");
             return false;
         }
     }

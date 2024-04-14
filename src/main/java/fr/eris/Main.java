@@ -303,7 +303,7 @@ public class Main {
         System.out.println("Deserialized document: \n\n");
 
         for(TestYamlObject object : objectDeserializer.getTestListFieldObject()) {
-            System.out.println("Deserialized value: " + object.getTestFieldFirst());
+            System.out.println("Deserialized value: " + object.getTestFieldFirst() + " -- " + object.getTestEnumFirst());
         }
 
         System.out.println("\n  -- </YAML DESERIALIZER OBJECT LIST> --  \n");

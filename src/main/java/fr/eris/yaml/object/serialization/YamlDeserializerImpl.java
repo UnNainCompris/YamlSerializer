@@ -2,6 +2,7 @@ package fr.eris.yaml.object.serialization;
 
 import fr.eris.objecttest.TestYamlObject;
 import fr.eris.yaml.api.Yaml;
+import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.api.object.serializer.YamlDeserializer;
 import fr.eris.yaml.api.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
@@ -33,7 +34,7 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
         try {
             requiredObjectClass.getDeclaredConstructor();
         } catch (NoSuchMethodException exception) {
-            throw new ErisYamlException("The deserialized class type need an empty constructor to build !");
+            throw new ErisYamlException("The deserialized class type need an empty constructor to build ! class{" + requiredObjectClass + "}");
         }
 
         this.serializedData = serializedData;
@@ -69,39 +70,32 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
 
                 if(lastObject.getAssosiatedField() != null &&
                         Collection.class.isAssignableFrom(lastObject.getAssosiatedField().getType())) {
-                    Object toSet = serializedValue.get(splitPath);
-                    if(toSet == null) {
-                        StringBuilder innerData = new StringBuilder();
-                        int startIndentationLevel = -1;
-                        for(YamlPath currentPath : serializedValue.keySet()) {
-                            if(currentPath.equals(path)) {
-                                startIndentationLevel = IndentationUtils.retrieveIndentationLevel(path.getTargetPath());
-                                continue;
-                            }
-                            if(startIndentationLevel != -1) {
-                                int currentIndentationLevel = IndentationUtils.retrieveIndentationLevel(currentPath.getTargetPath());
-                                if(currentIndentationLevel < startIndentationLevel) {
-                                    System.out.println("°°°° " + currentPath.getTargetPath());
-                                    break;
-                                }
-                                System.out.println(currentPath.getTargetPath());
-                                innerData.append(IndentationUtils.createIndentation(startIndentationLevel - currentIndentationLevel))
-                                        .append(IndentationUtils.removeIndentation(currentPath.getTargetPath()).replace(splitPath.getTargetPath().trim() + ".", ""))
-                                        .append(": ").append(serializedValue.get(currentPath)).append("\n");
-                                System.out.println("----\n" + innerData + "\n----");
-                                skipTillPath = currentPath;
-                            }
-                        }
-                        //System.out.println("\n" + innerData.toString());
-                        toSet = new YamlDeserializerImpl<>(innerData.toString(),
-                                ((Class<?>) ((ParameterizedType) lastObject.getAssosiatedField().getGenericType())
-                                        .getActualTypeArguments()[0])).buildObject();
-                        // build the custom object using the inner value
-                    }
-                    if(toSet instanceof TestYamlObject)
-                        System.out.println("#" + ((TestYamlObject)toSet).getTestFieldFirst());
+                    int index = -1;
+                    try {
+                        index = Integer.parseInt(splitPath.getLastPathValue());
+                    } catch (Exception ignored) {}
 
-                    lastObject.setObjectListValue(Integer.parseInt(splitPath.getLastPathValue()), toSet);
+                    if(lastObject.hasObjectListIndex(index) || index == -1) continue;
+                    System.out.println(splitPath.toString());
+
+                    YamlDocument document = Yaml.getYaml().createEmptyDocument();
+
+                    for(Map.Entry<YamlPath, String> entry : serializedValue.entrySet()) {
+                        YamlPath key = entry.getKey();
+                        if(!key.startWith(splitPath)) continue;
+                        document.set(YamlPath.fromGlobalPath(key.getTargetPath().replace(splitPath.getTargetPath() +
+                                YamlPath.YAML_PATH_SEPARATOR, "")), serializedValue.get(key));
+                    }
+
+                    Class<?> classType = ((Class<?>) ((ParameterizedType) lastObject.getAssosiatedField().getGenericType())
+                            .getActualTypeArguments()[0]);
+                    Object toSet = null;
+                    if(TypeUtils.isNativeClass(classType)) {
+                        toSet = Yaml.getYaml().getYamlValueParser().parseValue(serializedValue.get(splitPath), classType);
+                    } else {
+                        toSet = new YamlDeserializerImpl<>(document.serialize(), classType).buildObject();
+                    }
+                    lastObject.setObjectListValue(index, toSet);
                     continue outerFor;
                 }
 

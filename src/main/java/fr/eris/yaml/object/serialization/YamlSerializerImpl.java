@@ -95,8 +95,7 @@ public class YamlSerializerImpl<T> implements YamlSerializer<T> {
                 for(Object object : fieldListContent) {
                     ReflectionHelper<?> currentHelper = new ReflectionHelper<>(object.getClass(), object);
                     YamlObjectImpl newListElement = TypeUtils.getYamlClassFromNativeType(object.getClass())
-                            .getDeclaredConstructor(String.class).newInstance(String.valueOf(fieldListContent.indexOf(object)));
-                    System.out.println("Current index: " + fieldListContent.indexOf(object));
+                            .getDeclaredConstructor(String.class).newInstance(String.valueOf(fieldListContent.indexOf(object) + 1));
                     ((YamlListNodeImpl<YamlObjectImpl>) newObject).add(newListElement);
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                         field.setAccessible(true);

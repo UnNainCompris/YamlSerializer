@@ -1,5 +1,6 @@
 package fr.eris.yaml.object.path;
 
+import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import lombok.Getter;
 
@@ -112,6 +113,14 @@ public class YamlPath {
             throw new ErisYamlException("A yaml path cannot be empty !");
         this.targetPath += (YAML_PATH_SEPARATOR + pathToAdd.trim());
         return this;
+    }
+
+    public boolean startWith(String prefix) {
+        return targetPath.startsWith(prefix);
+    }
+
+    public boolean startWith(YamlPath prefix) {
+        return targetPath.startsWith(prefix.getTargetPath());
     }
 
     public String toString() {

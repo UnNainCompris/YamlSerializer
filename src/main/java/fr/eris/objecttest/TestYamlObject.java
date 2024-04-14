@@ -65,6 +65,8 @@ public class TestYamlObject {
         testListFieldObject = new ArrayList<>();
         for(int i = 1 ; i <= 3 ; i++) {
             TestYamlObject newObject = new TestYamlObject();
+            if(i == 1)
+                newObject.setTestEnumFirst(TestEnum.FOO);
             newObject.setTestFieldFirst("Here:" + i + "!");
             testListFieldObject.add(newObject);
         }

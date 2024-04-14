@@ -73,6 +73,10 @@ public class YamlDeserializationObject {
         listValue.put(index, value);
     }
 
+    public boolean hasObjectListIndex(int index) {
+        return listValue.containsKey(index);
+    }
+
     public void doCollectionThings() {
         if(List.class.isAssignableFrom(assosiatedField.getType())) {
             List<Object> list = (List<Object>)getFieldValue();
