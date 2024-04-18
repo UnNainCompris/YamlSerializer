@@ -1,6 +1,5 @@
 package fr.eris.yaml.object.serialization;
 
-import fr.eris.objecttest.TestYamlObject;
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.api.object.serializer.YamlDeserializer;
@@ -8,7 +7,6 @@ import fr.eris.yaml.api.object.annotation.YamlExpose;
 import fr.eris.yaml.object.exception.ErisYamlException;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.object.serialization.deserialization.YamlDeserializationObject;
-import fr.eris.yaml.utils.IndentationUtils;
 import fr.eris.yaml.utils.TypeUtils;
 import fr.eris.yaml.utils.reflection.ReflectionHelper;
 import lombok.Getter;

@@ -2,6 +2,7 @@ package fr.eris;
 
 import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
+import fr.eris.objecttest.superclass.ChildObject;
 import fr.eris.yaml.api.Yaml;
 import fr.eris.yaml.api.object.YamlDocument;
 import fr.eris.yaml.object.impl.YamlObjectImpl;
@@ -30,6 +31,8 @@ public class Main {
         testDeserializerEnum();
         testSerializerObjectList();
         testDeserializerObjectList();
+        testSuperClassSerializing();
+        testSuperClassDeserializing();
     }
 
     public void testIndentationUtils() {
@@ -306,5 +309,31 @@ public class Main {
         }
 
         System.out.println("\n  -- </YAML DESERIALIZER OBJECT LIST> --  \n");
+    }
+
+    public void testSuperClassSerializing() {
+        System.out.println("  -- <YAML SUPER CLASS SERIALIZING> --  \n");
+
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(new ChildObject());
+        String serializedDocument = document.serialize();
+        System.out.println("Serialized document: \n\n" + serializedDocument);
+
+        System.out.println("\n  -- </YAML SUPER CLASS SERIALIZING> --  \n");
+    }
+
+    public void testSuperClassDeserializing() {
+        System.out.println("  -- <YAML SUPER CLASS SERIALIZING> --  \n");
+
+        YamlDocument document = Yaml.getYaml().createDocumentFromObject(new ChildObject());
+        String serializedDocument = document.serialize();
+        System.out.println("Serialized document: \n\n" + serializedDocument);
+
+        ChildObject deserializedChild = Yaml.getYaml().deserializeData(ChildObject.class, serializedDocument);
+
+        System.out.println("Deserialized value: " +
+                deserializedChild.getHereStringField() + " -- " +
+                deserializedChild.getHereDoubleField());
+
+        System.out.println("\n  -- </YAML SUPER CLASS SERIALIZING> --  \n");
     }
 }

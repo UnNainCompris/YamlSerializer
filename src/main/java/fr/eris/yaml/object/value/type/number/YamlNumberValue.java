@@ -11,7 +11,7 @@ public abstract class YamlNumberValue<T extends Number> extends IYamlValue<T> {
     protected final String[] BIG_NUMBER_SEPARATOR = new String[]{"-", "_", "|"};
 
     public final String valueToNumberValue(String value) {
-        if(isDecimalType())
+        if(!isDecimalType())
             value = value.split(DECIMAL_SEPARATOR)[0];
         for(String bigNumberSeparator : BIG_NUMBER_SEPARATOR)
             value = value.replace(bigNumberSeparator, "");
