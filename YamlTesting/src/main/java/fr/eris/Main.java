@@ -1,6 +1,5 @@
 package fr.eris;
 
-import fr.eris.objecttest.TestEnum;
 import fr.eris.objecttest.TestYamlObject;
 import fr.eris.objecttest.TestYamlTypeObject;
 import fr.eris.yaml.api.Yaml;

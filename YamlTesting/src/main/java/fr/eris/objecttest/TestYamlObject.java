@@ -4,7 +4,10 @@ import fr.eris.yaml.api.object.annotation.YamlExpose;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 public class TestYamlObject {
 

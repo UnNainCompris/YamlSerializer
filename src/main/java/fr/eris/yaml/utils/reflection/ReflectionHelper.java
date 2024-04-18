@@ -26,7 +26,7 @@ public class ReflectionHelper<T> {
 
     public List<Field> findFieldWithAnnotation(Class<? extends Annotation> annotationType) {
         List<Field> foundedField = new ArrayList<>();
-        for(Field field : targetClass.getDeclaredFields()) {
+        for(Field field : ReflectionUtils.getFieldOfClass(targetClass, true)) {
             if(field.isAnnotationPresent(annotationType))
                 foundedField.add(field);
         }

@@ -1,6 +1,7 @@
 package fr.eris.objecttest;
 
 import fr.eris.yaml.api.object.annotation.YamlExpose;
+import fr.eris.yaml.utils.reflection.ReflectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +43,7 @@ public class TestYamlTypeObject {
 
         System.out.println("\nPRINT ALL\n");
 
-        for(Field field : this.getClass().getDeclaredFields()) {
+        for(Field field : ReflectionUtils.getFieldOfClass(getClass(), true)) {
             try {
                 //if(field.getType().isPrimitive())
                 //    System.out.println(TypeUtils.primitiveToObject(field.getType()));

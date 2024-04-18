@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group = 'fr.eris'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation "fr.eris:YamlSerializer:1.0"
+
+    compileOnly "org.projectlombok:lombok:1.18.28"
+    annotationProcessor "org.projectlombok:lombok:1.18.28"
+}

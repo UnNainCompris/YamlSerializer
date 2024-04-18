@@ -5,12 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4df8f774-3bbd-44b4-b638-300f99e56fa8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YamlTesting/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YamlTesting/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YamlTesting/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YamlTesting/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocumentImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/YamlDocumentImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/YamlValueParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/YamlValueParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/type/YamlBoolean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/type/YamlBoolean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/type/number/YamlNumberValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/object/value/type/number/YamlNumberValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/objecttest/TestEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestYamlObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/objecttest/TestYamlObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestYamlObjectOther.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/objecttest/TestYamlObjectOther.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/objecttest/TestYamlTypeObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/YamlTesting/src/main/java/fr/eris/objecttest/TestYamlTypeObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/eris/yaml/utils/reflection/ReflectionUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +28,9 @@
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/YamlTesting">
       <ProjectState />
     </projectState>
   </component>
@@ -61,21 +73,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.YamlSerializer [:Start.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/$_Project/Eris/YamlSerializer&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.grazie&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.YamlSerializer [:Start.main()].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "corretto-1.8",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/$_Project/Java/YamlSerializer/YamlTesting/src/main/java/fr/eris",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\$_Project\Java\YamlSerializer\YamlTesting\src\main\java\fr\eris" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="fr.eris.yaml.utils" />
       <recent name="fr.eris.yaml.object.serialization" />
@@ -89,12 +105,12 @@
       <command value="gradle clean build publishToMavenLocal" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.YamlSerializer [clean build publishToMavenLocal]">
-    <configuration name="Start" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Test">
+    <configuration name="Test" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="fr.eris.Start" />
-      <module name="YamlSerializer.main" />
+      <module name="YamlTesting.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,6 +139,10 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.Test" />
+      <item itemvalue="Gradle.YamlSerializer [clean build publishToMavenLocal]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.YamlSerializer [clean build publishToMavenLocal]" />
