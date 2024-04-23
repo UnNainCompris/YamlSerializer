@@ -37,6 +37,7 @@ public class YamlValueParser {
     }
 
     public Object parseValue(String rawValue, Class<?> type) {
+        rawValue = rawValue.trim();
         type = TypeUtils.convertIfPrimitiveToObject(type);
         for(Class<?> valueClassType : registeredYamlValue.keySet()) {
             if(!valueClassType.isAssignableFrom(type)) {

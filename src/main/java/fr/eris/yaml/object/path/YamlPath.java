@@ -23,7 +23,6 @@ public class YamlPath {
     }
 
     public static YamlPath fromGlobalPath(String[] fullYamlPath) {
-        System.out.println("New global path " + Arrays.toString(fullYamlPath));
         if(fullYamlPath == null || fullYamlPath.length == 0)
             return null;
         StringBuilder path = new StringBuilder();
@@ -70,8 +69,6 @@ public class YamlPath {
         int startCopy = start;
         start = Math.max(Math.min(startCopy, end), 0);
         end = Math.max(Math.max(startCopy, end), 0);
-
-        System.out.println(start + " -- " + end + " -- " + getSplitPathLength());
 
         if(start >= getSplitPathLength())
             return new String[0];

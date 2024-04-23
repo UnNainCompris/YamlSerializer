@@ -74,7 +74,6 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
                     } catch (Exception ignored) {}
 
                     if(lastObject.hasObjectListIndex(index) || index == -1) continue;
-                    System.out.println(splitPath.toString());
 
                     YamlDocument document = Yaml.getYaml().createEmptyDocument();
 
@@ -119,7 +118,6 @@ public class YamlDeserializerImpl<T> implements YamlDeserializer<T> {
                 }
 
                 if(newField == null) {
-                    System.out.println("|INVALID DOCUMENT| Unable to find an associated field for the path: " + path);
                     continue;
                 }
 

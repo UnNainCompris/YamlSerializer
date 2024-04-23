@@ -100,7 +100,6 @@ public class YamlSerializerImpl<T> implements YamlSerializer<T> {
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                         field.setAccessible(true);
                         if(field.get(object) == null) continue;
-                        System.out.println(field.get(object));
                         newListElement.addChildren(buildYamlObjectFromField(field, object));
                         newListElement.setPrefix("");
                     }
@@ -119,7 +118,6 @@ public class YamlSerializerImpl<T> implements YamlSerializer<T> {
                     for(Field field : currentHelper.findFieldWithAnnotation(YamlExpose.class)) {
                         field.setAccessible(true);
                         if(field.get(object) == null) continue;
-                        System.out.println(field.get(object));
                         newSetElement.addChildren(buildYamlObjectFromField(field, object));
                     }
                     if(!newSetElement.hasAnyChild())

@@ -57,8 +57,6 @@ public class YamlDeserializationObject {
             assosiatedField.setAccessible(true);
             return assosiatedField.get(fieldParentObject);
         } catch (Exception exception){
-            System.out.println(assosiatedField + " ---- " + assosiatedField.getType());
-            System.out.println(fieldParentObject + " --- " + fieldParentObject.getClass());
             exception.printStackTrace();
             throw new ErisYamlException("Unable to retrieve field value ");
         }
