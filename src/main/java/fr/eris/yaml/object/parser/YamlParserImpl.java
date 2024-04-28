@@ -20,7 +20,7 @@ public class YamlParserImpl implements YamlParser {
         List<String> currentPath = new ArrayList<>();
         for(int currentLineIndex = 0 ; currentLineIndex < content.size() ; currentLineIndex++) {
             String currentLine = content.get(currentLineIndex);
-            if(currentLine.trim().isEmpty()) {
+            if(currentLine.trim().isEmpty() || currentLine.startsWith("#")) {
                 continue;
             }
             currentPath.add(findYamlLineName(currentLine));
@@ -76,19 +76,20 @@ public class YamlParserImpl implements YamlParser {
 
     public String findYamlLineValue(String fullLine) {
         fullLine = IndentationUtils.removeIndentation(fullLine);
+        String value = fullLine;
         if(fullLine.contains(": ")) {
-            return fullLine.split(": ")[1];
+            value = fullLine.split(": ")[1];
         } else if(fullLine.startsWith(YamlSetNodeImpl.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlSetNodeImpl.ELEMENT_PREFIX, "");
+            value = fullLine.replaceFirst(YamlSetNodeImpl.ELEMENT_PREFIX, "");
         } else if(fullLine.startsWith(YamlListNodeImpl.ELEMENT_PREFIX)) {
-            return fullLine.replaceFirst(YamlListNodeImpl.ELEMENT_PREFIX, "");
-        } else {
-            return fullLine;
+            value = fullLine.replaceFirst(YamlListNodeImpl.ELEMENT_PREFIX, "");
         }
+        return value;
     }
 
     public boolean isNextLineAnInnerObject(List<String> content, int currentLine) {
         if(!hasNextLine(content, currentLine)) return false;
+        if(content.get(currentLine + 1).startsWith("#")) return false;
         int currentIndentationLevel = IndentationUtils.retrieveIndentationLevel(content.get(currentLine));
         return currentIndentationLevel < IndentationUtils.retrieveIndentationLevel(content.get(currentLine + 1));
     }

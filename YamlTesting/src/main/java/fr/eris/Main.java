@@ -12,6 +12,7 @@ import fr.eris.yaml.object.node.iterable.set.YamlSetNodeImpl;
 import fr.eris.yaml.object.path.YamlPath;
 import fr.eris.yaml.utils.IndentationUtils;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class Main {
